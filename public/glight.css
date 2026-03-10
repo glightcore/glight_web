@@ -1,0 +1,706 @@
+/* ===============================
+   RESET
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ===============================
+   PAGE BASE
+================================ */
+.page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(
+    ellipse at center,
+    #070b14 0%,
+    #02040a 45%,
+    #000000 100%
+  );
+  overflow: hidden;
+}
+
+/* ============================================================
+   REACTOR CENTRAL (AZUL REAL)
+   Núcleo vivo + halo energético
+   ============================================================ */
+
+.reactor {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  width: 340px;
+  height: 340px;
+  transform: translate(-50%, -50%) scale(1);
+  border-radius: 50%;
+
+  /* 🔴 CLAVE: el reactor SÍ recibe eventos */
+  pointer-events: auto;
+  cursor: pointer;
+
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,1) 0%,
+    rgba(120,200,255,0.95) 25%,
+    rgba(40,120,255,0.7) 45%,
+    rgba(0,40,120,0.35) 60%,
+    rgba(0,0,0,0) 72%
+  );
+
+  box-shadow:
+    /* halo cercano – azul puro */
+    0 0 120px rgba(80,160,255,0.95),
+    /* transición azul → cian */
+    0 0 260px rgba(90,220,230,0.55),
+    /* halo externo – verde inducido */
+    0 0 520px rgba(80,255,150,0.22);
+
+  animation: reactorBreath 7s ease-in-out infinite;
+  z-index: 10;
+}
+/* Estado base (siempre vivo) */
+.reactor {
+  transition:
+    filter 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* ==========================================================
+   REACTOR — PRESENCIA (NO DEBERÍA EXISTIR) 👽😈
+   - Sin retardo (instantáneo)
+   - Halo asimétrico vivo + memoria al salir
+   - Hover entra en otra fase (mismo tempo)
+   ========================================================== */
+
+/* Asegura que el reactor pueda “portar” el halo vivo */
+.reactor{
+  pointer-events: auto;
+  cursor: pointer;
+
+  /* base geométrica estable */
+  transform-origin: center;
+  transform: translate(-50%, -50%) scale(0.92);
+}
+
+/* Halo vivo (no perfecto) — no toca el destello, no bloquea eventos */
+.reactor::before{
+  content:"";
+  position:absolute;
+  inset:-24px;              /* halo más grande que el círculo */
+  border-radius:50%;
+  pointer-events:none;
+  z-index:-1;               /* queda detrás del núcleo */
+  filter: blur(22px);
+  opacity: 0.0;
+  transform: translate(2px, -3px) scale(0.98);  /* asimetría inicial */
+ /* Halo energético */
+.reactor::before {
+  transition:
+    opacity 0.8s ease-out,
+    filter 0.8s ease-out,
+    transform 0.8s ease-out;
+}
+
+
+  /* campo “no humano”: azul/cian dominante, verde SOLO profundo */
+  background: radial-gradient(circle at 45% 40%,
+    rgba(140,235,255,0.22) 0%,
+    rgba(90,210,255,0.12) 32%,
+    rgba(80,255,160,0.00) 68%,
+    rgba(0,0,0,0.00) 100%
+  );
+}
+
+/* Deriva lenta del halo (muy sutil, no parpadea) */
+@keyframes haloDrift {
+  0%   { transform: translate(2px,-3px)  scale(0.98); }
+  33%  { transform: translate(-3px,2px) scale(1.01); }
+  66%  { transform: translate(4px,1px)  scale(0.99); }
+  100% { transform: translate(2px,-3px) scale(0.98); }
+}
+
+/* PRESENCIA — entra instantáneo (sin delay) */
+.reactor:hover{
+  /* “portal”: crecimiento + energía concentrada */
+  transform: translate(-50%, -50%) scale(1.085);
+
+  /* IMPORTANTE: al hover NO usamos verde dominante */
+  box-shadow:
+    /* quema central (blanco frío) */
+    0 0 160px rgba(220,250,255,0.95),
+    /* cian vivo */
+    0 0 360px rgba(110,220,255,0.62),
+    /* expansión azul (más volumen) */
+    0 0 780px rgba(70,170,255,0.22),
+    /* verde profundo solo “campo”, casi invisible */
+    0 0 980px rgba(80,255,160,0.045);
+}
+
+/* Halo vivo aparece con presencia */
+.reactor:hover::before{
+  opacity: 1;
+  filter: blur(30px);
+  transform: translate(-4px, 3px) scale(1.06);
+  animation: haloDrift 3.6s ease-in-out infinite;
+}
+
+/* “Esto no debería existir”: respiración cambia de fase SIN retardo
+   (mismo periodo, pero otra curva)
+*/
+.reactor:hover{
+  animation-name: reactorBreathHover;
+  animation-duration: 7s;              /* mismo tempo que reactorBreath */
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Hover: respira distinto (se siente consciente) */
+@keyframes reactorBreathHover{
+  0%, 100% { transform: translate(-50%, -50%) scale(1.06);  opacity: 0.96; }
+  50%      { transform: translate(-50%, -50%) scale(1.10);  opacity: 1.00; }
+}
+
+/* MEMORIA al salir: entra rápido, sale lento (no parece UI) */
+.reactor{
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.18s ease;
+}
+
+/* al dejar hover, el “regreso” es más lento y pesado */
+.reactor:not(:hover){
+  transition:
+    transform 0.55s ease,
+    box-shadow 0.65s ease;
+}
+
+.reactor:not(:hover)::before{
+  transition:
+    opacity 0.85s ease,
+    transform 0.95s ease,
+    filter 0.95s ease;
+  opacity: 0;
+  filter: blur(22px);
+  transform: translate(2px,-3px) scale(0.98);
+}
+
+/* HOVER – activación */
+.reactor.hover-active {
+  transform: translate(-50%, -50%) scale(1.06);
+  filter: brightness(1.25) saturate(1.15);
+}
+
+/* Halo al activar */
+.reactor.hover-active::before {
+  opacity: 1;
+  filter: blur(28px) brightness(1.4);
+  transform: scale(1.15);
+}
+
+/* CLICK — descarga energética */
+.reactor.click-active {
+  transform: translate(-50%, -50%) scale(1.12);
+  filter: brightness(1.5) saturate(1.35);
+}
+
+/* Pulso brutal del halo */
+.reactor.click-active::before {
+  opacity: 1;
+  filter: blur(36px) brightness(1.8);
+  transform: scale(1.35);
+}
+/* ============================================================
+   ANIMACIÓN – RESPIRACIÓN DEL REACTOR (IDLE)
+   ============================================================ */
+
+@keyframes reactorBreath {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ============================================================
+   ANIMACION - PORTAL
+   ============================================================ */
+@keyframes reactorPortal {
+
+0%{
+transform: translate(-50%,-50%) scale(1);
+}
+
+25%{
+transform: translate(-50%,-50%) scale(0.82);
+}
+
+55%{
+transform: translate(-50%,-50%) scale(1.45);
+}
+
+75%{
+transform: translate(-50%,-50%) scale(1.12);
+}
+
+100%{
+transform: translate(-50%,-50%) scale(1);
+}
+
+}
+/* =========================================================
+   PORTAL STATE — reactor entra en modo apertura
+========================================================= */
+
+.reactor.portal-open {
+
+animation: reactorPortal 1.3s cubic-bezier(.22,.61,.36,1);
+
+box-shadow:
+0 0 40px rgba(0,200,255,0.9),
+0 0 120px rgba(0,200,255,0.6),
+0 0 260px rgba(0,200,255,0.4);
+
+}
+
+.reactor.portal-open .core{
+animation: none;
+}
+/* halo se apaga para que el núcleo domine */
+
+.reactor.portal-open::before{
+  animation: none;
+  opacity: 0;
+}
+
+/* ===============================
+   NODES CONTAINERS
+================================ */
+.nodes {
+  position: absolute;
+  top: 60%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 180px;
+  z-index: 4;
+}
+
+.nodes.left { left: 350px; }
+.nodes.right { right: 350px; }
+
+/* ===============================
+   NODE (TACTIL)
+================================ */
+.node {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,1) 0%,
+    rgba(140,220,255,1) 35%,
+    rgba(0,120,255,0.85) 55%,
+    rgba(0,0,0,0) 75%
+  );
+
+  box-shadow:
+    0 0 24px rgba(180,240,255,0.9),
+    0 0 90px rgba(80,170,255,0.6);
+
+  animation: nodeIdle 5s ease-in-out infinite;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* secuencia vertical */
+.node:nth-child(1) { animation-delay: 0s; }
+.node:nth-child(2) { animation-delay: 0.7s; }
+.node:nth-child(3) { animation-delay: 1.4s; }
+.node:nth-child(4) { animation-delay: 2.1s; }
+
+@keyframes nodeIdle {
+  0%, 100% {
+    transform: scale(0.85);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* ===============================
+   NODE HOVER (CONFIRMACIÓN)
+================================ */
+.node:hover {
+  transform: scale(1.4);
+  box-shadow:
+    0 0 60px rgba(255,255,255,1),
+    0 0 180px rgba(120,220,255,1),
+    0 0 320px rgba(0,140,255,0.9);
+}
+
+/* ===============================
+   NODE ACTIVE (SE QUEDA)
+================================ */
+.node.active {
+  transform: scale(1.6);
+  opacity: 1;
+
+  box-shadow:
+    0 0 90px rgba(255,255,255,1),
+    0 0 260px rgba(120,220,255,1),
+    0 0 520px rgba(0,140,255,1);
+}
+
+/* ==========================================================
+   MODULE NAME — METAL REAL (GRIS + ARISTAS FÍSICAS)
+   ========================================================== */
+
+.module-name {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+
+  font-family: 'orbitron', sans-serif;
+  font-size: 80px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-align: center;
+
+  /* masa metálica base */
+  color: #2b2f33;
+
+  /* metal real = contraste físico */
+  text-shadow:
+     
+  /* arista superior fría – filo físico real */
+  0 -1px 0 rgba(210,235,255,0.55),
+
+  /* micro bisel superior (rompe efecto plástico) */
+  0 -2px 0 rgba(255,255,255,0.22),
+
+  /* arista inferior oscura – corte mecánico */
+  0 1px 0 rgba(0,0,0,0.95),
+
+  /* volumen interno – profundidad */
+  0 3px 6px rgba(0,0,0,0.70),
+
+  /* masa pesada exterior */
+  0 14px 30px rgba(0,0,0,0.88);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+/* visible solo cuando hay selección */
+.page.module-active .module-name {
+  opacity: 1;
+}
+/* =========================================================
+   TÍTULO SUPERIOR — GLightCoreAura (SVG BLANCO SÓLIDO)
+   ========================================================= */
+
+.brand-title {
+  position: absolute;
+  top: 100px;
+  left: 49.3%;
+  transform: translateX(-50%);
+  z-index: 50;
+  pointer-events: auto;
+
+  /* 🧲 CAMPO INTERACTIVO */
+  padding: 40px 80px;
+}
+/* SVG como imagen (masa visual, no interactiva) */
+.brand-title img,
+.brand-logo {
+  height: 90px;
+  width: auto;
+  opacity: 0.85;
+
+  /* El SVG NO captura eventos */
+  pointer-events: none;
+
+  filter:
+    invert(1)
+    brightness(0.92)
+    contrast(1.08)
+
+   
+
+  /* =========================
+     BISEL METÁLICO 3D
+     ========================= */
+
+  /* filo superior (luz fría) */
+  drop-shadow(0 -1px 0 rgba(220, 245, 255, 0.55))
+
+  /* micro bisel superior */
+  drop-shadow(0 -2px 0 rgba(255, 255, 255, 0.18))
+
+  /* rebaje inferior (corte físico) */
+  drop-shadow(0 1px 0 rgba(0, 0, 0, 0.65))
+
+  /* =========================
+     VOLUMEN INTERNO
+     ========================= */
+
+  drop-shadow(0 0 10px rgba(180, 220, 255, 0.55))
+  drop-shadow(0 0 28px rgba(120, 180, 255, 0.45))
+
+  /* =========================
+     HALO ENERGÉTICO
+     ========================= */
+
+  drop-shadow(0 0 56px rgba(80, 255, 160, 0.25));
+
+  animation: logoBreath 6.8s linear infinite;
+  will-change: opacity;
+
+
+
+ /* =========================
+    DESTELLO
+     ========================= */
+.core {
+  transition: transform 0.35s ease, filter 0.35s ease;
+  will-change: transform, filter;
+}}
+
+
+.reactor-flash {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  /* núcleo con MASA luminosa */
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+
+  /* 🔥 NÚCLEO ENERGÉTICO (NO color plano) */
+  background: radial-gradient(
+    circle at center,
+    rgba(255,255,255,1) 0%,
+    rgba(240,250,255,0.95) 20%,
+    rgba(180,230,255,0.75) 42%,
+    rgba(120,210,255,0.35) 62%,
+    rgba(0,0,0,0) 75%
+  );
+
+  /* reposo: visible pero latente */
+  opacity: 0.14;
+
+  pointer-events: none;
+  z-index: 60;
+
+  /* ✨ AURA GLIGHT – halo real perceptible */
+  box-shadow:
+    0 0 8px  rgba(255,255,255,0.75),   /* quema central */
+    0 0 18px rgba(190,235,255,0.55),   /* cian activo */
+    0 0 36px rgba(120,210,255,0.32),   /* aura expansiva */
+    0 0 60px rgba(80,190,255,0.18);    /* firma energética */
+
+  animation: reactorFlash 0.7s cubic-bezier(.22,.61,.36,1) forwards;
+}
+/* =========================
+   BRAZO HORIZONTAL (DOMINA)
+   ========================= */
+.reactor-flash::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scaleX(0);
+
+  width: 10px;          /* nace corto */
+  height: 1px;          /* ULTRA fino */
+  background: #ffffff;
+
+  border-radius: 999px;
+}
+
+/* =========================
+   BRAZO VERTICAL (FIRMA)
+   ========================= */
+.reactor-flash::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scaleY(0);
+
+  width: 1px;
+  height: 10px;         /* corto */
+  background: #ffffff;
+
+  border-radius: 999px;
+}
+
+/* =========================
+   ANIMACIÓN ÓPTICA REAL
+   ========================= */
+@keyframes reactorFlash {
+
+  /* nace como punto */
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+
+  /* ignición brutal */
+  8% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  /* explosión estelar */
+  25% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  /* máxima expansión */
+  40% {
+    opacity: 0.9;
+  }
+
+  /* disipación */
+  60% {
+    opacity: 0.3;
+  }
+
+  /* muerte limpia */
+  100% {
+    opacity: 0;
+  }
+}
+
+/* =========================
+   BRAZOS – EXPANSIÓN REAL
+   ========================= */
+.reactor-flash {
+  --flash-progress: 0;
+}
+
+.reactor-flash::before {
+  animation: flashHorizontal 0.7s cubic-bezier(.22,.61,.36,1) forwards;
+}
+
+.reactor-flash::after {
+  animation: flashVertical 0.7s cubic-bezier(.22,.61,.36,1) forwards;
+}
+
+@keyframes flashHorizontal {
+  0%   { transform: translate(-50%, -50%) scaleX(0); }
+  20%  { transform: translate(-50%, -50%) scaleX(1); }
+  35%  { transform: translate(-50%, -50%) scaleX(120); } /* CASI NODOS */
+  55%  { transform: translate(-50%, -50%) scaleX(150); }
+  100% { transform: translate(-50%, -50%) scaleX(150); }
+}
+
+@keyframes flashVertical {
+  0%   { transform: translate(-50%, -50%) scaleY(0); }
+  20%  { transform: translate(-50%, -50%) scaleY(1); }
+  35%  { transform: translate(-50%, -50%) scaleY(4); }  /* corto */
+  100% { transform: translate(-50%, -50%) scaleY(4); }
+}
+
+/* ======================================
+   PROTECCIÓN RESPONSIVE
+   (NO MODIFICA DESKTOP)
+====================================== */
+
+@media (max-width: 1280px) {
+
+  .reactor {
+    width: min(340px, 60vw);
+    height: min(340px, 60vw);
+  }
+
+  .nodes.left {
+    left: 8vw;
+  }
+
+  .nodes.right {
+    right: 8vw;
+  }
+
+  .nodes {
+    gap: clamp(60px, 10vh, 180px);
+  }
+
+  .module-name {
+    font-size: clamp(32px, 6vw, 80px);
+  }
+
+  .brand-logo {
+    height: clamp(40px, 8vw, 90px);
+  }
+
+  /* AJUSTE REAL DEL TITULO */
+
+  .brand-title {
+    padding: 10px 20px;
+  }
+
+  .brand-title img {
+    height: clamp(22px, 6vw, 60px);
+    width: auto;
+    max-width: 80vw;
+  }
+
+}
+/* ======================================
+   AJUSTE SOLO PARA IPHONE
+====================================== */
+
+@media (max-width: 480px) {
+
+  /* núcleo más pequeño */
+  .reactor {
+    width: min(200px, 65vw);
+    height: min(200px, 65vw);
+  }
+
+  /* nodos más separados verticalmente */
+  .nodes {
+    gap: clamp(80px, 14vh, 210px);
+  }
+
+  /* separa los nodos del núcleo */
+  .nodes.left {
+    left: 12vw;
+  }
+
+  .nodes.right {
+    right: 12vw;
+  }
+
+}
+
+
+
+

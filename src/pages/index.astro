@@ -1,16 +1,455 @@
----
 
 ---
+const modulesLeft = [
+  "GLightOne",
+  "FusionX",
+  "Drive Mini",
+  "N-LAB",
+];
 
+const modulesRight = [
+  "Drive EVO",
+  "GLight Graphics",
+  "Reactor",
+  "Cartridge",
+];
+---
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLight</title>
+
+  <!-- FUENTE ORBITRON -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS PRINCIPAL -->
+  <link rel="stylesheet" href="/glight.css" />
+</head>
+
+<body class="page">
+
+  <!-- PLANO FÍSICO -->
+  <main class="stage">
+    <div class="reactor-wrapper">
+      <div class="reactor">
+ 
+    <div class="core"></div>
+    <div class="reactor-flash"></div>
+    <div id="moduleName" class="module-name"></div>
+
+  <!-- PORTAL -->
+    <div id="reactorPortal" class="reactor-portal">
+      <div id="portalContent" class="portal-content"></div>
+     </div>
+
+    </div>
+   </div>
+  </main>
+
+  <!-- PLANO HUD / INTERFAZ -->
+  <div class="hud">
+
+    <!-- TÍTULO -->
+    <div class="brand-title">
+      <img
+        src="/GLIGHTCOREAURA_ORBITRON1.svg"
+        alt="GLightCoreAura"
+        class="brand-logo"
+      />
+    </div>
+
+    <!-- NODOS (SIN TOCAR SU ESTRUCTURA) -->
+    <div class="nodes left">
+      {modulesLeft.map(name => (
+        <div class="node" data-name={name}></div>
+      ))}
+    </div>
+
+    <div class="nodes right">
+      {modulesRight.map(name => (
+        <div class="node" data-name={name}></div>
+      ))}
+    </div>
+
+  </div>
+
+</body>
+
+<!-- ===== SCRIPT DE ACTIVACIÓN ===== -->
+
+<script>
+
+
+
+
+/* =================================================
+   REFERENCIAS DOM
+================================================= */
+
+const nodes = document.querySelectorAll('.node');
+const moduleName = document.getElementById('moduleName');
+const page = document.querySelector('.page');
+const flash = document.querySelector('.reactor-flash');
+const reactor = document.querySelector('.reactor');
+const core = document.querySelector('.core');
+const brandTitle = document.querySelector('.brand-title');
+
+
+/* =================================================
+   ESTADO GLOBAL
+================================================= */
+
+let portalActivated = false;
+
+
+/* =================================================
+   PORTAL
+================================================= */
+
+function activatePortal() {
+
+  reactor.classList.remove('portal-open');
+
+  /* fuerza reflow para reiniciar animación */
+  void reactor.offsetWidth;
+
+  reactor.classList.add('portal-open');
+
+}
+
+
+/* =================================================
+   INTERACCIÓN CORE REACTOR
+================================================= */
+
+if (reactor) {
+
+  /* HOVER */
+
+  reactor.addEventListener('mouseenter', () => {
+
+    if (portalActivated) return;
+
+    reactor.classList.add('hover-active');
+    core.classList.add('core-active');
+
+  });
+
+
+  reactor.addEventListener('mouseleave', () => {
+
+    if (portalActivated) return;
+
+    reactor.classList.remove('hover-active');
+    reactor.classList.remove('click-active');
+    core.classList.remove('core-active');
+
+  });
+
+
+  /* PRESIÓN VISUAL */
+
+  reactor.addEventListener('pointerdown', () => {
+
+    if (portalActivated) return;
+
+    reactor.classList.add('click-active');
+    core.classList.add('core-click');
+
+  });
+
+
+  reactor.addEventListener('pointerup', () => {
+
+    if (portalActivated) return;
+
+    reactor.classList.remove('click-active');
+    core.classList.remove('core-click');
+    core.classList.remove('click-active');
+  });
+
+
+ /* ACTIVAR PORTAL */
+
+reactor.addEventListener('click', () => {
+
+  console.log("PORTAL ACTIVATED");
+
+  /* limpiar estados */
+  reactor.classList.remove('hover-active');
+  reactor.classList.remove('click-active');
+
+  core.classList.remove('core-active');
+  core.classList.remove('core-click');
+
+  /* activar portal */
+  reactor.classList.add('portal-open');
+
+});
+
+
+/* CUANDO TERMINA EL PORTAL */
+
+reactor.addEventListener('animationend', (e) => {
+
+  if (e.animationName === "reactorPortal") {
+
+    reactor.classList.remove('portal-open');
+
+    /* limpiar todo */
+    reactor.classList.remove('hover-active');
+    reactor.classList.remove('click-active');
+
+    core.classList.remove('core-active');
+    core.classList.remove('core-click');
+
+  }
+
+});
+
+}
+
+
+/* =================================================
+   AUDIO ENGINE
+================================================= */
+
+let audioCtx = null;
+
+function ensureAudio() {
+
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  if (audioCtx.state !== 'running') {
+    audioCtx.resume();
+  }
+
+}
+
+
+function playTone({
+
+  freqStart,
+  freqEnd = null,
+  duration = 0.1,
+  gain = 0.15,
+  type = 'sine'
+
+}) {
+
+  ensureAudio();
+
+  const osc = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+
+  osc.type = type;
+
+  osc.frequency.setValueAtTime(freqStart, audioCtx.currentTime);
+
+  if (freqEnd) {
+
+    osc.frequency.exponentialRampToValueAtTime(
+      freqEnd,
+      audioCtx.currentTime + duration
+    );
+
+  }
+
+  g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+
+  g.gain.exponentialRampToValueAtTime(
+    gain,
+    audioCtx.currentTime + 0.01
+  );
+
+  g.gain.exponentialRampToValueAtTime(
+    0.0001,
+    audioCtx.currentTime + duration
+  );
+
+  osc.connect(g);
+  g.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration + 0.02);
+
+}
+
+
+/* =================================================
+   SONIDOS DE INTERACCIÓN
+================================================= */
+
+function soundHover() {
+
+  playTone({
+    freqStart: 2400,
+    freqEnd: 1800,
+    duration: 0.02,
+    gain: 0.035,
+    type: 'triangle'
+  });
+
+}
+
+
+function soundClick() {
+
+  ensureAudio();
+
+  const now = audioCtx.currentTime;
+
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  const delay = audioCtx.createDelay();
+  const feedback = audioCtx.createGain();
+
+  osc.type = 'triangle';
+
+  osc.frequency.setValueAtTime(200, now);
+  osc.frequency.exponentialRampToValueAtTime(120, now + 0.35);
+
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.10, now + 0.05);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+
+  delay.delayTime.value = 0.12;
+  feedback.gain.value = 0.35;
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  gain.connect(delay);
+  delay.connect(feedback);
+  feedback.connect(delay);
+  delay.connect(audioCtx.destination);
+
+  osc.start(now);
+  osc.stop(now + 0.5);
+
+}
+
+
+/* =================================================
+   CAMPO SONORO GLight
+================================================= */
+
+let fieldOsc = null;
+let fieldGain = null;
+let fieldInitialized = false;
+
+
+window.addEventListener('pointerdown', () => {
+
+  ensureAudio();
+  initField();
+
+}, { once: true });
+
+
+function initField() {
+
+  if (fieldInitialized) return;
+
+  fieldOsc = audioCtx.createOscillator();
+  fieldGain = audioCtx.createGain();
+
+  fieldOsc.type = 'sine';
+
+  fieldOsc.frequency.setValueAtTime(80, audioCtx.currentTime);
+  fieldGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+
+  fieldOsc.connect(fieldGain);
+  fieldGain.connect(audioCtx.destination);
+
+  fieldOsc.start();
+
+  fieldInitialized = true;
+
+}
+
+
+function enterField() {
+
+  if (!fieldInitialized) return;
+
+  const now = audioCtx.currentTime;
+
+  fieldGain.gain.cancelScheduledValues(now);
+  fieldOsc.frequency.cancelScheduledValues(now);
+
+  fieldGain.gain.setValueAtTime(fieldGain.gain.value, now);
+  fieldOsc.frequency.setValueAtTime(fieldOsc.frequency.value, now);
+
+  fieldOsc.frequency.exponentialRampToValueAtTime(160, now + 0.18);
+  fieldGain.gain.exponentialRampToValueAtTime(0.14, now + 0.18);
+
+}
+
+
+function leaveField() {
+
+  if (!fieldInitialized) return;
+
+  const now = audioCtx.currentTime;
+
+  fieldGain.gain.cancelScheduledValues(now);
+  fieldOsc.frequency.cancelScheduledValues(now);
+
+  fieldGain.gain.setValueAtTime(fieldGain.gain.value, now);
+  fieldOsc.frequency.setValueAtTime(fieldOsc.frequency.value, now);
+
+  fieldOsc.frequency.exponentialRampToValueAtTime(70, now + 0.75);
+  fieldGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+
+}
+
+
+brandTitle.addEventListener('mouseenter', enterField);
+brandTitle.addEventListener('mouseleave', leaveField);
+
+
+/* =================================================
+   INTERACCIÓN NODOS
+================================================= */
+
+nodes.forEach(node => {
+
+  node.addEventListener('mouseenter', () => {
+
+    soundHover();
+
+  });
+
+  node.addEventListener('click', () => {
+
+    soundClick();
+
+    nodes.forEach(n => n.classList.remove('active'));
+
+    node.classList.add('active');
+
+    moduleName.textContent = node.dataset.name;
+
+    page.classList.add('module-active');
+
+    flash.style.animation = 'none';
+    flash.offsetHeight;
+    flash.style.animation = '';
+
+  });
+
+});
+
+</script></body>
 </html>
