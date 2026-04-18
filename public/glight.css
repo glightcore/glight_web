@@ -868,8 +868,8 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
 
 /* núcleo más pequeño */
 .reactor{
-width:min(200px,65vw);
-height:min(200px,65vw);
+width:min(170px,60vw);
+height:min(170px,60vw);
 }
 
 /* nodos más separados verticalmente */
@@ -890,8 +890,8 @@ right:12vw;
 .portal{
 position:absolute;
 
-width:min(260px,70vw);
-height:min(260px,70vw);
+width:115%;
+height:115%;
 
 top:50%;
 left:50%;
