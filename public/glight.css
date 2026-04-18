@@ -902,14 +902,14 @@ overflow:visible;
 
 /* energía interior */
 .portal::after{
-width:85%;
-height:85%;
+width:60%;
+height:60%;
 }
 
 /* halo exterior */
 .portal::before{
-width:105%;
-height:105%;
+width:60%;
+height:60%;
 }
 
 }
