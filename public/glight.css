@@ -864,12 +864,12 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
 /* AJUSTE SOLO PARA IPHONE */
 /* ========================================= */
 
-@media (max-width:480px){
+@media (max-width:600px){
 
 /* núcleo más pequeño */
 .reactor{
-width:min(130px,50vw);
-height:min(130px,50vw);
+width:min(110px,42vw);
+height:min(110px,42vw);
 }
 
 /* nodos más separados verticalmente */
@@ -890,8 +890,8 @@ right:12vw;
 .portal{
 position:absolute;
 
-width:115%;
-height:115%;
+width:105%;
+height:105%;
 
 top:50%;
 left:50%;
@@ -908,8 +908,8 @@ height:85%;
 
 /* halo exterior */
 .portal::before{
-width:110%;
-height:110%;
+width:105%;
+height:105%;
 }
 
 }
