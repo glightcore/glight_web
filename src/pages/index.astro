@@ -2,16 +2,16 @@
 ---
 const modulesLeft = [
   "GLightOne",
-  "FusionX",
-  "Drive Mini",
+  "OrbitOne",
+  "Hexagon",
   "N-LAB",
 ];
 
 const modulesRight = [
-  "Drive EVO",
+  "Evo prime",
   "GLight Graphics",
   "Reactor",
-  "Cartridge",
+  "Sentinel",
 ];
 ---
 <!DOCTYPE html>
@@ -36,22 +36,25 @@ const modulesRight = [
 <body class="page">
 
   <!-- PLANO FÍSICO -->
-  <main class="stage">
-    <div class="reactor-wrapper">
-      <div class="reactor">
- 
-    <div class="core"></div>
-    <div class="reactor-flash"></div>
-    <div id="moduleName" class="module-name"></div>
+<main class="stage">
+<div class="reactor-wrapper">
 
-  <!-- PORTAL -->
-    <div id="reactorPortal" class="reactor-portal">
-      <div id="portalContent" class="portal-content"></div>
-     </div>
+<div class="reactor">
 
-    </div>
-   </div>
-  </main>
+   <div class="core"></div>
+   <div class="reactor-flash"></div>
+   <div id="moduleName" class="module-name"></div>
+   <div class="portal"></div>
+</div>
+
+<!-- MODULO -->
+<div class="module-view">
+   <img id="moduleImage" src="" alt="module">
+</div>
+
+</div>
+
+</main>
 
   <!-- PLANO HUD / INTERFAZ -->
   <div class="hud">
@@ -99,14 +102,18 @@ const page = document.querySelector('.page');
 const flash = document.querySelector('.reactor-flash');
 const reactor = document.querySelector('.reactor');
 const core = document.querySelector('.core');
+const portal = document.querySelector(".portal");
 const brandTitle = document.querySelector('.brand-title');
 
+const moduleView = document.querySelector('.module-view');
+const moduleImage = document.getElementById('moduleImage');
 
 /* =================================================
    ESTADO GLOBAL
 ================================================= */
 
 let portalActivated = false;
+let selectedModule = null;
 
 
 /* =================================================
@@ -175,42 +182,37 @@ if (reactor) {
     core.classList.remove('click-active');
   });
 
-
- /* ACTIVAR PORTAL */
-
+/* ACTIVAR PORTAL */
 reactor.addEventListener('click', () => {
 
-  console.log("PORTAL ACTIVATED");
+if(!moduleName.textContent) return;
 
-  /* limpiar estados */
-  reactor.classList.remove('hover-active');
-  reactor.classList.remove('click-active');
-
-  core.classList.remove('core-active');
-  core.classList.remove('core-click');
-
-  /* activar portal */
-  reactor.classList.add('portal-open');
-
-});
-
-
-/* CUANDO TERMINA EL PORTAL */
-
-reactor.addEventListener('animationend', (e) => {
-
-  if (e.animationName === "reactorPortal") {
+if (reactor.classList.contains('portal-open')) {
 
     reactor.classList.remove('portal-open');
+    portal.classList.remove('open');
+    page.classList.remove('module-active');
 
-    /* limpiar todo */
-    reactor.classList.remove('hover-active');
-    reactor.classList.remove('click-active');
+    moduleImage.style.opacity = "0";
+    moduleImage.style.transform = "scale(.9)";
 
-    core.classList.remove('core-active');
-    core.classList.remove('core-click');
+} else {
 
-  }
+    reactor.classList.add('portal-open');
+    portal.classList.add('open');
+    page.classList.add('module-active');
+
+    const currentModule = moduleName.textContent;
+
+    if(currentModule === "GLightOne"){
+        moduleImage.src = "/glight-one-front-deep.png";
+        moduleImage.style.opacity = "1";
+        moduleImage.style.transform = "scale(1)";
+    } else {
+        moduleImage.style.opacity = "0";
+    }
+
+}
 
 });
 
@@ -431,23 +433,31 @@ nodes.forEach(node => {
 
   });
 
-  node.addEventListener('click', () => {
+ node.addEventListener('click', () => {
 
-    soundClick();
+soundClick();
 
-    nodes.forEach(n => n.classList.remove('active'));
+/* cerrar portal si estaba abierto */
+if (reactor.classList.contains('portal-open')) {
+    reactor.classList.remove('portal-open');
+    portal.classList.remove('open');
+    moduleImage.style.opacity = "0";
+    moduleImage.style.transform = "scale(.9)";
 
-    node.classList.add('active');
+}
 
-    moduleName.textContent = node.dataset.name;
+nodes.forEach(n => n.classList.remove('active'));
+node.classList.add('active');
 
-    page.classList.add('module-active');
+moduleName.textContent = node.dataset.name;
 
-    flash.style.animation = 'none';
-    flash.offsetHeight;
-    flash.style.animation = '';
+page.classList.add('module-active');
 
-  });
+flash.style.animation = 'none';
+flash.offsetHeight;
+flash.style.animation = '';
+
+});
 
 });
 

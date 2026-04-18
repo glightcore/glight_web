@@ -1,3 +1,5 @@
+
+
 /* ===============================
    RESET
 ================================ */
@@ -86,12 +88,25 @@ html, body {
 
 /* Asegura que el reactor pueda “portar” el halo vivo */
 .reactor{
-  pointer-events: auto;
-  cursor: pointer;
 
-  /* base geométrica estable */
-  transform-origin: center;
-  transform: translate(-50%, -50%) scale(0.92);
+/* ancla geométrica */
+position:absolute;
+top:58%;
+left:50%;
+
+/* interacción */
+pointer-events:auto;
+cursor:pointer;
+
+/* base geométrica estable */
+transform-origin:center;
+transform:translate(-50%, -50%) scale(0.92);
+
+/* animaciones */
+transition:
+transform 1.4s cubic-bezier(.22,.61,.36,1),
+box-shadow 1.4s cubic-bezier(.22,.61,.36,1);
+
 }
 
 /* Halo vivo (no perfecto) — no toca el destello, no bloquea eventos */
@@ -106,7 +121,6 @@ html, body {
   opacity: 0.0;
   transform: translate(2px, -3px) scale(0.98);  /* asimetría inicial */
  /* Halo energético */
-.reactor::before {
   transition:
     opacity 0.8s ease-out,
     filter 0.8s ease-out,
@@ -115,7 +129,7 @@ html, body {
 
 
   /* campo “no humano”: azul/cian dominante, verde SOLO profundo */
-  background: radial-gradient(circle at 45% 40%,
+  background: radial-gradient(circle at center,
     rgba(140,235,255,0.22) 0%,
     rgba(90,210,255,0.12) 32%,
     rgba(80,255,160,0.00) 68%,
@@ -236,55 +250,228 @@ html, body {
   }
 }
 
-/* ============================================================
-   ANIMACION - PORTAL
-   ============================================================ */
-@keyframes reactorPortal {
 
-0%{
-transform: translate(-50%,-50%) scale(1);
-}
-
-25%{
-transform: translate(-50%,-50%) scale(0.82);
-}
-
-55%{
-transform: translate(-50%,-50%) scale(1.45);
-}
-
-75%{
-transform: translate(-50%,-50%) scale(1.12);
-}
-
-100%{
-transform: translate(-50%,-50%) scale(1);
-}
-
-}
-/* =========================================================
+/* =========================================
    PORTAL STATE — reactor entra en modo apertura
-========================================================= */
+========================================= */
 
-.reactor.portal-open {
+.reactor.portal-open{
 
-animation: reactorPortal 1.3s cubic-bezier(.22,.61,.36,1);
+/* expansión energética del reactor */
+transform:translate(-50%, -50%) scale(2.2);
+
+/* explosión de energía */
+box-shadow:
+0 0 160px rgba(0,200,255,0.95),
+0 0 360px rgba(0,200,255,0.65),
+0 0 720px rgba(0,200,255,0.35),
+0 0 980px rgba(80,255,160,0.12);
+
+/* reactor queda debajo del portal */
+z-index:10;
+
+/* baja presencia visual para que el portal domine */
+opacity:0.28;
+filter:brightness(0.7);
+
+}
+
+/* núcleo se intensifica */
+.reactor.portal-open .core{
+
+animation:none;
+transform:scale(1.1);
+filter:brightness(1.4);
+
+}
+
+/* halo externo desaparece */
+.reactor.portal-open::before{
+
+animation:none;
+opacity:0;
+
+}
+
+/* =============================================================
+   PORTAL FIELD — expansión dimensional desde el reactor
+   ============================================================= */
+
+.portal{
+Position:absolute;
+top:50%;
+left:50%;
+z-index:20;
+
+width:930px;
+height:930px;
+
+border-radius:50%;
+
+transform:translate(-50%,-50%) scale(0);
+
+background: radial-gradient(circle,
+rgba(0,0,0,0.98) 0%,
+rgba(0,0,0,0.99) 30%,
+rgba(0,0,0,0.96) 38%,
+
+/* transición profunda */
+rgba(0,20,60,0.96) 46%,
+rgba(0,40,100,0.85) 52%,
+
+/* energía azul */
+rgba(0,120,255,0.9) 62%,
+rgba(0,160,255,1) 78%,
+
+/* halo */
+rgba(0,160,255,0.15) 100%
+);
+
+filter:blur(18px);
+
+opacity:0;
+pointer-events:none;
+
+transition:
+transform 1.8s cubic-bezier(.22,.61,.36,1),
+opacity 1.2s ease;
+
+will-change: transform;
+}
+
+.portal.open{
+
+width:950px;
+height:950px;
+
+Opacity:1;
+transform:translate(-50%,-50%) scale(1);
+
+}
+.portal::before{
+content:"";
+position:absolute;
+pointer-events:none;
+
+top:50%;
+left:50%;
+
+width:980px;
+height:980px;
+
+transform:translate(-50%,-50%);
+border-radius:50%;
+
+/* ring sólido */
+border:6px solid rgba(200,240,255,0.9);
 
 box-shadow:
-0 0 40px rgba(0,200,255,0.9),
-0 0 120px rgba(0,200,255,0.6),
-0 0 260px rgba(0,200,255,0.4);
+0 0 20px rgba(120,220,255,0.9),
+0 0 40px rgba(80,200,255,0.6),
+0 0 70px rgba(0,160,255,0.4);
+
+z-index:20;
+}
+
+.portal::after{
+content:"";
+position:absolute;
+pointer-events:none;
+
+top:50%;
+left:50%;
+
+width:1310px;
+height:1310px;
+
+transform:translate(-50%,-50%);
+transform-origin:center;
+
+border-radius:60%;
+
+/* anillo energético */
+background:conic-gradient(
+rgba(255,255,255,0) 0deg,
+rgba(180,240,255,0.6) 50deg,
+rgba(255,255,255,1) 110deg,
+rgba(180,240,255,0.7) 180deg,
+rgba(255,255,255,0) 240deg,
+rgba(180,240,255,0.7) 300deg,
+rgba(255,255,255,1) 360deg
+);
+
+/* convertimos la textura en anillo */
+-webkit-mask-image: radial-gradient(
+circle,
+transparent 48%,
+black 50%,
+transparent 52%
+);
+
+mask-image: radial-gradient(circle,
+transparent 48%,
+black 50%,
+transparent 52%
+);
+
+filter: blur(3px); brightness(1.8);
+opacity:0.8;
+
+animation: portalSpin 3s linear infinite;
+}
+
+
+@keyframes portalSpin{
+
+from{
+transform:translate(-50%,-50%) rotate(0deg);
+}
+
+to{
+transform:translate(-50%,-50%) rotate(360deg);
+}
 
 }
 
-.reactor.portal-open .core{
-animation: none;
-}
-/* halo se apaga para que el núcleo domine */
+/* ================================
+   CONTENEDOR DEL MODULO
+================================ */
 
-.reactor.portal-open::before{
-  animation: none;
-  opacity: 0;
+.module-view{
+Position:absolute;
+top:58%;
+left:50%;
+transform:translate(-50%,-50%);
+display:flex;
+align-items:center;
+justify-content:center;
+pointer-events:none;
+Z-index:30;
+}
+
+/* ================================
+   IMAGEN DEL MODULO
+================================ */
+
+#moduleImage{
+
+max-width:420px;
+width:100%;
+height:auto;
+
+object-fit:contain;
+
+opacity:0;
+transform:scale(.9);
+
+transition:
+opacity .6s ease,
+transform .6s ease;
+
+/* fusión con portal */
+-webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
+mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
+
 }
 
 /* ===============================
