@@ -868,8 +868,8 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
 
 /* núcleo más pequeño */
 .reactor{
-width:min(170px,60vw);
-height:min(170px,60vw);
+width:min(130px,50vw);
+height:min(130px,50vw);
 }
 
 /* nodos más separados verticalmente */
