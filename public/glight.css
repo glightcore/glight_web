@@ -391,12 +391,12 @@ border-radius:60%;
 
 /* anillo energético */
 background:conic-gradient(
-rgba(255,255,255,0) 0deg,
-rgba(180,240,255,0.6) 50deg,
+rgba(0,255,255,0) 0deg,
+rgba(0,220,255,0.8) 50deg,
 rgba(255,255,255,1) 110deg,
-rgba(180,240,255,0.7) 180deg,
-rgba(255,255,255,0) 240deg,
-rgba(180,240,255,0.7) 300deg,
+rgba(0,200,255,0.9) 180deg,
+rgba(0,255,255,0) 240deg,
+rgba(0,180,255,0.9) 300deg,
 rgba(255,255,255,1) 360deg
 );
 
@@ -414,7 +414,7 @@ black 50%,
 transparent 52%
 );
 
-filter: blur(3px); brightness(1.8);
+filter: blur(4px); brightness(2.3);
 opacity:0.8;
 
 animation: portalSpin 3s linear infinite;
