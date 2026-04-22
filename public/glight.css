@@ -78,7 +78,72 @@ html, body {
     transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* =========================================
+   GLIGHT TECHNOLOGY SPEC PANEL
+========================================= */
 
+.tech-spec{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+
+width:480px;
+max-width:80vw;
+
+text-align:center;
+
+font-family:'Orbitron',sans-serif;
+font-size:16px;
+line-height:1.55;
+font-weight:500;
+
+color:#ffffff;
+
+opacity:0;
+pointer-events:none;
+
+transition:opacity .6s ease;
+z-index:60;
+}
+
+/* visible ONLY when system is idle */
+.portal.open .tech-spec{
+opacity:1;
+}
+
+/* ocultar ficha cuando un módulo está activo */
+.page.module-active .tech-spec{
+opacity:0;
+}
+
+/* title */
+.tech-spec h3{
+margin:0 0 14px;
+font-size:22px;
+font-weight:700;
+letter-spacing:2px;
+}
+
+/* main text */
+.tech-spec p{
+margin:0 0 10px;
+opacity:.96;
+}
+
+/* tech note */
+.tech-note{
+font-size:15px;
+opacity:.82;
+}
+
+/* origin */
+.tech-origin{
+margin-top:14px;
+font-size:13px;
+letter-spacing:2px;
+opacity:.7;
+}
 /* ==========================================================
    REACTOR — PRESENCIA (NO DEBERÍA EXISTIR) 👽😈
    - Sin retardo (instantáneo)
@@ -298,7 +363,7 @@ opacity:0;
    ============================================================= */
 
 .portal{
-Position:absolute;
+position:absolute;
 top:50%;
 left:50%;
 z-index:20;
@@ -327,7 +392,7 @@ rgba(0,160,255,1) 78%,
 rgba(0,160,255,0.15) 100%
 );
 
-filter:blur(6px);
+filter:none;
 
 opacity:0;
 pointer-events:none;
@@ -341,10 +406,10 @@ will-change: transform;
 
 .portal.open{
 
-width:950px;
-height:950px;
+width:960px;
+height:960px;
 
-Opacity:1;
+opacity:1;
 transform:translate(-50%,-50%) scale(1);
 
 }
@@ -356,8 +421,8 @@ pointer-events:none;
 top:50%;
 left:50%;
 
-width:950px;
-height:950px;
+width:960px;
+height:960px;
 
 transform:translate(-50%,-50%);
 border-radius:50%;
@@ -381,8 +446,8 @@ pointer-events:none;
 top:50%;
 left:50%;
 
-width:1340px;
-height:1340px;
+width:970px;
+height:970px;
 
 transform:translate(-50%,-50%);
 transform-origin:center;
@@ -417,7 +482,7 @@ transparent 52%
 filter: blur(4px); brightness(2.3);
 opacity:0.8;
 
-animation: portalSpin 3s linear infinite;
+animation: portalSpin 4s linear infinite;
 }
 
 
@@ -446,7 +511,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 pointer-events:none;
-Z-index:30;
+z-index:30;
 }
 
 /* ================================
@@ -601,7 +666,8 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
 }
 
 /* visible solo cuando hay selección */
-.page.module-active .module-name {
+.page.module-active .module-name,
+.page.idle-mode .module-name {
   opacity: 1;
 }
 /* =========================================================

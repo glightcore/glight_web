@@ -37,22 +37,49 @@ const modulesRight = [
 
   <!-- PLANO FÍSICO -->
 <main class="stage">
-<div class="reactor-wrapper">
 
-<div class="reactor">
+  <div class="reactor-wrapper">
 
-   <div class="core"></div>
-   <div class="reactor-flash"></div>
-   <div id="moduleName" class="module-name"></div>
-   <div class="portal"></div>
-</div>
+    <div class="reactor">
 
-<!-- MODULO -->
-<div class="module-view">
-   <img id="moduleImage" src="" alt="module">
-</div>
+      <div class="core"></div>
+      <div class="reactor-flash"></div>
 
-</div>
+      <div id="moduleName" class="module-name"></div>
+
+      <!-- PORTAL -->
+      <div class="portal">
+
+        <div class="tech-spec">
+
+          <h3>GLIGHT / GLIGHTCOREAURA TECHNOLOGY PLATFORM</h3>
+
+          <p>
+          Hardware and firmware ecosystem for power systems,
+          illumination systems, automotive calibration platforms
+          and electronic control systems.
+          </p>
+
+          <p class="tech-note">
+          Modular architectures and protected system designs.
+          </p>
+
+          <p class="tech-origin">
+          Tokyo, Japan
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- MODULE VIEW -->
+    <div class="module-view">
+      <img id="moduleImage" src="" alt="module">
+    </div>
+
+  </div>
 
 </main>
 
@@ -108,17 +135,21 @@ const brandTitle = document.querySelector('.brand-title');
 const moduleView = document.querySelector('.module-view');
 const moduleImage = document.getElementById('moduleImage');
 
-/* =================================================
+/* ================================================
    ESTADO GLOBAL
-================================================= */
+================================================ */
 
 let portalActivated = false;
 let selectedModule = null;
 
+/* estado inicial del reactor */
+moduleName.textContent = "GLIGHT";
+page.classList.add('idle-mode');
 
-/* =================================================
+
+/* ================================================
    PORTAL
-================================================= */
+================================================ */
 
 function activatePortal() {
 
@@ -132,6 +163,46 @@ function activatePortal() {
 }
 
 
+/* ================================================
+   IDLE SYSTEM (RETORNO AUTOMÁTICO)
+================================================ */
+
+let idleTimer = null;
+const IDLE_TIME = 15000;   // 15 segundos
+
+
+function returnToIdle(){
+
+  portalActivated = false;
+  selectedModule = null;
+
+  portal.classList.remove('open');
+  reactor.classList.remove('portal-open');
+
+  nodes.forEach(node => node.classList.remove('active'));
+
+  moduleImage.style.opacity = 0;
+
+  moduleName.textContent = "GLIGHT";
+
+  page.classList.remove('module-active');
+  
+
+}
+
+
+function resetIdleTimer(){
+
+  clearTimeout(idleTimer);
+
+  idleTimer = setTimeout(() => {
+    returnToIdle();
+  }, IDLE_TIME);
+
+}
+
+
+
 /* =================================================
    INTERACCIÓN CORE REACTOR
 ================================================= */
@@ -142,8 +213,10 @@ if (reactor) {
 
   reactor.addEventListener('mouseenter', () => {
 
-    if (portalActivated) return;
+    resetIdleTimer();
 
+    if (portalActivated) return;
+    
     reactor.classList.add('hover-active');
     core.classList.add('core-active');
 
@@ -151,6 +224,8 @@ if (reactor) {
 
 
   reactor.addEventListener('mouseleave', () => {
+
+    resetIdleTimer();
 
     if (portalActivated) return;
 
@@ -165,6 +240,8 @@ if (reactor) {
 
   reactor.addEventListener('pointerdown', () => {
 
+    resetIdleTimer();
+
     if (portalActivated) return;
 
     reactor.classList.add('click-active');
@@ -174,6 +251,8 @@ if (reactor) {
 
 
   reactor.addEventListener('pointerup', () => {
+
+    resetIdleTimer();
 
     if (portalActivated) return;
 
@@ -185,9 +264,9 @@ if (reactor) {
 /* ACTIVAR PORTAL */
 reactor.addEventListener('click', () => {
 
-if(!moduleName.textContent) return;
+  resetIdleTimer();
 
-if (reactor.classList.contains('portal-open')) {
+  if (reactor.classList.contains('portal-open')) {
 
     reactor.classList.remove('portal-open');
     portal.classList.remove('open');
@@ -196,26 +275,37 @@ if (reactor.classList.contains('portal-open')) {
     moduleImage.style.opacity = "0";
     moduleImage.style.transform = "scale(.9)";
 
-} else {
+  } else {
 
     reactor.classList.add('portal-open');
     portal.classList.add('open');
-    page.classList.add('module-active');
 
     const currentModule = moduleName.textContent;
 
-    if(currentModule === "GLightOne"){
-        moduleImage.src = "/glight-one-front-deep.png";
-        moduleImage.style.opacity = "1";
-        moduleImage.style.transform = "scale(1)";
+    if(currentModule === "GLIGHT") {
+
+      page.classList.remove('module-active');
+      moduleImage.style.opacity = "0";
+      moduleImage.style.transform = "scale(.9)";
+
+    } else if(currentModule === "GLightOne") {
+
+      page.classList.add('module-active');
+      moduleImage.src = "/glight-one-front-deep.png";
+      moduleImage.style.opacity = "1";
+      moduleImage.style.transform = "scale(1)";
+
     } else {
-        moduleImage.style.opacity = "0";
+
+      page.classList.add('module-active');
+      moduleImage.style.opacity = "0";
+      moduleImage.style.transform = "scale(.9)";
+
     }
 
-}
+  }
 
 });
-
 }
 
 
