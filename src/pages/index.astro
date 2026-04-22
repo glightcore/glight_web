@@ -170,9 +170,20 @@ function activatePortal() {
   void reactor.offsetWidth;
 
   reactor.classList.add('portal-open');
+  reactorFlash();   // ⚡ DESTELLO DEL REACTOR
 
 }
 
+function reactorFlash(){
+
+const flash = document.querySelector(".reactor-flash");
+
+flash.style.animation = "none";
+flash.offsetHeight;
+
+flash.style.animation = "reactorFlash 0.7s cubic-bezier(.22,.61,.36,1) forwards";
+
+}
 
 /* ================================================
    IDLE SYSTEM (RETORNO AUTOMÁTICO)
@@ -290,6 +301,8 @@ reactor.addEventListener('click', () => {
 
     reactor.classList.add('portal-open');
     portal.classList.add('open');
+
+    reactorFlash();   // ⚡ DESTELLO DEL REACTOR
 
     const currentModule = moduleName.textContent;
 
