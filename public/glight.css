@@ -24,9 +24,9 @@ html, body {
   font-family: 'Orbitron', system-ui, sans-serif;
 }
 
-/* ===============================
+/* =========================
    PAGE BASE
-================================ */
+========================= */
 .page {
   position: relative;
   width: 100vw;
@@ -38,6 +38,24 @@ html, body {
     #000000 100%
   );
   overflow: hidden;
+}
+
+/* 🚫 BLOQUEO GLOBAL DE SELECCIÓN (GLight UI HARDENED) */
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 🔓 EXCEPCIÓN CONTROLADA (EMAIL COPIABLE) */
+.tech-note {
+  user-select: text;
+  -webkit-user-select: text;
+
+  cursor: pointer;
 }
 
 /* ============================================================

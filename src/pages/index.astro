@@ -282,88 +282,78 @@ if (reactor) {
   });
 
 /* ACTIVAR PORTAL */
-reactor.addEventListener('click', () => {
+reactor.addEventListener('click', (e) => {
 
-    resetIdleTimer();
+  // 🔥 FILTRO CLAVE
+  if (e.target.closest('.tech-note')) return;
 
-    if (reactor.classList.contains('portal-open')) {
+  resetIdleTimer();
 
-        // ▼ primero desaparece la imagen
-        moduleImage.style.opacity = "0";
-        moduleImage.style.transform = "scale(.94)";
-
-        // ▼ luego cerramos el portal
-        setTimeout(() => {
-    reactor.classList.remove('portal-open');
-    portal.classList.remove('open');
-    page.classList.remove('module-active');
-
-    // 🔥 ESTA ES LA LÍNEA CLAVE (ARREGLA EL IDLE)
-    techSpec.style.opacity = "";
-
-}, 300);
-
-    } else {
-
-        reactor.classList.add('portal-open');
-        portal.classList.add('open');
-
-        reactorFlash();  // ⚡ DESTELLO DEL REACTOR
-
-        const currentModule = moduleName.textContent;
-
-        if(currentModule === "GLIGHT") {
-
-    page.classList.remove('module-active');
-
-    // 🔥 RESTAURA FICHA ORIGINAL
-    techSpec.innerHTML = originalTechSpec;
+  if (reactor.classList.contains('portal-open')) {
 
     moduleImage.style.opacity = "0";
-    moduleImage.style.transform = "scale(.9)";
-}
-        else if(currentModule === "GLightOne") {
-
-            page.classList.add('module-active');
-
-            setTimeout(() => {
-                moduleImage.src = "./glight-one-front-deep.png";
-                moduleImage.style.opacity = "1";
-                moduleImage.style.transform = "scale(1)";
-            }, 300);
-
-        }
-        else if(currentModule === "Pulse") {
-
-    page.classList.add('module-active');
+    moduleImage.style.transform = "scale(.94)";
 
     setTimeout(() => {
+      reactor.classList.remove('portal-open');
+      portal.classList.remove('open');
+      page.classList.remove('module-active');
+      techSpec.style.opacity = "";
+    }, 300);
+
+  } else {
+
+    reactor.classList.add('portal-open');
+    portal.classList.add('open');
+
+    reactorFlash();
+
+    const currentModule = moduleName.textContent;
+
+    if(currentModule === "GLIGHT") {
+      page.classList.remove('module-active');
+      techSpec.innerHTML = originalTechSpec;
+      moduleImage.style.opacity = "0";
+      moduleImage.style.transform = "scale(.9)";
+    }
+
+    else if(currentModule === "GLightOne") {
+      page.classList.add('module-active');
+      setTimeout(() => {
+        moduleImage.src = "./glight-one-front-deep.png";
+        moduleImage.style.opacity = "1";
+        moduleImage.style.transform = "scale(1)";
+      }, 300);
+    }
+
+    else if(currentModule === "Pulse") {
+      page.classList.add('module-active');
+
+      setTimeout(() => {
 
         moduleImage.style.opacity = "0";
         moduleImage.style.transform = "scale(.9)";
 
         techSpec.innerHTML = `
-            <h3>PULSE / DIRECT LINK</h3>
-            <p>Direct communication channel with GLight ecosystem.</p>
-            <p class="tech-note">glight@glightcore.com</p>
-            <p class="tech-origin">Tokyo — Japan</p>
+          <h3>PULSE / DIRECT LINK</h3>
+          <p>Direct communication channel with Glight ecosystem.</p>
+          <p class="tech-note">glight@glightcore.com</p>
+          <p class="tech-origin">Tokyo – Japan</p>
         `;
 
-        // 🔥 ESTA ES LA LÍNEA QUE TE FALTABA
         techSpec.style.opacity = "1";
 
-    }, 300);
-}
-        else {
-
-            page.classList.add('module-active');
-
-            setTimeout(() => {
-                moduleImage.style.opacity = "0";
-                moduleImage.style.transform = "scale(.9)";
-            }, 100);
-        }
+      }, 300);
     }
+
+    else {
+      page.classList.add('module-active');
+      setTimeout(() => {
+        moduleImage.style.opacity = "0";
+        moduleImage.style.transform = "scale(.9)";
+      }, 100);
+    }
+  }
 });
 }
 
