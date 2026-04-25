@@ -406,7 +406,7 @@ pointer-events:none;
 
 transition:
 transform 1.8s cubic-bezier(.22,.61,.36,1),
-opacity 1.2s ease;
+opacity 1.2s ease .15s;
 
 will-change: transform;
 }
@@ -420,6 +420,13 @@ opacity:1;
 transform:translate(-50%,-50%) scale(1);
 
 }
+
+.portal-closing .portal {
+transition:
+transform 1.2s cubic-bezier(.4,0,.2,1),
+opacity 0.6s ease;
+}
+
 .portal::before{
 content:"";
 position:absolute;
@@ -527,18 +534,18 @@ z-index:30;
 
 #moduleImage{
 
-max-width:420px;
+max-width:400px;
 width:100%;
 height:auto;
 
 object-fit:contain;
 
-opacity:0;
-transform:scale(.9);
+ opacity: 0;
+  transform: scale(.85);
 
-transition:
-opacity .6s ease,
-transform .6s ease;
+  transition:
+    opacity .5s ease .37s,
+    transform .7s cubic-bezier(0.2, 0.8, 0.2, 1) .35s;
 
 /* fusión con portal */
 -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
@@ -555,19 +562,19 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 180px;
+  gap: 120px;
   z-index: 4;
 }
 
-.nodes.left { left: 350px; }
-.nodes.right { right: 350px; }
+.nodes.left { left: 420px; }
+.nodes.right { right: 420px; }
 
 /* ===============================
    NODE (TACTIL)
 ================================ */
 .node {
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
 
   background: radial-gradient(
@@ -677,14 +684,66 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
 .page.idle-mode .module-name {
   opacity: 1;
 }
-/* =========================================================
+
+/* =========================================
+   SYSTEM LAYER CORE (GLIGHT SIGNATURE)
+========================================= */
+.system-tag{
+    position: absolute;
+    bottom: 80px;
+    right: 120px;
+
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px;
+    letter-spacing: 3px;
+
+    color: rgba(220,240,255,0.9);
+
+    opacity: 0.85;
+
+    pointer-events: none;
+    z-index: 100;
+
+    /* 🔥 VIDA REAL */
+    text-shadow:
+        0 0 6px rgba(180,220,255,0.6),
+        0 0 18px rgba(120,180,255,0.35);
+
+    transition: opacity .3s ease, transform .3s ease;
+}
+
+.page.module-active .system-tag{
+    opacity: 1;
+    transform: scale(1.05);
+
+    text-shadow:
+        0 0 10px rgba(200,240,255,0.8),
+        0 0 30px rgba(120,200,255,0.5);
+}
+
+@keyframes systemGlow {
+    0%,100%{
+        text-shadow:
+            0 0 6px rgba(180,220,255,0.5),
+            0 0 18px rgba(120,180,255,0.3);
+    }
+    50%{
+        text-shadow:
+            0 0 12px rgba(220,255,255,0.9),
+            0 0 40px rgba(120,200,255,0.6);
+    }
+}
+
+.system-tag{
+    animation: systemGlow 6s ease-in-out infinite;
+}/* =========================================================
    TÍTULO SUPERIOR — GLightCoreAura (SVG BLANCO SÓLIDO)
    ========================================================= */
 
 .brand-title {
   position: absolute;
-  top: 100px;
-  left: 49.3%;
+  top: 120px;
+  left: 50%;
   transform: translateX(-50%);
   z-index: 50;
   pointer-events: auto;
@@ -909,7 +968,7 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
   }
 
   .nodes {
-    gap: clamp(60px, 10vh, 180px);
+    gap: clamp(60px, 6vh, 180px);
   }
 
   .module-name {
@@ -933,60 +992,276 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
   }
 
 }
-/* ============================================ */
+/* ===================================================== */
 /* AJUSTE SOLO PARA IPHONE */
-/* ============================================ */
+/* ===================================================== */
 
 @media (max-width:430px){
 
 /* núcleo más pequeño */
 .reactor{
-width:min(130px,46vw);
-height:min(130px,46vw);
+    width:min(130px,46vw);
+    height:min(130px,46vw);
 }
 
 /* nodos más separados verticalmente */
 .nodes{
-gap:clamp(60px,12vh,160px);
+    gap:clamp(60px,10vh,160px);
 }
+
 
 /* separación lateral (mantiene tu layout) */
 .nodes.left{
-left:12vw;
+    left:12vw;
 }
 
 .nodes.right{
-right:12vw;
+    right:12vw;
 }
 
 /* portal responsive */
 .portal{
-position:absolute;
+    position:absolute;
 
-width:80vw;
-height:80vw;
+    width:80vw;
+    height:80vw;
 
-max-width:280px;
-max-height:280px;
+    max-width:280px;
+    max-height:280px;
 
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
 
-overflow:visible;
+    overflow:visible;
 }
 
-/* energía spin */
+/* ========================================= */
+/* ENERGÍA SPIN (ajustada para mobile) */
+/* ========================================= */
 .portal::after{
-position:absolute;
-width:130%;
-height:130%;
+    position:absolute;
+
+    width:115%;
+    height:115%;
+
+    transform: translate(-50%, -50%);
+    opacity:0.85;
 }
 
-/* halo exterior */
+/* ========================================= */
+/* HALO EXTERIOR (más fino y elegante) */
+/* ========================================= */
 .portal::before{
-width:100%;
-height:100%;
+    width:90%;
+    height:90%;
+    opacity:0.7;
 }
 
+/* ========================================= */
+/* SYSTEM TAG (alineado en mobile) */
+/* ========================================= */
+.system-tag{
+    position:absolute;
+
+    bottom:40px;
+    left:50%;
+    transform:translateX(-50%);
+
+    font-size:12px;
+    letter-spacing:2px;
+
+    color:rgba(220,240,255,0.75);
+
+    text-align:center;
+    z-index:100;
+}
+
+/* leve activación cuando hay módulo */
+.page.module-active .system-tag{
+    opacity:0.95;
+    transform:translateX(-50%) scale(1.03);
+}
+
+}
+
+@media (max-width: 900px) and (orientation: landscape){
+
+/* reactor más pequeño */
+.reactor{
+    width:min(120px, 20vw);
+    height:min(120px, 20vw);
+}
+
+/* nodos más compactos */
+.nodes{
+    gap:clamp(20px, 6vh, 60px);
+}
+
+/* acercar nodos al centro */
+.nodes.left{
+    left:8vw;
+}
+
+.nodes.right{
+    right:8vw;
+}
+
+/* BAJAR IMPORTANCIA DEL TÍTULO */
+.brand-title{
+    top:40px;
+    transform:translateX(-50%) scale(.8);
+    opacity:0.7;
+}
+
+/* system tag más pequeño */
+.system-tag{
+    bottom:20px;
+    font-size:10px;
+    opacity:0.6;
+}
+
+/* portal más compacto */
+.portal{
+    width:55vw;
+    height:55vw;
+    max-width:220px;
+    max-height:220px;
+}
+
+/* spin contenido */
+.portal::after{
+    width:105%;
+    height:105%;
+}
+
+/* halo más fino */
+.portal::before{
+    width:85%;
+    height:85%;
+}
+}
+
+@media (min-width:431px) and (max-width:600px){
+
+/* reactor más equilibrado */
+.reactor{
+    width:min(180px,40vw);
+    height:min(180px,40vw);
+}
+
+/* nodos más afuera */
+.nodes.left{
+    left:10vw;
+}
+
+.nodes.right{
+    right:10vw;
+}
+
+/* mejor separación */
+.nodes{
+    gap:clamp(50px,10vh,140px);
+}
+
+/* título respira */
+.brand-title{
+    top:120px;
+    transform:translateX(-50%) scale(.85);
+}
+
+/* portal equilibrado */
+.portal{
+    width:65vw;
+    height:65vw;
+}
+
+/* system tag */
+.system-tag{
+    bottom:30px;
+}
+}
+
+@media (min-width:768px) and (max-width:1200px){
+
+/* reactor más grande y limpio */
+.reactor{
+    width:min(260px,35vw);
+    height:min(260px,35vw);
+}
+
+/* nodos MÁS AFUERA (clave) */
+.nodes.left{
+    left:18vw;
+}
+
+.nodes.right{
+    right:18vw;
+}
+
+/* separación vertical elegante */
+.nodes{
+    gap:clamp(70px,8vh,160px);
+}
+
+/* título deja de asfixiar */
+.brand-title{
+    top:140px;
+    transform:translateX(-50%) scale(.9);
+}
+
+/* portal bien proporcionado */
+.portal{
+    width:45vw;
+    height:45vw;
+}
+
+/* system tag respira */
+.system-tag{
+    bottom:50px;
+}
+}
+
+@media (orientation: landscape) and (max-height: 500px){
+
+  /* 🔵 reactor más pequeño */
+  .reactor{
+    width:min(120px, 20vw);
+    height:min(120px, 20vw);
+  }
+
+  /* 🔵 nodos más compactos */
+  .nodes{
+    gap: clamp(20px, 6vh, 60px);
+  }
+
+  /* 🔵 nodos más afuera (MUY importante) */
+  .nodes.left{
+    left: 10vw;
+  }
+
+  .nodes.right{
+    right: 10vw;
+  }
+
+  /* 🔵 título deja de dominar */
+  .brand-title{
+    top: 40px;
+    transform: translateX(-50%) scale(0.75);
+    opacity: 0.7;
+  }
+
+  /* 🔵 portal más pequeño */
+  .portal{
+    width: 50vw;
+    height: 50vw;
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  /* 🔵 system tag ajustado */
+  .system-tag{
+    bottom: 20px;
+    font-size: 10px;
+  }
 }
