@@ -580,7 +580,7 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 120px;
+  gap: 110px;
   z-index: 4;
 }
 
@@ -708,8 +708,8 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
 ========================================= */
 .system-tag{
     position: absolute;
-    bottom: 80px;
-    right: 120px;
+    bottom: 120px;
+    right: 140px;
 
     font-family: 'Orbitron', sans-serif;
     font-size: 15px;
@@ -1016,34 +1016,39 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
 
 @media (max-width:430px){
 
-/* núcleo más pequeño */
-.reactor{
+  /* núcleo más pequeño */
+  .reactor{
     width:min(130px,46vw);
     height:min(130px,46vw);
-}
+  }
 
-/* nodos más separados verticalmente */
-.nodes{
+  /* nodos más separados verticalmente */
+  .nodes{
     gap:clamp(60px,10vh,160px);
-}
+  }
 
-
-/* separación lateral (mantiene tu layout) */
-.nodes.left{
+  /* separación lateral (mantiene tu layout) */
+  .nodes.left{
     left:12vw;
-}
+  }
 
-.nodes.right{
+  .nodes.right{
     right:12vw;
-}
+  }
 
-/* ajuste posición título en iPhone */
-.brand-title{
-    top: 100px; /* antes 120px */
-}
+  /* ajuste posición título en iPhone */
+  .brand-title{
+    top:100px; /* antes 120px */
+  }
 
-/* portal responsive */
-.portal{
+  /* 🔥 AJUSTE DE IMAGEN (NUEVO) */
+  #moduleImage{
+    width:clamp(120px,50vw,180px);
+    height:auto;
+  }
+
+  /* portal responsive */
+  .portal{
     position:absolute;
 
     width:80vw;
@@ -1057,7 +1062,7 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
     transform:translate(-50%,-50%);
 
     overflow:visible;
-}
+  }
 
 /* ========================================= */
 /* ENERGÍA SPIN (ajustada para mobile) */
