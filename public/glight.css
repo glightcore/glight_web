@@ -210,13 +210,6 @@ box-shadow 1.4s cubic-bezier(.22,.61,.36,1);
   filter: blur(22px);
   opacity: 0.0;
   transform: translate(2px, -3px) scale(0.98);  /* asimetría inicial */
- /* Halo energético */
-  transition:
-    opacity 0.8s ease-out,
-    filter 0.8s ease-out,
-    transform 0.8s ease-out;
-}
-
 
   /* campo “no humano”: azul/cian dominante, verde SOLO profundo */
   background: radial-gradient(circle at center,
@@ -225,6 +218,12 @@ box-shadow 1.4s cubic-bezier(.22,.61,.36,1);
     rgba(80,255,160,0.00) 68%,
     rgba(0,0,0,0.00) 100%
   );
+
+  /* Halo energético */
+  transition:
+    opacity 0.8s ease-out,
+    filter 0.8s ease-out,
+    transform 0.8s ease-out;
 }
 
 /* Deriva lenta del halo (muy sutil, no parpadea) */
@@ -535,7 +534,7 @@ transform:translate(-50%,-50%) rotate(360deg);
 ================================ */
 
 .module-view{
-Position:absolute;
+position:absolute;
 top:58%;
 left:50%;
 transform:translate(-50%,-50%);
@@ -543,32 +542,43 @@ display:flex;
 align-items:center;
 justify-content:center;
 pointer-events:none;
-z-index:30;
+z-index:29;
 }
 
 /* ================================
-   IMAGEN DEL MODULO
+   VIDEO DEL MODULO
 ================================ */
 
-#moduleImage{
-
-max-width:400px;
-width:100%;
+#moduleVideo{
+width:690px;
+max-width:80vw;
 height:auto;
 
+display:block;
 object-fit:contain;
 
- opacity: 0;
-  transform: scale(.85);
+opacity:0;
+transform:scale(.85);
 
-  transition:
-    opacity .5s ease .37s,
-    transform .7s cubic-bezier(0.2, 0.8, 0.2, 1) .35s;
+transition:
+opacity .5s ease .37s,
+transform .7s cubic-bezier(0.2, 0.8, 0.2, 1) .35s;
 
-/* fusión con portal */
--webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
-mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
+pointer-events:none;
 
+-webkit-mask-image: radial-gradient(
+  ellipse 39% 120% at 50% 39%,
+  rgba(0,0,0,1) 0%,
+  rgba(0,0,0,1) 62%,
+  rgba(0,0,0,0) 100%
+);
+
+mask-image: radial-gradient(
+  ellipse 39% 120% at 50% 39%,
+  rgba(0,0,0,1) 0%,
+  rgba(0,0,0,1) 62%,
+  rgba(0,0,0,0) 100%
+);
 }
 
 /* ===============================
@@ -1041,11 +1051,11 @@ mask-image: radial-gradient(circle, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%);
     top:100px; /* antes 120px */
   }
 
-  /* 🔥 AJUSTE DE IMAGEN (NUEVO) */
-  #moduleImage{
-    width:clamp(120px,50vw,180px);
-    height:auto;
-  }
+ /* 🔥 AJUSTE DE VIDEO (GLightOne) */
+#moduleVideo{
+  width:clamp(120px,50vw,180px);
+  height:auto;
+}
 
   /* portal responsive */
   .portal{

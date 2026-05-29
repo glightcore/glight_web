@@ -29,7 +29,7 @@ const modulesRight = [
 <link rel="stylesheet" href="/glight.css" />
 
 <!-- PRELOAD DE MÓDULOS -->
-<link rel="preload" as="image" href="/modules/glightone.webp">
+<link rel="preload" as="video" href="/glightone.mp4" type="video/mp4">
 <link rel="preload" as="image" href="/modules/orbitone.webp">
 <link rel="preload" as="image" href="/modules/hexagon.webp">
 <link rel="preload" as="image" href="/modules/nlab.webp">
@@ -81,10 +81,15 @@ Tokyo — Japan
 
     </div>
 
-    <!-- MODULE VIEW -->
-    <div class="module-view">
-      <img id="moduleImage" src="" alt="module">
-    </div>
+   <!-- MODULE VIEW -->
+<div class="module-view">
+   <video
+     id="moduleVideo"
+     muted
+     playsinline
+     preload="auto"
+   ></video>
+</div>
 
   </div>
 
@@ -114,11 +119,9 @@ Tokyo — Japan
     <!-- 🔥 SYSTEM SIGNATURE -->
     <div class="system-tag">SYSTEM LAYER CORE</div>
 
-</div>
 
   </div>
 
-</body>
 
 <!-- ===== SCRIPT DE ACTIVACIÓN ===== -->
 
@@ -141,7 +144,7 @@ const portal = document.querySelector(".portal");
 const brandTitle = document.querySelector('.brand-title');
 
 const moduleView = document.querySelector('.module-view');
-const moduleImage = document.getElementById('moduleImage');
+const moduleVideo = document.getElementById('moduleVideo');
 const techSpec = document.querySelector('.tech-spec');
 const originalTechSpec = techSpec.innerHTML;
 /* ================================================
@@ -188,7 +191,7 @@ flash.style.animation = "reactorFlash 0.7s cubic-bezier(.22,.61,.36,1) forwards"
 ================================================ */
 
 let idleTimer = null;
-const IDLE_TIME = 12000;   // 12 segundos
+const IDLE_TIME = 15000;   // 15 segundos
 
 
 function returnToIdle(){
@@ -201,7 +204,10 @@ function returnToIdle(){
 
   nodes.forEach(node => node.classList.remove('active'));
 
-  moduleImage.style.opacity = 0;
+  moduleVideo.pause();
+  moduleVideo.style.opacity = 0;
+  moduleVideo.removeAttribute("src");
+  moduleVideo.load();
 
   moduleName.textContent = "GLIGHT";
 
@@ -291,17 +297,20 @@ reactor.addEventListener('click', (e) => {
 
   if (reactor.classList.contains('portal-open')) {
 
-    moduleImage.style.opacity = "0";
-    moduleImage.style.transform = "scale(.94)";
+    moduleVideo.pause();
+    moduleVideo.style.opacity = "0";
+    moduleVideo.style.transform = "scale(.94)";
+    moduleVideo.removeAttribute("src");
+    moduleVideo.load();
 
     setTimeout(() => {
-      reactor.classList.remove('portal-open');
-      portal.classList.remove('open');
-      page.classList.remove('module-active');
-      techSpec.style.opacity = "";
+        reactor.classList.remove('portal-open');
+        portal.classList.remove('open');
+        page.classList.remove('module-active');
+        techSpec.style.opacity = "";
     }, 300);
 
-  } else {
+ } else {
 
     reactor.classList.add('portal-open');
     portal.classList.add('open');
@@ -311,48 +320,61 @@ reactor.addEventListener('click', (e) => {
     const currentModule = moduleName.textContent;
 
     if(currentModule === "GLIGHT") {
-      page.classList.remove('module-active');
-      techSpec.innerHTML = originalTechSpec;
-      moduleImage.style.opacity = "0";
-      moduleImage.style.transform = "scale(.9)";
-    }
+    page.classList.remove('module-active');
+    techSpec.innerHTML = originalTechSpec;
+
+    moduleVideo.pause();
+    moduleVideo.style.opacity = "0";
+    moduleVideo.style.transform = "scale(.9)";
+    moduleVideo.removeAttribute("src");
+    moduleVideo.load();
+}
 
     else if(currentModule === "GLightOne") {
-      page.classList.add('module-active');
-      setTimeout(() => {
-        moduleImage.src = "./glight-one-front-deep.png";
-        moduleImage.style.opacity = "1";
-        moduleImage.style.transform = "scale(1)";
-      }, 300);
-    }
+    page.classList.add('module-active');
+
+    setTimeout(() => {
+        moduleVideo.src = "/glightone.mp4";
+        moduleVideo.currentTime = 0;
+        moduleVideo.style.opacity = "1";
+        moduleVideo.style.transform = "scale(1)";
+        moduleVideo.play();
+    }, 300);
+}
 
     else if(currentModule === "Pulse") {
-      page.classList.add('module-active');
+    page.classList.add('module-active');
 
-      setTimeout(() => {
+    setTimeout(() => {
 
-        moduleImage.style.opacity = "0";
-        moduleImage.style.transform = "scale(.9)";
+        moduleVideo.pause();
+        moduleVideo.style.opacity = "0";
+        moduleVideo.style.transform = "scale(.9)";
+        moduleVideo.removeAttribute("src");
+        moduleVideo.load();
 
         techSpec.innerHTML = `
-          <h3>PULSE / CONTACT NODE</h3>
-        <p>Official technical access point for GLight platform.</p>
-        <p class="tech-note">glight@glightcore.com</p>
-        <p class="tech-origin">Tokyo — Japan</p>
+            <h3>PULSE / CONTACT NODE</h3>
+            <p>Official technical access point for GLight platform.</p>
+            <p class="tech-note">glight@glightcore.com</p>
+            <p class="tech-origin">Tokyo – Japan</p>
         `;
 
         techSpec.style.opacity = "1";
 
-      }, 300);
-    }
+    }, 300);
+}
 
     else {
-      page.classList.add('module-active');
-      setTimeout(() => {
-        moduleImage.style.opacity = "0";
-        moduleImage.style.transform = "scale(.9)";
-      }, 100);
-    }
+    page.classList.add('module-active');
+    setTimeout(() => {
+        moduleVideo.pause();
+        moduleVideo.style.opacity = "0";
+        moduleVideo.style.transform = "scale(.9)";
+        moduleVideo.removeAttribute("src");
+        moduleVideo.load();
+    }, 100);
+}
   }
 });
 }
@@ -582,9 +604,12 @@ techSpec.style.opacity = "0";
 if (reactor.classList.contains('portal-open')) {
     reactor.classList.remove('portal-open');
     portal.classList.remove('open');
-    moduleImage.style.opacity = "0";
-    moduleImage.style.transform = "scale(.9)";
 
+    moduleVideo.pause();
+    moduleVideo.style.opacity = "0";
+    moduleVideo.style.transform = "scale(.9)";
+    moduleVideo.removeAttribute("src");
+    moduleVideo.load();
 }
 
 nodes.forEach(n => n.classList.remove('active'));
