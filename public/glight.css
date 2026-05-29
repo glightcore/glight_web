@@ -67,8 +67,8 @@ body {
   position: absolute;
   top: 55%;
   left: 50%;
-  width: 340px;
-  height: 340px;
+  width: clamp(130px, 28vmin, 340px);
+  height: clamp(130px, 28vmin, 340px);
   transform: translate(-50%, -50%) scale(1);
   border-radius: 50%;
 
@@ -392,8 +392,8 @@ top:50%;
 left:50%;
 z-index:20;
 
-width:950px;
-height:950px;
+width: min(950px, 82vmin);
+height: min(950px, 82vmin);
 
 border-radius:50%;
 
@@ -401,16 +401,16 @@ transform:translate(-50%,-50%) scale(0);
 
 background: radial-gradient(circle,
 rgba(0,0,0,0.98) 0%,
-rgba(0,0,0,0.99) 30%,
-rgba(0,0,0,0.95) 38%,
+rgba(0,0,0,0.99) 42%,
+rgba(0,0,0,0.95) 54%,
 
 /* transición profunda */
-rgba(0,20,60,0.96) 46%,
-rgba(0,40,100,0.85) 52%,
+rgba(0,70,180,0.96) 62%,
+rgba(0,130,255,0.88) 68%,
 
 /* energía azul */
-rgba(0,120,255,0.9) 62%,
-rgba(0,160,255,1) 78%,
+rgba(0,120,255,0.9) 78%,
+rgba(0,160,255,1) 90%,
 
 /* halo */
 rgba(0,160,255,0.15) 100%
@@ -430,8 +430,8 @@ will-change: transform;
 
 .portal.open{
 
-width:960px;
-height:960px;
+width: min(960px, 84vmin);
+height: min(960px, 84vmin);
 
 opacity:1;
 transform:translate(-50%,-50%) scale(1);
@@ -449,23 +449,18 @@ content:"";
 position:absolute;
 pointer-events:none;
 
-top:50%;
-left:50%;
+inset:0;
 
-width:960px;
-height:960px;
-
-transform:translate(-50%,-50%);
 border-radius:50%;
 
-/* ring sólido */
-border:6px solid rgba(200,240,255,0.9);
+/* anillo sólido suave */
+border:6px solid rgba(200,240,255,0.45);
 
 box-shadow:
-0 0 20px rgba(120,220,255,0.9),
-0 0 40px rgba(80,200,255,0.6),
-0 0 70px rgba(0,160,255,0.4);
+0 0 40px rgba(120,220,255,0.35),
+0 0 90px rgba(0,160,255,0.22);
 
+opacity:0.55;
 z-index:20;
 }
 
@@ -474,26 +469,21 @@ content:"";
 position:absolute;
 pointer-events:none;
 
-top:50%;
-left:50%;
+/* anclado al portal, no flotando por cuenta propia */
+inset:-20%;
 
-width:1340px;
-height:1340px;
-
-transform:translate(-50%,-50%);
-transform-origin:center;
-
+transform-origin:50% 50%;
 border-radius:60%;
 
 /* anillo energético */
 background:conic-gradient(
 rgba(0,255,255,0) 0deg,
-rgba(0,220,255,0.8) 50deg,
-rgba(255,255,255,1) 110deg,
-rgba(0,200,255,0.9) 180deg,
-rgba(0,255,255,0) 240deg,
-rgba(0,180,255,0.9) 300deg,
-rgba(255,255,255,1) 360deg
+rgba(0,190,255,0.55) 45deg,
+rgba(120,230,255,0.85) 95deg,
+rgba(0,120,255,0.75) 155deg,
+rgba(0,255,255,0) 225deg,
+rgba(0,150,255,0.70) 285deg,
+rgba(100,220,255,0.85) 360deg
 );
 
 /* convertimos la textura en anillo */
@@ -504,13 +494,14 @@ black 50%,
 transparent 52%
 );
 
-mask-image: radial-gradient(circle,
+mask-image: radial-gradient(
+circle,
 transparent 48%,
 black 50%,
 transparent 52%
 );
 
-filter: blur(4px); brightness(2.3);
+filter: blur(4px) brightness(1.65) saturate(1.15);
 opacity:0.8;
 
 animation: portalSpin 4s linear infinite;
@@ -520,11 +511,11 @@ animation: portalSpin 4s linear infinite;
 @keyframes portalSpin{
 
 from{
-transform:translate(-50%,-50%) rotate(0deg);
+transform:rotate(0deg);
 }
 
 to{
-transform:translate(-50%,-50%) rotate(360deg);
+transform:rotate(360deg);
 }
 
 }
@@ -550,12 +541,15 @@ z-index:29;
 ================================ */
 
 #moduleVideo{
-width:690px;
+width: min(690px, 72vmin);
 max-width:80vw;
 height:auto;
 
 display:block;
 object-fit:contain;
+
+border-radius:230px;
+overflow:hidden;
 
 opacity:0;
 transform:scale(.85);
@@ -590,12 +584,12 @@ mask-image: radial-gradient(
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  gap: 110px;
+  gap: clamp(54px, 8vh, 110px);
   z-index: 4;
 }
 
-.nodes.left { left: 420px; }
-.nodes.right { right: 420px; }
+.nodes.left { left: clamp(28px, 12vw, 420px); }
+.nodes.right { right: clamp(28px, 12vw, 420px); }
 
 /* ===============================
    NODE (TACTIL)
@@ -770,15 +764,14 @@ mask-image: radial-gradient(
 
 .brand-title {
   position: absolute;
-  top: 120px;
+  top: clamp(48px, 9vh, 90px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
   pointer-events: auto;
-
-  /* 🧲 CAMPO INTERACTIVO */
-  padding: 40px 80px;
+  padding: clamp(12px, 3vh, 40px) clamp(24px, 5vw, 80px);
 }
+
 /* SVG como imagen (masa visual, no interactiva) */
 .brand-title img,
 .brand-logo {
@@ -786,54 +779,30 @@ mask-image: radial-gradient(
   width: auto;
   opacity: 0.85;
 
-  /* El SVG NO captura eventos */
   pointer-events: none;
 
   filter:
     invert(1)
     brightness(0.92)
     contrast(1.08)
-
-   
-
-  /* =========================
-     BISEL METÁLICO 3D
-     ========================= */
-
-  /* filo superior (luz fría) */
-  drop-shadow(0 -1px 0 rgba(220, 245, 255, 0.55))
-
-  /* micro bisel superior */
-  drop-shadow(0 -2px 0 rgba(255, 255, 255, 0.18))
-
-  /* rebaje inferior (corte físico) */
-  drop-shadow(0 1px 0 rgba(0, 0, 0, 0.65))
-
-  /* =========================
-     VOLUMEN INTERNO
-     ========================= */
-
-  drop-shadow(0 0 10px rgba(180, 220, 255, 0.55))
-  drop-shadow(0 0 28px rgba(120, 180, 255, 0.45))
-
-  /* =========================
-     HALO ENERGÉTICO
-     ========================= */
-
-  drop-shadow(0 0 56px rgba(80, 255, 160, 0.25));
+    drop-shadow(0 -1px 0 rgba(220, 245, 255, 0.55))
+    drop-shadow(0 -2px 0 rgba(255, 255, 255, 0.18))
+    drop-shadow(0 1px 0 rgba(0, 0, 0, 0.65))
+    drop-shadow(0 0 10px rgba(180, 220, 255, 0.55))
+    drop-shadow(0 0 28px rgba(120, 180, 255, 0.45))
+    drop-shadow(0 0 56px rgba(80, 255, 160, 0.25));
 
   animation: logoBreath 6.8s linear infinite;
   will-change: opacity;
+}
 
-
-
- /* =========================
-    DESTELLO
-     ========================= */
+/* =========================
+   DESTELLO
+========================= */
 .core {
   transition: transform 0.35s ease, filter 0.35s ease;
   will-change: transform, filter;
-}}
+}
 
 
 .reactor-flash {
@@ -1052,12 +1021,15 @@ mask-image: radial-gradient(
   }
 
  /* 🔥 AJUSTE DE VIDEO (GLightOne) */
+ /* 
 #moduleVideo{
   width:clamp(120px,50vw,180px);
   height:auto;
 }
+*/
 
   /* portal responsive */
+  /*
   .portal{
     position:absolute;
 
@@ -1073,10 +1045,11 @@ mask-image: radial-gradient(
 
     overflow:visible;
   }
-
+  */
 /* ========================================= */
 /* ENERGÍA SPIN (ajustada para mobile) */
 /* ========================================= */
+/* 
 .portal::after{
     position:absolute;
 
@@ -1086,15 +1059,18 @@ mask-image: radial-gradient(
     transform: translate(-50%, -50%);
     opacity:0.85;
 }
+*/
 
 /* ========================================= */
 /* HALO EXTERIOR (más fino y elegante) */
 /* ========================================= */
+/* 
 .portal::before{
     width:90%;
     height:90%;
     opacity:0.7;
 }
+*/
 
 /* ========================================= */
 /* SYSTEM TAG (alineado en mobile) */
@@ -1244,7 +1220,7 @@ mask-image: radial-gradient(
 
 /* título deja de asfixiar */
 .brand-title{
-    top:140px;
+    top:90px;
     transform:translateX(-50%) scale(.9);
 }
 
