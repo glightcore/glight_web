@@ -29,14 +29,17 @@ const modulesRight = [
 <link rel="stylesheet" href="/glight.css" />
 
 <!-- PRELOAD DE MÓDULOS -->
+<!-- PRELOAD DE MÓDULOS -->
 <link rel="preload" as="video" href="/glightone.mp4" type="video/mp4">
-<link rel="preload" as="image" href="/modules/orbitone.webp">
-<link rel="preload" as="image" href="/modules/hexagon.webp">
-<link rel="preload" as="image" href="/modules/nlab.webp">
-<link rel="preload" as="image" href="/modules/evoprime.webp">
-<link rel="preload" as="image" href="/modules/glightgraphics.webp">
-<link rel="preload" as="image" href="/modules/reactor.webp">
-<link rel="preload" as="image" href="/modules/sentinel.webp">
+
+<link rel="preload" as="image" href="/ORBIT_ONE_FRONT.webp">
+<link rel="preload" as="image" href="/ORBIT_ONE_BACK.webp">
+
+<link rel="preload" as="image" href="/REACTOR_FRONT.webp">
+<link rel="preload" as="image" href="/REACTOR_BACK.webp">
+
+<link rel="preload" as="image" href="/EVO_PRIME_FRONT.webp">
+<link rel="preload" as="image" href="/EVO_PRIME_BACK.webp">
 </head>
 
 <body class="page">
@@ -81,14 +84,22 @@ Tokyo — Japan
 
     </div>
 
-   <!-- MODULE VIEW -->
+  <!-- MODULE VIEW -->
 <div class="module-view">
-   <video
-     id="moduleVideo"
-     muted
-     playsinline
-     preload="auto"
-   ></video>
+
+  <video
+    id="moduleVideo"
+    muted
+    playsinline
+    preload="auto"
+  ></video>
+
+  <img
+    id="moduleImage"
+    class="module-image"
+    alt=""
+  />
+
 </div>
 
   </div>
@@ -145,14 +156,20 @@ const brandTitle = document.querySelector('.brand-title');
 
 const moduleView = document.querySelector('.module-view');
 const moduleVideo = document.getElementById('moduleVideo');
+const moduleImage = document.getElementById('moduleImage');
+
 const techSpec = document.querySelector('.tech-spec');
 const originalTechSpec = techSpec.innerHTML;
+
 /* ================================================
    ESTADO GLOBAL
 ================================================ */
 
 let portalActivated = false;
 let selectedModule = null;
+
+let imageSwapTimer1 = null;
+let imageSwapTimer2 = null;
 
 /* estado inicial del reactor */
 moduleName.textContent = "GLIGHT";
@@ -186,6 +203,87 @@ flash.style.animation = "reactorFlash 0.7s cubic-bezier(.22,.61,.36,1) forwards"
 
 }
 
+/* ======================================
+   MODULE IMAGE AUTO VIEW
+   FRONT / BACK / FRONT
+====================================== */
+
+function clearImageSwapTimers(){
+  clearTimeout(imageSwapTimer1);
+  clearTimeout(imageSwapTimer2);
+
+  imageSwapTimer1 = null;
+  imageSwapTimer2 = null;
+}
+
+function showImagePair(frontSrc, backSrc){
+  clearImageSwapTimers();
+
+  moduleVideo.pause();
+  moduleVideo.style.opacity = "0";
+  moduleVideo.style.transform = "scale(.9)";
+  moduleVideo.removeAttribute("src");
+  /* moduleVideo.load(); */
+
+  moduleImage.classList.remove("show");
+  moduleImage.src = frontSrc;
+
+  requestAnimationFrame(() => {
+    moduleImage.classList.add("show");
+  });
+
+  imageSwapTimer1 = setTimeout(() => {
+    moduleImage.classList.remove("show");
+
+    setTimeout(() => {
+      moduleImage.src = backSrc;
+      moduleImage.classList.add("show");
+    }, 320);
+
+  }, 2200);
+
+  imageSwapTimer2 = setTimeout(() => {
+    moduleImage.classList.remove("show");
+
+    setTimeout(() => {
+      moduleImage.src = frontSrc;
+      moduleImage.classList.add("show");
+    }, 320);
+
+  }, 4700);
+}
+
+function closeModuleImage(){
+  clearImageSwapTimers();
+
+  moduleImage.classList.add("closing");
+  moduleImage.classList.remove("show");
+
+  setTimeout(() => {
+    moduleImage.removeAttribute("src");
+    moduleImage.classList.remove("closing");
+  }, 120);
+}
+
+/* ======================================
+   MODULE VIDEO CLOSE
+   CIERRE RÁPIDO ANTES DEL PORTAL
+====================================== */
+
+function closeModuleVideo(){
+  moduleVideo.classList.add("closing");
+
+  moduleVideo.style.opacity = "0";
+  moduleVideo.style.transform = "scale(.82)";
+
+  setTimeout(() => {
+    moduleVideo.pause();
+    moduleVideo.removeAttribute("src");
+    moduleVideo.classList.remove("closing");
+    moduleVideo.style.filter = "";
+  }, 140);
+}
+
 /* ================================================
    IDLE SYSTEM (RETORNO AUTOMÁTICO)
 ================================================ */
@@ -204,10 +302,8 @@ function returnToIdle(){
 
   nodes.forEach(node => node.classList.remove('active'));
 
-  moduleVideo.pause();
-  moduleVideo.style.opacity = 0;
-  moduleVideo.removeAttribute("src");
-  moduleVideo.load();
+  closeModuleVideo();
+  closeModuleImage();
 
   moduleName.textContent = "GLIGHT";
 
@@ -295,20 +391,23 @@ reactor.addEventListener('click', (e) => {
 
   resetIdleTimer();
 
-  if (reactor.classList.contains('portal-open')) {
+if (reactor.classList.contains('portal-open')) {
 
-    moduleVideo.pause();
-    moduleVideo.style.opacity = "0";
-    moduleVideo.style.transform = "scale(.94)";
-    moduleVideo.removeAttribute("src");
-    moduleVideo.load();
+  closeModuleImage();
 
-    setTimeout(() => {
-        reactor.classList.remove('portal-open');
-        portal.classList.remove('open');
-        page.classList.remove('module-active');
-        techSpec.style.opacity = "";
-    }, 300);
+  moduleVideo.pause();
+  moduleVideo.style.opacity = "0";
+  moduleVideo.style.transform = "scale(.94)";
+  moduleVideo.removeAttribute("src");
+  /* moduleVideo.load(); */
+
+  setTimeout(() => {
+    reactor.classList.remove('portal-open');
+    portal.classList.remove('open');
+    page.classList.remove('module-active');
+    techSpec.style.opacity = "";
+  }, 420);
+
 
  } else {
 
@@ -330,39 +429,70 @@ reactor.addEventListener('click', (e) => {
     moduleVideo.load();
 }
 
-    else if(currentModule === "GLightOne") {
-    page.classList.add('module-active');
+else if(currentModule === "GLightOne") {
+  page.classList.add('module-active');
 
-    setTimeout(() => {
-        moduleVideo.src = "/glightone.mp4";
-        moduleVideo.currentTime = 0;
-        moduleVideo.style.opacity = "1";
-        moduleVideo.style.transform = "scale(1)";
-        moduleVideo.play();
-    }, 300);
+  setTimeout(() => {
+    moduleVideo.src = "/glightone.mp4";
+    moduleVideo.currentTime = 0;
+    moduleVideo.style.opacity = "1";
+    moduleVideo.style.transform = "scale(1)";
+    moduleVideo.play();
+  }, 650);
 }
 
-    else if(currentModule === "Pulse") {
-    page.classList.add('module-active');
+else if(currentModule === "OrbitOne") {
+  page.classList.add('module-active');
 
-    setTimeout(() => {
+  setTimeout(() => {
+    showImagePair(
+      "/ORBIT_ONE_FRONT.webp",
+      "/ORBIT_ONE_BACK.webp"
+    );
+  }, 800);
+}
 
-        moduleVideo.pause();
-        moduleVideo.style.opacity = "0";
-        moduleVideo.style.transform = "scale(.9)";
-        moduleVideo.removeAttribute("src");
-        moduleVideo.load();
+else if(currentModule === "Reactor") {
+  page.classList.add('module-active');
 
-        techSpec.innerHTML = `
-            <h3>PULSE / CONTACT NODE</h3>
-            <p>Official technical access point for GLight platform.</p>
-            <p class="tech-note">glight@glightcore.com</p>
-            <p class="tech-origin">Tokyo – Japan</p>
-        `;
+  setTimeout(() => {
+    showImagePair(
+      "/REACTOR_FRONT.webp",
+      "/REACTOR_BACK.webp"
+    );
+  }, 800);
+}
 
-        techSpec.style.opacity = "1";
+else if(currentModule === "Evo prime") {
+  page.classList.add('module-active');
 
-    }, 300);
+  setTimeout(() => {
+    showImagePair(
+      "/EVO_PRIME_FRONT.webp",
+      "/EVO_PRIME_BACK.webp"
+    );
+  }, 800);
+}
+
+else if(currentModule === "Pulse") {
+  page.classList.add('module-active');
+
+  setTimeout(() => {
+    moduleVideo.pause();
+    moduleVideo.style.opacity = "0";
+    moduleVideo.style.transform = "scale(.9)";
+    moduleVideo.removeAttribute("src");
+    moduleVideo.load();
+
+    techSpec.innerHTML = `
+      <h3>PULSE / CONTACT NODE</h3>
+      <p>Official technical access point for GLight platform.</p>
+      <p class="tech-note">glight@glightcore.com</p>
+      <p class="tech-origin">Tokyo — Japan</p>
+    `;
+
+    techSpec.style.opacity = "1";
+  }, 300);
 }
 
     else {
@@ -602,14 +732,17 @@ techSpec.style.opacity = "0";
 
 /* cerrar portal si estaba abierto */
 if (reactor.classList.contains('portal-open')) {
+
+  closeModuleImage();
+  closeModuleVideo();
+
+  setTimeout(() => {
     reactor.classList.remove('portal-open');
     portal.classList.remove('open');
+    page.classList.remove('module-active');
+    techSpec.style.opacity = "";
+  }, 420);
 
-    moduleVideo.pause();
-    moduleVideo.style.opacity = "0";
-    moduleVideo.style.transform = "scale(.9)";
-    moduleVideo.removeAttribute("src");
-    moduleVideo.load();
 }
 
 nodes.forEach(n => n.classList.remove('active'));
@@ -621,7 +754,7 @@ page.classList.add('module-active');
 
 flash.style.animation = 'none';
 flash.offsetHeight;
-flash.style.animation = '';
+flash.style.animation = '';;
 
 });
 

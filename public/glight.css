@@ -541,38 +541,110 @@ z-index:29;
 ================================ */
 
 #moduleVideo{
-width: min(690px, 72vmin);
-max-width:80vw;
-height:auto;
+  width:min(690px,72vmin);
+  max-width:80vw;
+  height:auto;
 
-display:block;
-object-fit:contain;
+  display:block;
+  object-fit:contain;
 
-border-radius:230px;
-overflow:hidden;
+  border-radius:230px;
+  overflow:hidden;
 
-opacity:0;
-transform:scale(.85);
+  opacity:0;
+  transform:scale(.85);
 
-transition:
-opacity .5s ease .37s,
-transform .7s cubic-bezier(0.2, 0.8, 0.2, 1) .35s;
+  transition:
+    opacity .5s ease .37s,
+    transform .7s cubic-bezier(0.2, 0.8, 0.2, 1) .35s;
 
-pointer-events:none;
+  pointer-events:none;
 
--webkit-mask-image: radial-gradient(
-  ellipse 39% 120% at 50% 39%,
-  rgba(0,0,0,1) 0%,
-  rgba(0,0,0,1) 62%,
-  rgba(0,0,0,0) 100%
-);
+  -webkit-mask-image:radial-gradient(
+    ellipse 39% 120% at 50% 39%,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 62%,
+    rgba(0,0,0,0) 100%
+  );
 
-mask-image: radial-gradient(
-  ellipse 39% 120% at 50% 39%,
-  rgba(0,0,0,1) 0%,
-  rgba(0,0,0,1) 62%,
-  rgba(0,0,0,0) 100%
-);
+  mask-image:radial-gradient(
+    ellipse 39% 120% at 50% 39%,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 62%,
+    rgba(0,0,0,0) 100%
+  );
+}
+
+/* cierre rápido antes del portal */
+#moduleVideo.closing{
+  opacity:0 !important;
+  transform:scale(.82) !important;
+  filter:blur(3px) brightness(.55) !important;
+
+  transition:
+    opacity .12s ease-out,
+    transform .16s cubic-bezier(.4,0,.2,1),
+    filter .12s ease-out;
+}
+
+/* ================================
+   IMAGEN DEL MODULO
+   FRONT / BACK AUTO VIEW
+================================ */
+
+.module-image{
+  width:min(520px,58vmin);
+  max-width:68vw;
+  height:auto;
+
+  display:block;
+  object-fit:contain;
+
+  position:absolute;
+  top:50%;
+  left:50%;
+
+  opacity:0;
+  transform:translate(-50%, -50%) scale(.9);
+
+  transition:
+    opacity .45s ease,
+    transform .65s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  pointer-events:none;
+
+  z-index:30;
+
+  -webkit-mask-image: radial-gradient(
+    ellipse 58% 72% at 50% 50%,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 68%,
+    rgba(0,0,0,0) 100%
+  );
+
+  mask-image: radial-gradient(
+    ellipse 58% 72% at 50% 50%,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 68%,
+    rgba(0,0,0,0) 100%
+  );
+}
+
+.module-image.show{
+  opacity:1;
+  transform:translate(-50%, -50%) scale(1);
+}
+
+.module-image.closing{
+  opacity:0 !important;
+  transform:translate(-50%, -50%) scale(.74) !important;
+
+  filter:blur(3px) brightness(.55) !important;
+
+  transition:
+    opacity .10s ease-out,
+    transform .14s cubic-bezier(.4,0,.2,1),
+    filter .10s ease-out;
 }
 
 /* ===============================
