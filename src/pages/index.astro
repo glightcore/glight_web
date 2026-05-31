@@ -64,7 +64,7 @@ const modulesRight = [
          <h3>GLIGHT / GLIGHTCOREAURA TECHNOLOGY PLATFORM</h3>
 
 <p>
-Integrated hardware, firmware and intelligent systems ecosystem
+Integrated hardware, firmware and intelligent systems platform
 for power electronics, advanced illumination architectures,
 automotive calibration platforms and electronic control technologies.
 </p>
@@ -89,7 +89,6 @@ Tokyo — Japan
 
   <video
     id="moduleVideo"
-    muted
     playsinline
     preload="auto"
   ></video>
@@ -335,14 +334,16 @@ if (reactor) {
 
   reactor.addEventListener('mouseenter', () => {
 
-    resetIdleTimer();
+  resetIdleTimer();
 
-    if (portalActivated) return;
-    
-    reactor.classList.add('hover-active');
-    core.classList.add('core-active');
+  if (portalActivated) return;
 
-  });
+  soundReactorHover();
+
+  reactor.classList.add('hover-active');
+  core.classList.add('core-active');
+
+});
 
 
   reactor.addEventListener('mouseleave', () => {
@@ -435,9 +436,16 @@ else if(currentModule === "GLightOne") {
   setTimeout(() => {
     moduleVideo.src = "/glightone.mp4";
     moduleVideo.currentTime = 0;
+
+    moduleVideo.muted = false;
+    moduleVideo.volume = 0.20;
+
     moduleVideo.style.opacity = "1";
     moduleVideo.style.transform = "scale(1)";
-    moduleVideo.play();
+
+    moduleVideo.play().catch(() => {
+      console.log("Video audio blocked by browser.");
+    });
   }, 650);
 }
 
@@ -577,6 +585,63 @@ function playTone({
 
 }
 
+/* =================================================
+   SONIDO REACTOR HOVER
+   CAMPO BAJO SUAVE / ENERGÍA CONTENIDA
+================================================= */
+
+function soundReactorHover(){
+
+  ensureAudio();
+
+  const now = audioCtx.currentTime;
+
+  const low = audioCtx.createOscillator();
+  const body = audioCtx.createOscillator();
+
+  const lowGain = audioCtx.createGain();
+  const bodyGain = audioCtx.createGain();
+  const masterGain = audioCtx.createGain();
+
+  low.type = 'sine';
+  body.type = 'triangle';
+
+  // Campo bajo estable, no golpe
+  low.frequency.setValueAtTime(72, now);
+  low.frequency.linearRampToValueAtTime(82, now + 0.45);
+
+  // Cuerpo suave, todavía grave
+  body.frequency.setValueAtTime(118, now);
+  body.frequency.linearRampToValueAtTime(104, now + 0.50);
+
+  // Entrada suave + cola larga
+  lowGain.gain.setValueAtTime(0.0001, now);
+  lowGain.gain.linearRampToValueAtTime(0.038, now + 0.16);
+  lowGain.gain.linearRampToValueAtTime(0.024, now + 0.55);
+  lowGain.gain.linearRampToValueAtTime(0.0001, now + 1.55);
+
+  bodyGain.gain.setValueAtTime(0.0001, now);
+  bodyGain.gain.linearRampToValueAtTime(0.014, now + 0.18);
+  bodyGain.gain.linearRampToValueAtTime(0.008, now + 0.52);
+  bodyGain.gain.linearRampToValueAtTime(0.0001, now + 1.20);
+
+  // Master más presente
+  masterGain.gain.setValueAtTime(1.30, now);
+
+  low.connect(lowGain);
+  body.connect(bodyGain);
+
+  lowGain.connect(masterGain);
+  bodyGain.connect(masterGain);
+
+  masterGain.connect(audioCtx.destination);
+
+  low.start(now);
+  body.start(now);
+
+  low.stop(now + 1.40);
+  body.stop(now + 1.25);
+}
 
 /* =================================================
    SONIDOS DE INTERACCIÓN
@@ -588,12 +653,17 @@ function soundHover() {
     freqStart: 2400,
     freqEnd: 1800,
     duration: 0.02,
-    gain: 0.035,
+    gain: 0.018,
     type: 'triangle'
   });
 
 }
 
+
+/* =================================================
+   SONIDO NODE CLICK
+   CHISPA / DESTELLO SHIIUII CON COLA
+================================================= */
 
 function soundClick() {
 
@@ -601,35 +671,68 @@ function soundClick() {
 
   const now = audioCtx.currentTime;
 
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
+  /* ruido blanco */
+  const bufferSize = audioCtx.sampleRate * 0.85;
+  const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const data = noiseBuffer.getChannelData(0);
 
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = (Math.random() * 2 - 1);
+  }
+
+  const noise = audioCtx.createBufferSource();
+  noise.buffer = noiseBuffer;
+
+  const filter = audioCtx.createBiquadFilter();
+  const gain = audioCtx.createGain();
+  const master = audioCtx.createGain();
+
+  /* cola / energía residual */
   const delay = audioCtx.createDelay();
   const feedback = audioCtx.createGain();
+  const delayFilter = audioCtx.createBiquadFilter();
 
-  osc.type = 'triangle';
+  /* filtro de chispa: baja mientras se disuelve */
+  filter.type = "bandpass";
+  filter.frequency.setValueAtTime(2400, now);
+  filter.frequency.exponentialRampToValueAtTime(900, now + 0.62);
 
-  osc.frequency.setValueAtTime(200, now);
-  osc.frequency.exponentialRampToValueAtTime(120, now + 0.35);
+  filter.Q.setValueAtTime(2.4, now);
+  filter.Q.exponentialRampToValueAtTime(0.65, now + 0.62);
 
+  /* ataque rápido + cola más larga */
   gain.gain.setValueAtTime(0.0001, now);
-  gain.gain.exponentialRampToValueAtTime(0.10, now + 0.05);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+  gain.gain.exponentialRampToValueAtTime(0.055, now + 0.014);
+  gain.gain.exponentialRampToValueAtTime(0.035, now + 0.12);
+  gain.gain.exponentialRampToValueAtTime(0.012, now + 0.42);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.82);
 
-  delay.delayTime.value = 0.12;
-  feedback.gain.value = 0.35;
+  master.gain.setValueAtTime(0.72, now);
 
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
+  /* delay muy corto: no eco obvio, solo cola */
+  delay.delayTime.setValueAtTime(0.055, now);
+  feedback.gain.setValueAtTime(0.22, now);
 
+  delayFilter.type = "lowpass";
+  delayFilter.frequency.setValueAtTime(1800, now);
+
+  noise.connect(filter);
+  filter.connect(gain);
+
+  /* ruta directa */
+  gain.connect(master);
+
+  /* ruta de cola */
   gain.connect(delay);
-  delay.connect(feedback);
+  delay.connect(delayFilter);
+  delayFilter.connect(feedback);
   feedback.connect(delay);
-  delay.connect(audioCtx.destination);
+  delay.connect(master);
 
-  osc.start(now);
-  osc.stop(now + 0.5);
+  master.connect(audioCtx.destination);
 
+  noise.start(now);
+  noise.stop(now + 0.88);
 }
 
 
@@ -685,7 +788,7 @@ function enterField() {
   fieldOsc.frequency.setValueAtTime(fieldOsc.frequency.value, now);
 
   fieldOsc.frequency.exponentialRampToValueAtTime(160, now + 0.18);
-  fieldGain.gain.exponentialRampToValueAtTime(0.14, now + 0.18);
+  fieldGain.gain.exponentialRampToValueAtTime(0.040, now + 0.18);
 
 }
 
