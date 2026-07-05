@@ -416,6 +416,109 @@
           min-height: auto;
         }
       }
+
+      /* =========================================
+         GLIGHTONE DOCS — MOBILE RESPONSIVE FIX
+         evita overflow del título y centra destello
+      ========================================= */
+      @media (max-width: 430px) {
+        html,
+        body {
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+
+        .docs-page {
+          width: 100%;
+          padding-left: 14px;
+          padding-right: 14px;
+        }
+
+        .docs-shell {
+          width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+
+        .topbar {
+          gap: 14px;
+        }
+
+        .brand {
+          width: 100%;
+          font-size: 13px;
+          line-height: 1.35;
+          letter-spacing: 0.11em;
+        }
+
+        .explore {
+          width: 100%;
+          max-width: 100%;
+          text-align: center;
+        }
+
+        .panel {
+          width: 100%;
+          max-width: 100%;
+          overflow: hidden;
+          padding-left: 18px;
+          padding-right: 18px;
+        }
+
+        .system-layer {
+          font-size: 11px;
+          line-height: 1.45;
+          letter-spacing: 0.18em;
+        }
+
+        .flash-line {
+          width: 100%;
+          max-width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        h1 {
+          max-width: 100%;
+          font-size: clamp(28px, 7.5vw, 36px);
+          line-height: 1.08;
+          letter-spacing: 0.035em;
+          overflow-wrap: anywhere;
+          word-break: normal;
+        }
+
+        h2 {
+          font-size: 13px;
+          letter-spacing: 0.14em;
+          line-height: 1.45;
+        }
+
+        p {
+          font-size: 14px;
+          line-height: 1.62;
+        }
+
+        .lang {
+          justify-content: center;
+          gap: 10px;
+        }
+
+        button {
+          min-width: 96px;
+          padding: 10px 12px;
+          font-size: 12px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .card {
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+
     </style>
   </head>
 
