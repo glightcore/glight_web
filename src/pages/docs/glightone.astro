@@ -1,18 +1,224 @@
 ---
 ---
 
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GLightOne Documentation | GLightCore</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #08090d;
+        color: #f5f5f5;
+      }
+
+      main {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 48px 22px 70px;
+      }
+
+      .brand {
+        color: #8ee6ff;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        margin: 0 0 12px;
+      }
+
+      h2 {
+        margin-top: 36px;
+        border-bottom: 1px solid #303442;
+        padding-bottom: 10px;
+      }
+
+      p {
+        color: #cfd1da;
+        line-height: 1.65;
+      }
+
+      .lang {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+      }
+
+      button {
+        border: 1px solid #303442;
+        background: #12141d;
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+
+      button.active {
+        background: #8ee6ff;
+        color: #061014;
+        border-color: #8ee6ff;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .card {
+        display: block;
+        padding: 18px;
+        border: 1px solid #303442;
+        border-radius: 16px;
+        background: #141722;
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .card:hover {
+        border-color: #8ee6ff;
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .card span {
+        color: #b9bbc6;
+        font-size: 0.92rem;
+      }
+
+      .note {
+        margin-top: 28px;
+        padding: 18px;
+        border-left: 4px solid #8ee6ff;
+        background: #11131b;
+        border-radius: 12px;
+      }
+
+      footer {
+        margin-top: 42px;
+        color: #aeb0bb;
+      }
+
+      a {
+        color: #8ee6ff;
+      }
+
+      [data-lang-content] {
+        display: none;
+      }
+
+      [data-lang-content].active {
+        display: block;
+      }
+    </style>
   </head>
+
   <body>
     <main>
-      <h1>GLightOne Documentation</h1>
-      <p>Manual / Wiring / Specifications</p>
-      <p>Coming soon.</p>
-      <p>Support: Glight@glightcore.com</p>
+      <div class="brand">GLightOne / GLightCore</div>
+
+      <div class="lang">
+        <button data-lang-btn="en" class="active">English</button>
+        <button data-lang-btn="es">Español</button>
+        <button data-lang-btn="ja">日本語</button>
+      </div>
+
+      <section data-lang-content="en" class="active">
+        <h1>GLightOne Documentation</h1>
+        <p>Official technical documentation for GLightOne Base. Manuals, wiring reference and connection pad information are available below.</p>
+
+        <h2>GLightOne Base Manual</h2>
+        <div class="grid">
+          <a class="card" href="/docs/glightone/GlightOne_Base_Manual_EN_v1.0.pdf"><strong>English</strong><span>GLightOne Base Technical Manual v1.0</span></a>
+          <a class="card" href="/docs/glightone/GlightOne_Base_Manual_ES_v1.0.pdf"><strong>Español</strong><span>Manual técnico GLightOne Base v1.0</span></a>
+          <a class="card" href="/docs/glightone/GlightOne_Base_Manual_JA_v1.0.pdf"><strong>日本語</strong><span>GLightOne Base 技術マニュアル v1.0</span></a>
+        </div>
+
+        <h2>Pinout / Wiring Reference</h2>
+        <div class="grid">
+          <a class="card" href="/docs/glightone/GlightOne_Base.001.png"><strong>GLightOne Base Pinout Map</strong><span>Connection pads and wiring reference image</span></a>
+        </div>
+
+        <div class="note">
+          <p>LED outputs are low-side / GND control. They do not provide +12V. MODE requires a momentary push button to GND. DRL_SW uses an ON/OFF switch to +12V.</p>
+        </div>
+      </section>
+
+      <section data-lang-content="es">
+        <h1>Documentación GLightOne</h1>
+        <p>Documentación técnica oficial de GLightOne Base. Manuales, referencia de cableado y mapa de pads de conexión disponibles abajo.</p>
+
+        <h2>Manual GLightOne Base</h2>
+        <div class="grid">
+          <a class="card" href="/docs/glightone/GlightOne_Base_Manual_ES_v1.0.pdf"><strong>Español</strong><span>Manual técnico GLightOne Base v1.0</span></a>
+          <a class="card" href="/docs/glightone/GlightOne_Base_Manual_EN_v1.0.pdf"><strong>English</strong><span>GLightOne Base Technical Manual v1.0</span></a>
+          <a class="card" href="/docs/glightone/GlightOne_Base_Manual_JA_v1.0.pdf"><strong>日本語</strong><span>GLightOne Base 技術マニュアル v1.0</span></a>
+        </div>
+
+        <h2>Pinout / Referencia de cableado</h2>
+        <div class="grid">
+          <a class="card" href="/docs/glightone/GlightOne_Base.001.png"><strong>Mapa de pinout GLightOne Base</strong><span>Imagen de referencia de pads de conexión y cableado</span></a>
+        </div>
+
+        <div class="note">
+          <p>Las salidas LED trabajan por control negativo / GND. No entregan +12V. MODE requiere pulsador momentáneo a GND. DRL_SW utiliza interruptor ON/OFF hacia +12V.</p>
+        </div>
+      </section>
+
+      <section data-lang-content="ja">
+        <h1>GLightOne ドキュメント</h1>
+        <p>GLightOne Base の公式技術ドキュメントです。マニュアル、配線リファレンス、接続パッド情報を以下から確認できます。</p>
+
+        <h2>GLightOne Base マニュアル</h2>
+        <div class="grid">
+          <a class="card" href="/docs/glightone/GlightOne_Base_Manual_JA_v1.0.pdf"><strong>日本語</strong><span>GLightOne Base 技術マニュアル v1.0</span></a>
+          <a class="card" href="/docs/glightone/GlightOne_Base_Manual_EN_v1.0.pdf"><strong>English</strong><span>GLightOne Base Technical Manual v1.0</span></a>
+          <a class="card" href="/docs/glightone/GlightOne_Base_Manual_ES_v1.0.pdf"><strong>Español</strong><span>Manual técnico GLightOne Base v1.0</span></a>
+        </div>
+
+        <h2>ピンアウト / 配線リファレンス</h2>
+        <div class="grid">
+          <a class="card" href="/docs/glightone/GlightOne_Base.001.png"><strong>GLightOne Base ピンアウトマップ</strong><span>接続パッドおよび配線リファレンス画像</span></a>
+        </div>
+
+        <div class="note">
+          <p>LED出力はローサイド / GND制御です。+12Vを出力しません。MODEにはGNDへ接続するモーメンタリープッシュボタンを使用します。DRL_SWには+12Vへ接続するON/OFFスイッチを使用します。</p>
+        </div>
+      </section>
+
+      <footer>
+        Support: <a href="mailto:glight@glightcore.com">glight@glightcore.com</a>
+      </footer>
     </main>
+
+    <script>
+      const buttons = document.querySelectorAll("[data-lang-btn]");
+      const sections = document.querySelectorAll("[data-lang-content]");
+
+      function setLang(lang) {
+        buttons.forEach((btn) => btn.classList.toggle("active", btn.dataset.langBtn === lang));
+        sections.forEach((section) => section.classList.toggle("active", section.dataset.langContent === lang));
+        localStorage.setItem("glightone-doc-lang", lang);
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => setLang(btn.dataset.langBtn));
+      });
+
+      const saved = localStorage.getItem("glightone-doc-lang");
+      if (saved && ["en", "es", "ja"].includes(saved)) setLang(saved);
+    </script>
   </body>
 </html>
