@@ -1,0 +1,869 @@
+
+---
+import CoreLayer from "../../components/CoreLayer.astro";
+
+const modulesLeft = [
+  "GLightOne",
+  "OrbitOne",
+  "Hexagon",
+  "N-LAB",
+  "Reserved"
+  
+];
+
+const modulesRight = [
+  "Evo prime",
+  "GLight Graphics",
+  "Reactor",
+  "Sentinel",
+  "Pulse" // ← tu nuevo nodo
+];
+
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <CoreLayer lang="ja" />
+
+<!-- CSS PRINCIPAL -->
+<link rel="stylesheet" href="/glight.css" />
+
+<!-- PRELOAD DE MÓDULOS -->
+<!-- PRELOAD DE MÓDULOS -->
+<link rel="preload" as="video" href="/glightone.mp4" type="video/mp4">
+
+<link rel="preload" as="image" href="/ORBIT_ONE_FRONT.webp">
+<link rel="preload" as="image" href="/ORBIT_ONE_BACK.webp">
+
+<link rel="preload" as="image" href="/REACTOR_FRONT.webp">
+<link rel="preload" as="image" href="/REACTOR_BACK.webp">
+
+<link rel="preload" as="image" href="/EVO_PRIME_FRONT.webp">
+<link rel="preload" as="image" href="/EVO_PRIME_BACK.webp">
+</head>
+
+<body class="page">
+
+  <!-- PLANO FÍSICO -->
+<main class="stage">
+
+  <div class="reactor-wrapper">
+
+    <div class="reactor">
+
+      <div class="core"></div>
+      <div class="reactor-flash"></div>
+
+      <div id="moduleName" class="module-name"></div>
+
+      <!-- PORTAL -->
+      <div class="portal">
+
+        <div class="tech-spec">
+
+         <h3>GLIGHT / GLIGHTCOREAURA テクノロジープラットフォーム</h3>
+
+<p>
+パワーエレクトロニクス、先進的な車載照明アーキテクチャ、
+車両キャリブレーションプラットフォーム、電子制御技術を統合する
+ハードウェア・ファームウェア・インテリジェントシステム基盤。
+</p>
+
+<p class="tech-note">
+モジュール型アーキテクチャ、インテリジェント制御レイヤー、
+保護された技術フレームワーク。
+</p>
+
+<p class="tech-origin">
+東京 — 日本
+</p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  <!-- MODULE VIEW -->
+<div class="module-view">
+
+  <video
+    id="moduleVideo"
+    playsinline
+    preload="auto"
+  ></video>
+
+  <img
+    id="moduleImage"
+    class="module-image"
+    alt=""
+  />
+
+</div>
+
+  </div>
+
+</main>
+
+  <!-- PLANO HUD / INTERFAZ -->
+  <div class="hud">
+
+    <!-- TÍTULO -->
+    <div class="brand-title">
+        <img src="/GLIGHTCOREAURA_ORBITRON1.svg" alt="GLightCoreAura" class="brand-logo"/>
+    </div>
+
+    <!-- NODOS -->
+    <div class="nodes left">
+        {modulesLeft.map(name => (
+            <div class="node" data-name={name}></div>
+        ))}
+    </div>
+
+    <div class="nodes right">
+        {modulesRight.map(name => (
+            <div class="node" data-name={name}></div>
+        ))}
+    </div>
+
+    <!-- 🔥 SYSTEM SIGNATURE -->
+    <div class="system-tag">SYSTEM LAYER CORE</div>
+
+
+  </div>
+
+
+<!-- ===== SCRIPT DE ACTIVACIÓN ===== -->
+
+<script>
+
+
+
+
+/* =================================================
+   REFERENCIAS DOM
+================================================= */
+
+const nodes = document.querySelectorAll('.node');
+const moduleName = document.getElementById('moduleName');
+const page = document.querySelector('.page');
+const flash = document.querySelector('.reactor-flash');
+const reactor = document.querySelector('.reactor');
+const core = document.querySelector('.core');
+const portal = document.querySelector(".portal");
+const brandTitle = document.querySelector('.brand-title');
+
+const moduleView = document.querySelector('.module-view');
+const moduleVideo = document.getElementById('moduleVideo');
+const moduleImage = document.getElementById('moduleImage');
+
+const techSpec = document.querySelector('.tech-spec');
+const originalTechSpec = techSpec.innerHTML;
+
+/* ================================================
+   ESTADO GLOBAL
+================================================ */
+
+let portalActivated = false;
+let selectedModule = null;
+
+let imageSwapTimer1 = null;
+let imageSwapTimer2 = null;
+
+/* estado inicial del reactor */
+moduleName.textContent = "GLIGHT";
+page.classList.add('idle-mode');
+
+
+/* ================================================
+   PORTAL
+================================================ */
+
+function activatePortal() {
+
+  reactor.classList.remove('portal-open');
+
+  /* fuerza reflow para reiniciar animación */
+  void reactor.offsetWidth;
+
+  reactor.classList.add('portal-open');
+  reactorFlash();   // ⚡ DESTELLO DEL REACTOR
+
+}
+
+function reactorFlash(){
+
+const flash = document.querySelector(".reactor-flash");
+
+flash.style.animation = "none";
+flash.offsetHeight;
+
+flash.style.animation = "reactorFlash 0.7s cubic-bezier(.22,.61,.36,1) forwards";
+
+}
+
+/* ======================================
+   MODULE IMAGE AUTO VIEW
+   FRONT / BACK / FRONT
+====================================== */
+
+function clearImageSwapTimers(){
+  clearTimeout(imageSwapTimer1);
+  clearTimeout(imageSwapTimer2);
+
+  imageSwapTimer1 = null;
+  imageSwapTimer2 = null;
+}
+
+function showImagePair(frontSrc, backSrc){
+  clearImageSwapTimers();
+
+  moduleVideo.pause();
+  moduleVideo.style.opacity = "0";
+  moduleVideo.style.transform = "scale(.9)";
+  moduleVideo.removeAttribute("src");
+  /* moduleVideo.load(); */
+
+  moduleImage.classList.remove("show");
+  moduleImage.src = frontSrc;
+
+  requestAnimationFrame(() => {
+    moduleImage.classList.add("show");
+  });
+
+  imageSwapTimer1 = setTimeout(() => {
+    moduleImage.classList.remove("show");
+
+    setTimeout(() => {
+      moduleImage.src = backSrc;
+      moduleImage.classList.add("show");
+    }, 320);
+
+  }, 2200);
+
+  imageSwapTimer2 = setTimeout(() => {
+    moduleImage.classList.remove("show");
+
+    setTimeout(() => {
+      moduleImage.src = frontSrc;
+      moduleImage.classList.add("show");
+    }, 320);
+
+  }, 4700);
+}
+
+function closeModuleImage(){
+  clearImageSwapTimers();
+
+  moduleImage.classList.add("closing");
+  moduleImage.classList.remove("show");
+
+  setTimeout(() => {
+    moduleImage.removeAttribute("src");
+    moduleImage.classList.remove("closing");
+  }, 120);
+}
+
+/* ======================================
+   MODULE VIDEO CLOSE
+   CIERRE RÁPIDO ANTES DEL PORTAL
+====================================== */
+
+function closeModuleVideo(){
+  moduleVideo.classList.add("closing");
+
+  moduleVideo.style.opacity = "0";
+  moduleVideo.style.transform = "scale(.82)";
+
+  setTimeout(() => {
+    moduleVideo.pause();
+    moduleVideo.removeAttribute("src");
+    moduleVideo.classList.remove("closing");
+    moduleVideo.style.filter = "";
+  }, 140);
+}
+
+/* ================================================
+   IDLE SYSTEM (RETORNO AUTOMÁTICO)
+================================================ */
+
+let idleTimer = null;
+const IDLE_TIME = 15000;   // 15 segundos
+
+
+function returnToIdle(){
+
+  portalActivated = false;
+  selectedModule = null;
+
+  portal.classList.remove('open');
+  reactor.classList.remove('portal-open');
+
+  nodes.forEach(node => node.classList.remove('active'));
+
+  closeModuleVideo();
+  closeModuleImage();
+
+  moduleName.textContent = "GLIGHT";
+
+  techSpec.innerHTML = originalTechSpec;
+  techSpec.style.opacity = "";
+
+  page.classList.remove('module-active');
+}
+
+function resetIdleTimer(){
+
+  clearTimeout(idleTimer);
+
+  idleTimer = setTimeout(() => {
+    returnToIdle();
+  }, IDLE_TIME);
+
+}
+
+
+
+/* =================================================
+   INTERACCIÓN CORE REACTOR
+================================================= */
+
+if (reactor) {
+
+  /* HOVER */
+
+  reactor.addEventListener('mouseenter', () => {
+
+  resetIdleTimer();
+
+  if (portalActivated) return;
+
+  soundReactorHover();
+
+  reactor.classList.add('hover-active');
+  core.classList.add('core-active');
+
+});
+
+
+  reactor.addEventListener('mouseleave', () => {
+
+    resetIdleTimer();
+
+    if (portalActivated) return;
+
+    reactor.classList.remove('hover-active');
+    reactor.classList.remove('click-active');
+    core.classList.remove('core-active');
+
+  });
+
+
+  /* PRESIÓN VISUAL */
+
+  reactor.addEventListener('pointerdown', () => {
+
+    resetIdleTimer();
+
+    if (portalActivated) return;
+
+    reactor.classList.add('click-active');
+    core.classList.add('core-click');
+
+  });
+
+
+  reactor.addEventListener('pointerup', () => {
+
+    resetIdleTimer();
+
+    if (portalActivated) return;
+
+    reactor.classList.remove('click-active');
+    core.classList.remove('core-click');
+    core.classList.remove('click-active');
+  });
+
+/* ACTIVAR PORTAL */
+reactor.addEventListener('click', (e) => {
+
+  // 🔥 FILTRO CLAVE
+  if (e.target.closest('.tech-note')) return;
+
+  resetIdleTimer();
+
+if (reactor.classList.contains('portal-open')) {
+
+  closeModuleImage();
+
+  moduleVideo.pause();
+  moduleVideo.style.opacity = "0";
+  moduleVideo.style.transform = "scale(.94)";
+  moduleVideo.removeAttribute("src");
+  /* moduleVideo.load(); */
+
+  setTimeout(() => {
+    reactor.classList.remove('portal-open');
+    portal.classList.remove('open');
+    page.classList.remove('module-active');
+    techSpec.style.opacity = "";
+  }, 420);
+
+
+ } else {
+
+    reactor.classList.add('portal-open');
+    portal.classList.add('open');
+
+    reactorFlash();
+
+    const currentModule = moduleName.textContent;
+
+    if(currentModule === "GLIGHT") {
+    page.classList.remove('module-active');
+    techSpec.innerHTML = originalTechSpec;
+
+    moduleVideo.pause();
+    moduleVideo.style.opacity = "0";
+    moduleVideo.style.transform = "scale(.9)";
+    moduleVideo.removeAttribute("src");
+    moduleVideo.load();
+}
+
+else if(currentModule === "GLightOne") {
+  page.classList.add('module-active');
+
+  setTimeout(() => {
+    moduleVideo.src = "/glightone.mp4";
+    moduleVideo.currentTime = 0;
+
+    moduleVideo.muted = false;
+    moduleVideo.volume = 0.20;
+
+    moduleVideo.style.opacity = "1";
+    moduleVideo.style.transform = "scale(1)";
+
+    moduleVideo.play().catch(() => {
+      console.log("Video audio blocked by browser.");
+    });
+  }, 650);
+}
+
+else if(currentModule === "OrbitOne") {
+  page.classList.add('module-active');
+
+  setTimeout(() => {
+    showImagePair(
+      "/ORBIT_ONE_FRONT.webp",
+      "/ORBIT_ONE_BACK.webp"
+    );
+  }, 800);
+}
+
+else if(currentModule === "Reactor") {
+  page.classList.add('module-active');
+
+  setTimeout(() => {
+    showImagePair(
+      "/REACTOR_FRONT.webp",
+      "/REACTOR_BACK.webp"
+    );
+  }, 800);
+}
+
+else if(currentModule === "Evo prime") {
+  page.classList.add('module-active');
+
+  setTimeout(() => {
+    showImagePair(
+      "/EVO_PRIME_FRONT.webp",
+      "/EVO_PRIME_BACK.webp"
+    );
+  }, 800);
+}
+
+else if(currentModule === "Pulse") {
+  page.classList.add('module-active');
+
+  setTimeout(() => {
+    moduleVideo.pause();
+    moduleVideo.style.opacity = "0";
+    moduleVideo.style.transform = "scale(.9)";
+    moduleVideo.removeAttribute("src");
+    moduleVideo.load();
+
+    techSpec.innerHTML = `
+      <h3>PULSE / CONTACT NODE</h3>
+      <p>GLightプラットフォームの公式技術窓口。</p>
+      <p class="tech-note">glight@glightcore.com</p>
+      <p class="tech-origin">東京 — 日本</p>
+    `;
+
+    techSpec.style.opacity = "1";
+  }, 300);
+}
+
+    else {
+    page.classList.add('module-active');
+    setTimeout(() => {
+        moduleVideo.pause();
+        moduleVideo.style.opacity = "0";
+        moduleVideo.style.transform = "scale(.9)";
+        moduleVideo.removeAttribute("src");
+        moduleVideo.load();
+    }, 100);
+}
+  }
+});
+}
+
+
+/* =================================================
+   AUDIO ENGINE
+================================================= */
+
+let audioCtx = null;
+
+function ensureAudio() {
+
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  if (audioCtx.state !== 'running') {
+    audioCtx.resume();
+  }
+
+}
+
+
+function playTone({
+
+  freqStart,
+  freqEnd = null,
+  duration = 0.1,
+  gain = 0.15,
+  type = 'sine'
+
+}) {
+
+  ensureAudio();
+
+  const osc = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+
+  osc.type = type;
+
+  osc.frequency.setValueAtTime(freqStart, audioCtx.currentTime);
+
+  if (freqEnd) {
+
+    osc.frequency.exponentialRampToValueAtTime(
+      freqEnd,
+      audioCtx.currentTime + duration
+    );
+
+  }
+
+  g.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+
+  g.gain.exponentialRampToValueAtTime(
+    gain,
+    audioCtx.currentTime + 0.01
+  );
+
+  g.gain.exponentialRampToValueAtTime(
+    0.0001,
+    audioCtx.currentTime + duration
+  );
+
+  osc.connect(g);
+  g.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + duration + 0.02);
+
+}
+
+/* =================================================
+   SONIDO REACTOR HOVER
+   CAMPO BAJO SUAVE / ENERGÍA CONTENIDA
+================================================= */
+
+function soundReactorHover(){
+
+  ensureAudio();
+
+  const now = audioCtx.currentTime;
+
+  const low = audioCtx.createOscillator();
+  const body = audioCtx.createOscillator();
+
+  const lowGain = audioCtx.createGain();
+  const bodyGain = audioCtx.createGain();
+  const masterGain = audioCtx.createGain();
+
+  low.type = 'sine';
+  body.type = 'triangle';
+
+  // Campo bajo estable, no golpe
+  low.frequency.setValueAtTime(72, now);
+  low.frequency.linearRampToValueAtTime(82, now + 0.45);
+
+  // Cuerpo suave, todavía grave
+  body.frequency.setValueAtTime(118, now);
+  body.frequency.linearRampToValueAtTime(104, now + 0.50);
+
+  // Entrada suave + cola larga
+  lowGain.gain.setValueAtTime(0.0001, now);
+  lowGain.gain.linearRampToValueAtTime(0.038, now + 0.16);
+  lowGain.gain.linearRampToValueAtTime(0.024, now + 0.55);
+  lowGain.gain.linearRampToValueAtTime(0.0001, now + 1.55);
+
+  bodyGain.gain.setValueAtTime(0.0001, now);
+  bodyGain.gain.linearRampToValueAtTime(0.014, now + 0.18);
+  bodyGain.gain.linearRampToValueAtTime(0.008, now + 0.52);
+  bodyGain.gain.linearRampToValueAtTime(0.0001, now + 1.20);
+
+  // Master más presente
+  masterGain.gain.setValueAtTime(1.30, now);
+
+  low.connect(lowGain);
+  body.connect(bodyGain);
+
+  lowGain.connect(masterGain);
+  bodyGain.connect(masterGain);
+
+  masterGain.connect(audioCtx.destination);
+
+  low.start(now);
+  body.start(now);
+
+  low.stop(now + 1.40);
+  body.stop(now + 1.25);
+}
+
+/* =================================================
+   SONIDOS DE INTERACCIÓN
+================================================= */
+
+function soundHover() {
+
+  playTone({
+    freqStart: 2400,
+    freqEnd: 1800,
+    duration: 0.02,
+    gain: 0.018,
+    type: 'triangle'
+  });
+
+}
+
+
+/* =================================================
+   SONIDO NODE CLICK
+   CHISPA / DESTELLO SHIIUII CON COLA
+================================================= */
+
+function soundClick() {
+
+  ensureAudio();
+
+  const now = audioCtx.currentTime;
+
+  /* ruido blanco */
+  const bufferSize = audioCtx.sampleRate * 0.85;
+  const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const data = noiseBuffer.getChannelData(0);
+
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = (Math.random() * 2 - 1);
+  }
+
+  const noise = audioCtx.createBufferSource();
+  noise.buffer = noiseBuffer;
+
+  const filter = audioCtx.createBiquadFilter();
+  const gain = audioCtx.createGain();
+  const master = audioCtx.createGain();
+
+  /* cola / energía residual */
+  const delay = audioCtx.createDelay();
+  const feedback = audioCtx.createGain();
+  const delayFilter = audioCtx.createBiquadFilter();
+
+  /* filtro de chispa: baja mientras se disuelve */
+  filter.type = "bandpass";
+  filter.frequency.setValueAtTime(2400, now);
+  filter.frequency.exponentialRampToValueAtTime(900, now + 0.62);
+
+  filter.Q.setValueAtTime(2.4, now);
+  filter.Q.exponentialRampToValueAtTime(0.65, now + 0.62);
+
+  /* ataque rápido + cola más larga */
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.055, now + 0.014);
+  gain.gain.exponentialRampToValueAtTime(0.035, now + 0.12);
+  gain.gain.exponentialRampToValueAtTime(0.012, now + 0.42);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.82);
+
+  master.gain.setValueAtTime(0.72, now);
+
+  /* delay muy corto: no eco obvio, solo cola */
+  delay.delayTime.setValueAtTime(0.055, now);
+  feedback.gain.setValueAtTime(0.22, now);
+
+  delayFilter.type = "lowpass";
+  delayFilter.frequency.setValueAtTime(1800, now);
+
+  noise.connect(filter);
+  filter.connect(gain);
+
+  /* ruta directa */
+  gain.connect(master);
+
+  /* ruta de cola */
+  gain.connect(delay);
+  delay.connect(delayFilter);
+  delayFilter.connect(feedback);
+  feedback.connect(delay);
+  delay.connect(master);
+
+  master.connect(audioCtx.destination);
+
+  noise.start(now);
+  noise.stop(now + 0.88);
+}
+
+
+/* =================================================
+   CAMPO SONORO GLight
+================================================= */
+
+let fieldOsc = null;
+let fieldGain = null;
+let fieldInitialized = false;
+
+
+window.addEventListener('pointerdown', () => {
+
+  ensureAudio();
+  initField();
+
+}, { once: true });
+
+
+function initField() {
+
+  if (fieldInitialized) return;
+
+  fieldOsc = audioCtx.createOscillator();
+  fieldGain = audioCtx.createGain();
+
+  fieldOsc.type = 'sine';
+
+  fieldOsc.frequency.setValueAtTime(80, audioCtx.currentTime);
+  fieldGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+
+  fieldOsc.connect(fieldGain);
+  fieldGain.connect(audioCtx.destination);
+
+  fieldOsc.start();
+
+  fieldInitialized = true;
+
+}
+
+
+function enterField() {
+
+  if (!fieldInitialized) return;
+
+  const now = audioCtx.currentTime;
+
+  fieldGain.gain.cancelScheduledValues(now);
+  fieldOsc.frequency.cancelScheduledValues(now);
+
+  fieldGain.gain.setValueAtTime(fieldGain.gain.value, now);
+  fieldOsc.frequency.setValueAtTime(fieldOsc.frequency.value, now);
+
+  fieldOsc.frequency.exponentialRampToValueAtTime(160, now + 0.18);
+  fieldGain.gain.exponentialRampToValueAtTime(0.040, now + 0.18);
+
+}
+
+
+function leaveField() {
+
+  if (!fieldInitialized) return;
+
+  const now = audioCtx.currentTime;
+
+  fieldGain.gain.cancelScheduledValues(now);
+  fieldOsc.frequency.cancelScheduledValues(now);
+
+  fieldGain.gain.setValueAtTime(fieldGain.gain.value, now);
+  fieldOsc.frequency.setValueAtTime(fieldOsc.frequency.value, now);
+
+  fieldOsc.frequency.exponentialRampToValueAtTime(70, now + 0.75);
+  fieldGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.9);
+
+}
+
+
+brandTitle.addEventListener('mouseenter', enterField);
+brandTitle.addEventListener('mouseleave', leaveField);
+
+
+/* =================================================
+   INTERACCIÓN NODOS
+================================================= */
+
+nodes.forEach(node => {
+
+  node.addEventListener('mouseenter', () => {
+
+    soundHover();
+
+  });
+
+ node.addEventListener('click', () => {
+
+soundClick();
+
+techSpec.style.opacity = "0";
+
+/* cerrar portal si estaba abierto */
+if (reactor.classList.contains('portal-open')) {
+
+  closeModuleImage();
+  closeModuleVideo();
+
+  setTimeout(() => {
+    reactor.classList.remove('portal-open');
+    portal.classList.remove('open');
+    page.classList.remove('module-active');
+    techSpec.style.opacity = "";
+  }, 420);
+
+}
+
+nodes.forEach(n => n.classList.remove('active'));
+node.classList.add('active');
+
+moduleName.textContent = node.dataset.name;
+
+page.classList.add('module-active');
+
+flash.style.animation = 'none';
+flash.offsetHeight;
+flash.style.animation = '';;
+
+});
+
+});
+
+</script></body>
+</html>

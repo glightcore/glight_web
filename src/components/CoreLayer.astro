@@ -1,39 +1,108 @@
 ---
-const siteUrl = "https://glightcore.com/";
+interface Props {
+  lang?: "en" | "ja";
+}
 
-const pageTitle =
-  "GLightCoreAura | Automotive Electronics, Lighting Architectures & Embedded Systems";
+const { lang = "en" } = Astro.props;
+const isJapanese = lang === "ja";
 
-const pageDescription =
-  "GLightCoreAura is an integrated technology platform for automotive electronics, advanced lighting architectures, embedded systems, power electronics, intelligent LED control and vehicle calibration technologies.";
+const siteRoot = "https://glightcore.com/";
+const englishUrl = siteRoot;
+const japaneseUrl = `${siteRoot}ja/`;
+const pageUrl = isJapanese ? japaneseUrl : englishUrl;
+
+const pageTitle = isJapanese
+  ? "GLight（ジーライト）| 車載電子制御・ライティング制御・組み込みシステム"
+  : "GLight | Automotive Electronics, Lighting Control & Embedded Systems";
+
+const pageDescription = isJapanese
+  ? "GLight（ジーライト）は、車載電子制御、先進的なライティングアーキテクチャ、組み込みシステム、パワーエレクトロニクス、LED制御および車両キャリブレーション技術を統合するテクノロジープラットフォームです。"
+  : "GLight is an integrated technology platform for automotive electronics, advanced lighting architectures, embedded systems, power electronics, intelligent LED control and vehicle calibration technologies.";
+
+const organizationId = `${siteRoot}#organization`;
+const websiteId = `${siteRoot}#website`;
+const webpageId = `${pageUrl}#webpage`;
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "GLight",
-  "alternateName": [
-    "GLightCore",
-    "GLightCoreAura"
-  ],
-  "url": siteUrl,
-  "description": pageDescription,
-  "email": "glight@glightcore.com",
-  "areaServed": "Worldwide",
-  "knowsAbout": [
-    "Automotive electronics",
-    "Automotive lighting controllers",
-    "Sequential lighting control",
-    "Daytime running light control",
-    "Position light dimming",
-    "Stop and reverse lighting control",
-    "Constant-current LED drivers",
-    "Embedded systems",
-    "Embedded firmware",
-    "Power electronics",
-    "Vehicle communication interfaces",
-    "Vehicle diagnostics",
-    "ECU calibration",
-    "Automotive calibration platforms"
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": organizationId,
+      "name": "GLight",
+      "alternateName": [
+        "GLightCore",
+        "GLightCoreAura",
+        "GLight（ジーライト）",
+        "ジーライト",
+        "ジーライトコア",
+        "ジーライトコアオーラ"
+      ],
+      "url": siteRoot,
+      "description": pageDescription,
+      "email": "glight@glightcore.com",
+      "areaServed": ["Japan", "Worldwide"],
+      "knowsAbout": [
+        "Automotive electronics",
+        "Automotive lighting controllers",
+        "Sequential lighting control",
+        "Daytime running light control",
+        "Position light dimming",
+        "Stop and reverse lighting control",
+        "Constant-current LED drivers",
+        "Embedded systems",
+        "Embedded firmware",
+        "Power electronics",
+        "Vehicle communication interfaces",
+        "Vehicle diagnostics",
+        "ECU calibration",
+        "Automotive calibration platforms",
+        "車載電子制御",
+        "自動車用ライティングコントローラー",
+        "シーケンシャルライティング制御",
+        "デイタイムランニングライト制御",
+        "ポジションランプ減光制御",
+        "ストップランプ・バックランプ制御",
+        "定電流LEDドライバー",
+        "車載組み込みシステム",
+        "組み込みファームウェア",
+        "パワーエレクトロニクス",
+        "車載通信インターフェース",
+        "車両診断",
+        "ECUキャリブレーション",
+        "車両キャリブレーションプラットフォーム"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      "url": siteRoot,
+      "name": "GLight",
+      "alternateName": [
+        "GLightCore",
+        "GLightCoreAura",
+        "GLight（ジーライト）",
+        "ジーライト"
+      ],
+      "publisher": {
+        "@id": organizationId
+      },
+      "inLanguage": ["en", "ja"]
+    },
+    {
+      "@type": "WebPage",
+      "@id": webpageId,
+      "url": pageUrl,
+      "name": pageTitle,
+      "description": pageDescription,
+      "isPartOf": {
+        "@id": websiteId
+      },
+      "about": {
+        "@id": organizationId
+      },
+      "inLanguage": lang
+    }
   ]
 };
 ---
@@ -41,19 +110,29 @@ const structuredData = {
 <title>{pageTitle}</title>
 
 <meta name="description" content={pageDescription} />
+<meta name="application-name" content="GLight" />
+<meta name="author" content="GLight" />
 
 <meta
   name="robots"
   content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
 />
 
-<link rel="canonical" href={siteUrl} />
+<link rel="canonical" href={pageUrl} />
+<link rel="alternate" hreflang="en" href={englishUrl} />
+<link rel="alternate" hreflang="ja" href={japaneseUrl} />
+<link rel="alternate" hreflang="x-default" href={englishUrl} />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="GLight" />
 <meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={pageDescription} />
-<meta property="og:url" content={siteUrl} />
+<meta property="og:url" content={pageUrl} />
+<meta property="og:locale" content={isJapanese ? "ja_JP" : "en_US"} />
+<meta
+  property="og:locale:alternate"
+  content={isJapanese ? "en_US" : "ja_JP"}
+/>
 
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content={pageTitle} />
