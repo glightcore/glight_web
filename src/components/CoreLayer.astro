@@ -1,0 +1,66 @@
+---
+const siteUrl = "https://glightcore.com/";
+
+const pageTitle =
+  "GLightCoreAura | Automotive Electronics, Lighting Architectures & Embedded Systems";
+
+const pageDescription =
+  "GLightCoreAura is an integrated technology platform for automotive electronics, advanced lighting architectures, embedded systems, power electronics, intelligent LED control and vehicle calibration technologies.";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "GLight",
+  "alternateName": [
+    "GLightCore",
+    "GLightCoreAura"
+  ],
+  "url": siteUrl,
+  "description": pageDescription,
+  "email": "glight@glightcore.com",
+  "areaServed": "Worldwide",
+  "knowsAbout": [
+    "Automotive electronics",
+    "Automotive lighting controllers",
+    "Sequential lighting control",
+    "Daytime running light control",
+    "Position light dimming",
+    "Stop and reverse lighting control",
+    "Constant-current LED drivers",
+    "Embedded systems",
+    "Embedded firmware",
+    "Power electronics",
+    "Vehicle communication interfaces",
+    "Vehicle diagnostics",
+    "ECU calibration",
+    "Automotive calibration platforms"
+  ]
+};
+---
+
+<title>{pageTitle}</title>
+
+<meta name="description" content={pageDescription} />
+
+<meta
+  name="robots"
+  content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+/>
+
+<link rel="canonical" href={siteUrl} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="GLight" />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:url" content={siteUrl} />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDescription} />
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(structuredData)}
+  is:inline
+></script>
