@@ -187,7 +187,7 @@ const translations = {
     />
     <title>GLightOne Documentation | GLightCore</title>
 
-    <style>
+    <style is:inline>
       @font-face {
         font-family: 'Orbitron';
         src: url('/fonts/Orbitron.ttf') format('truetype');
@@ -833,7 +833,7 @@ const translations = {
       set:html={JSON.stringify(translations)}
     ></script>
 
-    <script>
+    <script is:inline>
       const translationNode = document.getElementById("glightone-translations");
       const translations = JSON.parse(translationNode?.textContent || "{}");
       const buttons = Array.from(document.querySelectorAll("[data-lang-btn]"));
