@@ -1,192 +1,15 @@
 ---
-const manuals = [
-  {
-    "code": "en",
-    "htmlLang": "en",
-    "name": "English",
-    "title": "GLightOne Base Technical Manual v1.2",
-    "href": "/docs/glightone/manual-en.pdf"
-  },
-  {
-    "code": "es",
-    "htmlLang": "es",
-    "name": "Español",
-    "title": "Manual técnico GLightOne Base v1.2",
-    "href": "/docs/glightone/manual-es.pdf"
-  },
-  {
-    "code": "ja",
-    "htmlLang": "ja",
-    "name": "日本語",
-    "title": "GLightOne Base 技術マニュアル v1.2",
-    "href": "/docs/glightone/manual-ja.pdf"
-  },
-  {
-    "code": "ko",
-    "htmlLang": "ko",
-    "name": "한국어",
-    "title": "GLightOne Base 기술 매뉴얼 v1.2",
-    "href": "/docs/glightone/manual-ko.pdf"
-  },
-  {
-    "code": "de",
-    "htmlLang": "de",
-    "name": "Deutsch",
-    "title": "Technisches Handbuch GLightOne Base v1.2",
-    "href": "/docs/glightone/manual-de.pdf"
-  },
-  {
-    "code": "fr",
-    "htmlLang": "fr",
-    "name": "Français",
-    "title": "Manuel technique GLightOne Base v1.2",
-    "href": "/docs/glightone/manual-fr.pdf"
-  },
-  {
-    "code": "pt-br",
-    "htmlLang": "pt-BR",
-    "name": "Português",
-    "title": "Manual técnico GLightOne Base v1.2",
-    "href": "/docs/glightone/manual-pt-br.pdf"
-  },
-  {
-    "code": "it",
-    "htmlLang": "it",
-    "name": "Italiano",
-    "title": "Manuale tecnico GLightOne Base v1.2",
-    "href": "/docs/glightone/manual-it.pdf"
-  },
-  {
-    "code": "zh-cn",
-    "htmlLang": "zh-CN",
-    "name": "简体中文",
-    "title": "GLightOne Base 技术手册 v1.2",
-    "href": "/docs/glightone/manual-zh-cn.pdf"
-  }
-];
-
-const translations = {
-  "en": {
-    "htmlLang": "en",
-    "title": "GLightOne Documentation",
-    "intro": "Official technical access node for GLightOne Base. Manuals, wiring reference and connection pad information are available below.",
-    "manualHeading": "GLightOne Base Manual",
-    "pinoutHeading": "Pinout / Wiring Reference",
-    "pinoutTitle": "GLightOne Base Pinout Map",
-    "pinoutDescription": "Connection pads and wiring reference image",
-    "note": "LED outputs are low-side / GND control. They do not provide +12V. MODE requires a momentary push button to GND. DRL_SW uses an ON/OFF switch to +12V.",
-    "explore": "Explore GLightCore.com",
-    "supportLabel": "Support"
-  },
-  "es": {
-    "htmlLang": "es",
-    "title": "Documentación GLightOne",
-    "intro": "Nodo oficial de acceso técnico para GLightOne Base. A continuación están disponibles los manuales, la referencia de cableado y el mapa de pads de conexión.",
-    "manualHeading": "Manual GLightOne Base",
-    "pinoutHeading": "Pinout / Referencia de cableado",
-    "pinoutTitle": "Mapa de pinout GLightOne Base",
-    "pinoutDescription": "Imagen de referencia de pads de conexión y cableado",
-    "note": "Las salidas LED trabajan por control negativo / GND. No entregan +12V. MODE requiere un pulsador momentáneo a GND. DRL_SW utiliza un interruptor ON/OFF hacia +12V.",
-    "explore": "Explorar GLightCore.com",
-    "supportLabel": "Soporte"
-  },
-  "ja": {
-    "htmlLang": "ja",
-    "title": "GLightOne ドキュメント",
-    "intro": "GLightOne Base の公式技術ドキュメントページです。マニュアル、配線リファレンス、接続パッド情報を以下から確認できます。",
-    "manualHeading": "GLightOne Base マニュアル",
-    "pinoutHeading": "ピンアウト / 配線リファレンス",
-    "pinoutTitle": "GLightOne Base ピンアウトマップ",
-    "pinoutDescription": "接続パッドおよび配線の参照画像",
-    "note": "LED出力はローサイド / GND制御です。+12Vを出力しません。MODEにはGNDへ接続するモーメンタリープッシュボタンを使用します。DRL_SWには+12Vへ接続するON/OFFスイッチを使用します。",
-    "explore": "GLightCore.comを見る",
-    "supportLabel": "サポート"
-  },
-  "ko": {
-    "htmlLang": "ko",
-    "title": "GLightOne 문서",
-    "intro": "GLightOne Base의 공식 기술 문서 페이지입니다. 아래에서 매뉴얼, 배선 참조 및 연결 패드 정보를 확인할 수 있습니다.",
-    "manualHeading": "GLightOne Base 매뉴얼",
-    "pinoutHeading": "핀아웃 / 배선 참조",
-    "pinoutTitle": "GLightOne Base 핀아웃 맵",
-    "pinoutDescription": "연결 패드 및 배선 참조 이미지",
-    "note": "LED 출력은 로우사이드 / GND 제어 방식이며 +12V를 출력하지 않습니다. MODE에는 GND에 연결하는 순간식 푸시 버튼을 사용합니다. DRL_SW에는 +12V에 연결하는 ON/OFF 스위치를 사용합니다.",
-    "explore": "GLightCore.com 보기",
-    "supportLabel": "지원"
-  },
-  "de": {
-    "htmlLang": "de",
-    "title": "GLightOne-Dokumentation",
-    "intro": "Offizieller technischer Zugangspunkt für GLightOne Base. Handbücher, Verdrahtungsreferenz und Informationen zu den Anschlussflächen stehen unten zur Verfügung.",
-    "manualHeading": "GLightOne Base Handbuch",
-    "pinoutHeading": "Pinbelegung / Verdrahtungsreferenz",
-    "pinoutTitle": "GLightOne Base Pinout-Übersicht",
-    "pinoutDescription": "Referenzbild für Anschlussflächen und Verdrahtung",
-    "note": "Die LED-Ausgänge arbeiten als Low-Side- / GND-Steuerung und liefern keine +12 V. MODE benötigt einen momentanen Taster gegen GND. DRL_SW verwendet einen ON/OFF-Schalter zu +12 V.",
-    "explore": "GLightCore.com erkunden",
-    "supportLabel": "Support"
-  },
-  "fr": {
-    "htmlLang": "fr",
-    "title": "Documentation GLightOne",
-    "intro": "Portail d’accès technique officiel pour GLightOne Base. Les manuels, la référence de câblage et les informations sur les pastilles de connexion sont disponibles ci-dessous.",
-    "manualHeading": "Manuel GLightOne Base",
-    "pinoutHeading": "Brochage / Référence de câblage",
-    "pinoutTitle": "Plan de brochage GLightOne Base",
-    "pinoutDescription": "Image de référence des pastilles de connexion et du câblage",
-    "note": "Les sorties LED fonctionnent en commande côté masse / GND. Elles ne fournissent pas de +12 V. MODE nécessite un bouton-poussoir momentané vers GND. DRL_SW utilise un interrupteur ON/OFF vers +12 V.",
-    "explore": "Explorer GLightCore.com",
-    "supportLabel": "Assistance"
-  },
-  "pt-br": {
-    "htmlLang": "pt-BR",
-    "title": "Documentação GLightOne",
-    "intro": "Portal oficial de acesso técnico do GLightOne Base. Os manuais, a referência de fiação e as informações dos pads de conexão estão disponíveis abaixo.",
-    "manualHeading": "Manual GLightOne Base",
-    "pinoutHeading": "Pinout / Referência de fiação",
-    "pinoutTitle": "Mapa de pinout do GLightOne Base",
-    "pinoutDescription": "Imagem de referência dos pads de conexão e da fiação",
-    "note": "As saídas LED trabalham com controle low-side / GND e não fornecem +12 V. MODE requer um botão momentâneo ligado ao GND. DRL_SW utiliza um interruptor ON/OFF ligado ao +12 V.",
-    "explore": "Explorar GLightCore.com",
-    "supportLabel": "Suporte"
-  },
-  "it": {
-    "htmlLang": "it",
-    "title": "Documentazione GLightOne",
-    "intro": "Portale tecnico ufficiale per GLightOne Base. I manuali, il riferimento di cablaggio e le informazioni sulle piazzole di connessione sono disponibili qui sotto.",
-    "manualHeading": "Manuale GLightOne Base",
-    "pinoutHeading": "Pinout / Riferimento di cablaggio",
-    "pinoutTitle": "Mappa pinout GLightOne Base",
-    "pinoutDescription": "Immagine di riferimento per piazzole di connessione e cablaggio",
-    "note": "Le uscite LED funzionano con controllo low-side / GND e non forniscono +12 V. MODE richiede un pulsante momentaneo verso GND. DRL_SW utilizza un interruttore ON/OFF verso +12 V.",
-    "explore": "Esplora GLightCore.com",
-    "supportLabel": "Supporto"
-  },
-  "zh-cn": {
-    "htmlLang": "zh-CN",
-    "title": "GLightOne 文档",
-    "intro": "GLightOne Base 官方技术文档页面。下方提供手册、接线参考以及连接焊盘信息。",
-    "manualHeading": "GLightOne Base 手册",
-    "pinoutHeading": "引脚图 / 接线参考",
-    "pinoutTitle": "GLightOne Base 引脚图",
-    "pinoutDescription": "连接焊盘与接线参考图",
-    "note": "LED输出采用低边 / GND控制，不提供+12V。MODE需要连接到GND的瞬时按钮。DRL_SW使用连接到+12V的ON/OFF开关。",
-    "explore": "访问 GLightCore.com",
-    "supportLabel": "支持"
-  }
-};
+// GLightOne Docs v1.3
+// Current approved visual identity preserved.
+// Language switching is CSS-first so it remains usable in restricted local iPhone previews.
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Official GLightOne Base technical manuals, pinout and wiring documentation."
-    />
+    <meta name="description" content="Official GLightOne Base technical manuals, pinout and wiring documentation." />
     <title>GLightOne Documentation | GLightCore</title>
-
     <style is:inline>
       @font-face {
         font-family: 'Orbitron';
@@ -715,16 +538,6 @@ const translations = {
         white-space: nowrap;
       }
 
-      .card.recommended {
-        border-color: rgba(142, 230, 255, 0.72);
-        background:
-          linear-gradient(180deg, rgba(142,230,255,0.085), rgba(255,255,255,0.018)),
-          rgba(7, 11, 20, 0.88);
-        box-shadow:
-          0 0 22px rgba(142,230,255,0.10),
-          inset 0 0 0 1px rgba(142,230,255,0.05);
-      }
-
       button[data-lang-btn="ja"],
       .card[data-manual-code="ja"] {
         font-family: "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
@@ -740,189 +553,573 @@ const translations = {
         font-family: "PingFang SC", "Hiragino Sans GB", system-ui, sans-serif;
       }
 
-    </style>
-  </head>
 
+
+
+
+      /* Manual downloads are deliberately neutral.
+         Only the language selector communicates the active interface language;
+         no manual card is privileged or permanently highlighted. */
+      .card[data-manual-code] {
+        border-color: rgba(255,255,255,0.08);
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.014)),
+          rgba(7, 11, 20, 0.84);
+        box-shadow: none;
+      }
+
+      .card[data-manual-code]:focus-visible {
+        outline: 2px solid rgba(215, 250, 255, 0.95);
+        outline-offset: 3px;
+      }
+
+      /* Prevent sticky hover states in iPhone/iPad touch browsers. */
+      @media (hover: none), (pointer: coarse) {
+        .card[data-manual-code]:hover {
+          border-color: rgba(255,255,255,0.08);
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+
+      /* Official PNG resources behave like the manual cards.
+         Images are not shown inline; each card opens the official PNG as a normal document resource, like the PDF cards. */
+      .image-resource-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+      }
+
+      .image-resource-card {
+        width: 100%;
+        min-height: 118px;
+        padding: 18px;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.014)),
+          rgba(7, 11, 20, 0.84);
+        color: #fff;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: 0.18s ease;
+        font-family: 'Orbitron', system-ui, sans-serif;
+      }
+
+      .image-resource-card:hover,
+      .image-resource-card:focus-visible {
+        border-color: rgba(142, 230, 255, 0.82);
+        transform: translateY(-2px);
+        box-shadow:
+          0 14px 36px rgba(0,0,0,0.32),
+          0 0 26px rgba(142,230,255,0.10);
+      }
+
+      .image-resource-card:focus-visible {
+        outline: 2px solid rgba(215, 250, 255, 0.95);
+        outline-offset: 3px;
+      }
+
+      .image-resource-card strong {
+        display: block;
+        font-size: 14px;
+        letter-spacing: 0.11em;
+        line-height: 1.45;
+        text-transform: uppercase;
+      }
+
+      .image-resource-card .resource-description {
+        display: block;
+        color: rgba(220, 228, 238, 0.72);
+        font-size: 14px;
+        line-height: 1.5;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .image-resource-card .resource-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 4px;
+        color: rgba(142, 230, 255, 0.96);
+        font-size: 11px;
+        line-height: 1.4;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .image-resource-card .resource-action::after {
+        content: "↗";
+        font-size: 14px;
+        line-height: 1;
+      }
+
+      @media (hover: none), (pointer: coarse) {
+        .image-resource-card:hover {
+          border-color: rgba(255,255,255,0.08);
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+      @media (max-width: 430px) {
+        .image-resource-grid { grid-template-columns: 1fr; }
+        .image-resource-card { min-height: auto; padding: 18px; }
+      }
+
+      /* Legacy visual styles retained for compatibility with the modal only. */
+      .visual-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .visual-card {
+        display: grid;
+        gap: 16px;
+        width: 100%;
+        max-width: 100%;
+        padding: 14px;
+        border: 1px solid rgba(142, 230, 255, 0.22);
+        border-radius: 18px;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.038), rgba(255,255,255,0.012)),
+          rgba(5, 8, 15, 0.88);
+        color: #fff;
+        text-align: left;
+        cursor: zoom-in;
+        overflow: hidden;
+        box-shadow:
+          inset 0 0 0 1px rgba(255,255,255,0.025),
+          0 14px 34px rgba(0,0,0,0.22);
+      }
+
+      .visual-card:hover,
+      .visual-card:focus-visible {
+        border-color: rgba(142, 230, 255, 0.72);
+        box-shadow:
+          inset 0 0 0 1px rgba(142,230,255,0.05),
+          0 14px 38px rgba(0,0,0,0.30),
+          0 0 28px rgba(142,230,255,0.09);
+        outline: none;
+      }
+
+      .visual-frame {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 13px;
+        background: #020409;
+      }
+
+      .visual-frame--wide { aspect-ratio: 1450 / 1085; }
+
+      .visual-frame--portrait {
+        aspect-ratio: 1055 / 1491;
+        max-width: 620px;
+        justify-self: center;
+      }
+
+      .visual-frame img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+      }
+
+      .visual-copy {
+        display: grid;
+        gap: 7px;
+        padding: 0 4px 3px;
+      }
+
+      .visual-copy strong {
+        font-size: 14px;
+        line-height: 1.4;
+        letter-spacing: 0.10em;
+        text-transform: uppercase;
+      }
+
+      .visual-copy > span:not(.visual-open) {
+        color: rgba(220, 228, 238, 0.72);
+        font-size: 14px;
+        line-height: 1.5;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .visual-open {
+        color: rgba(142, 230, 255, 0.92);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+@media (max-width: 600px) {
+        .visual-card {
+          padding: 9px;
+          gap: 13px;
+          border-radius: 15px;
+        }
+        .visual-frame { border-radius: 10px; }
+        .visual-copy { padding: 0 5px 5px; }
+      }
+
+    
+
+      /* =========================================
+         LANGUAGE STATE — CSS-FIRST FALLBACK
+         The chosen language remains functional even when a local iPhone
+         preview limits JavaScript. JavaScript only adds auto-detection,
+         persistence and document metadata.
+      ========================================= */
+      .lang-radio {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .lang label {
+        flex: 1 1 128px;
+        max-width: 190px;
+        border: 1px solid rgba(142, 230, 255, 0.25);
+        background: rgba(255,255,255,0.035);
+        color: rgba(245, 250, 255, 0.88);
+        padding: 10px 15px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-family: 'Orbitron', system-ui, sans-serif;
+        font-size: 12px;
+        line-height: 1.2;
+        letter-spacing: 0.1em;
+        text-align: center;
+        white-space: nowrap;
+        transition: 0.18s ease;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .lang label:hover {
+        border-color: rgba(142, 230, 255, 0.85);
+        box-shadow: 0 0 20px rgba(142,230,255,0.15);
+      }
+
+      #lang-en:checked ~ .docs-page .lang label[for="lang-en"],
+#lang-es:checked ~ .docs-page .lang label[for="lang-es"],
+#lang-ja:checked ~ .docs-page .lang label[for="lang-ja"],
+#lang-ko:checked ~ .docs-page .lang label[for="lang-ko"],
+#lang-de:checked ~ .docs-page .lang label[for="lang-de"],
+#lang-fr:checked ~ .docs-page .lang label[for="lang-fr"],
+#lang-pt-br:checked ~ .docs-page .lang label[for="lang-pt-br"],
+#lang-it:checked ~ .docs-page .lang label[for="lang-it"],
+#lang-zh-cn:checked ~ .docs-page .lang label[for="lang-zh-cn"] {
+        background: rgba(142, 230, 255, 0.95);
+        color: #061014;
+        border-color: rgba(142, 230, 255, 1);
+        box-shadow:
+          0 0 18px rgba(142,230,255,0.32),
+          0 0 44px rgba(120,180,255,0.14);
+      }
+
+      #lang-en:focus-visible ~ .docs-page .lang label[for="lang-en"],
+#lang-es:focus-visible ~ .docs-page .lang label[for="lang-es"],
+#lang-ja:focus-visible ~ .docs-page .lang label[for="lang-ja"],
+#lang-ko:focus-visible ~ .docs-page .lang label[for="lang-ko"],
+#lang-de:focus-visible ~ .docs-page .lang label[for="lang-de"],
+#lang-fr:focus-visible ~ .docs-page .lang label[for="lang-fr"],
+#lang-pt-br:focus-visible ~ .docs-page .lang label[for="lang-pt-br"],
+#lang-it:focus-visible ~ .docs-page .lang label[for="lang-it"],
+#lang-zh-cn:focus-visible ~ .docs-page .lang label[for="lang-zh-cn"] {
+        outline: 2px solid rgba(215, 250, 255, 0.95);
+        outline-offset: 3px;
+      }
+
+      .lang-copy { display: none; }
+
+      #lang-en:checked ~ .docs-page .lang-copy--en,
+#lang-es:checked ~ .docs-page .lang-copy--es,
+#lang-ja:checked ~ .docs-page .lang-copy--ja,
+#lang-ko:checked ~ .docs-page .lang-copy--ko,
+#lang-de:checked ~ .docs-page .lang-copy--de,
+#lang-fr:checked ~ .docs-page .lang-copy--fr,
+#lang-pt-br:checked ~ .docs-page .lang-copy--pt-br,
+#lang-it:checked ~ .docs-page .lang-copy--it,
+#lang-zh-cn:checked ~ .docs-page .lang-copy--zh-cn { display: inline; }
+
+      .mode-card--es { display: none; }
+      .mode-card--universal { display: flex; }
+      #lang-es:checked ~ .docs-page .mode-card--es { display: flex; }
+      #lang-es:checked ~ .docs-page .mode-card--universal { display: none; }
+
+      @media (max-width: 430px) {
+        .lang label {
+          min-width: 96px;
+          padding: 10px 12px;
+          font-size: 12px;
+        }
+      }
+
+
+      /* CSS-only image viewer.
+         Works in local iPhone previews without JavaScript and keeps each PNG
+         collapsed until its resource card is selected. */
+      .css-image-viewer {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        place-items: center;
+        padding: max(18px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+        background: rgba(0, 2, 8, 0.94);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      .css-image-viewer:target { display: grid; }
+
+      .css-image-viewer__backdrop {
+        position: absolute;
+        inset: 0;
+        cursor: zoom-out;
+      }
+
+      .css-image-viewer__stage {
+        position: relative;
+        z-index: 1;
+        width: min(1180px, 100%);
+        height: min(92dvh, 920px);
+        display: grid;
+        place-items: center;
+        padding: 50px 12px 14px;
+        border: 1px solid rgba(142, 230, 255, 0.28);
+        border-radius: 18px;
+        background: rgba(2, 5, 12, 0.96);
+        box-shadow: 0 0 70px rgba(80, 160, 255, 0.18);
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .css-image-viewer__image {
+        display: block;
+        max-width: 100%;
+        max-height: calc(92dvh - 76px);
+        width: auto;
+        height: auto;
+        object-fit: contain;
+      }
+
+      .css-image-viewer__close {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        z-index: 2;
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(142, 230, 255, 0.44);
+        border-radius: 50%;
+        color: #fff;
+        background: rgba(8, 15, 28, 0.94);
+        font-family: system-ui, sans-serif;
+        font-size: 25px;
+        line-height: 1;
+        text-decoration: none;
+        box-shadow: 0 0 20px rgba(100, 190, 255, 0.18);
+      }
+
+      @supports selector(html:has(.css-image-viewer:target)) {
+        html:has(.css-image-viewer:target),
+        body:has(.css-image-viewer:target) { overflow: hidden; }
+      }
+
+</style>
+  </head>
   <body>
+    <input class="lang-radio" type="radio" name="docs-language" id="lang-en" value="en" data-html-lang="en" data-doc-title="GLightOne Documentation" checked /><input class="lang-radio" type="radio" name="docs-language" id="lang-es" value="es" data-html-lang="es" data-doc-title="Documentación GLightOne" /><input class="lang-radio" type="radio" name="docs-language" id="lang-ja" value="ja" data-html-lang="ja" data-doc-title="GLightOne ドキュメント" /><input class="lang-radio" type="radio" name="docs-language" id="lang-ko" value="ko" data-html-lang="ko" data-doc-title="GLightOne 문서" /><input class="lang-radio" type="radio" name="docs-language" id="lang-de" value="de" data-html-lang="de" data-doc-title="GLightOne-Dokumentation" /><input class="lang-radio" type="radio" name="docs-language" id="lang-fr" value="fr" data-html-lang="fr" data-doc-title="Documentation GLightOne" /><input class="lang-radio" type="radio" name="docs-language" id="lang-pt-br" value="pt-br" data-html-lang="pt-BR" data-doc-title="Documentação GLightOne" /><input class="lang-radio" type="radio" name="docs-language" id="lang-it" value="it" data-html-lang="it" data-doc-title="Documentazione GLightOne" /><input class="lang-radio" type="radio" name="docs-language" id="lang-zh-cn" value="zh-cn" data-html-lang="zh-CN" data-doc-title="GLightOne 文档" />
+
     <div class="docs-page">
       <div class="reactor-glow"></div>
 
       <main class="docs-shell">
         <div class="topbar">
           <div class="brand">GLight / GLightCoreAura</div>
-          <a
-            id="explore-link"
-            class="explore"
-            href="https://glightcore.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {translations.en.explore}
+          <a id="explore-link" class="explore" href="https://glightcore.com" target="_blank" rel="noopener noreferrer">
+            <span class="lang-copy lang-copy--en">Explore GLightCore.com</span><span class="lang-copy lang-copy--es">Explorar GLightCore.com</span><span class="lang-copy lang-copy--ja">GLightCore.comを見る</span><span class="lang-copy lang-copy--ko">GLightCore.com 보기</span><span class="lang-copy lang-copy--de">GLightCore.com erkunden</span><span class="lang-copy lang-copy--fr">Explorer GLightCore.com</span><span class="lang-copy lang-copy--pt-br">Explorar GLightCore.com</span><span class="lang-copy lang-copy--it">Esplora GLightCore.com</span><span class="lang-copy lang-copy--zh-cn">访问 GLightCore.com</span>
           </a>
         </div>
 
         <section class="panel">
-          <div class="system-layer">SYSTEM DOCUMENTATION LAYER</div>
+          <div class="system-layer"><span class="lang-copy lang-copy--en">SYSTEM DOCUMENTATION LAYER</span><span class="lang-copy lang-copy--es">CAPA DE DOCUMENTACIÓN DEL SISTEMA</span><span class="lang-copy lang-copy--ja">システムドキュメントレイヤー</span><span class="lang-copy lang-copy--ko">시스템 문서 레이어</span><span class="lang-copy lang-copy--de">SYSTEMDOKUMENTATIONSEBENE</span><span class="lang-copy lang-copy--fr">COUCHE DE DOCUMENTATION SYSTÈME</span><span class="lang-copy lang-copy--pt-br">CAMADA DE DOCUMENTAÇÃO DO SISTEMA</span><span class="lang-copy lang-copy--it">LIVELLO DI DOCUMENTAZIONE DI SISTEMA</span><span class="lang-copy lang-copy--zh-cn">系统文档层</span></div>
           <div class="flash-line"></div>
 
           <div class="lang" aria-label="Documentation language">
-            {manuals.map((language) => (
-              <button
-                type="button"
-                data-lang-btn={language.code}
-                class={language.code === "en" ? "active" : ""}
-                aria-pressed={language.code === "en" ? "true" : "false"}
-                lang={language.htmlLang}
-              >
-                {language.name}
-              </button>
-            ))}
+            <label for="lang-en" lang="en">English</label><label for="lang-es" lang="es">Español</label><label for="lang-ja" lang="ja">日本語</label><label for="lang-ko" lang="ko">한국어</label><label for="lang-de" lang="de">Deutsch</label><label for="lang-fr" lang="fr">Français</label><label for="lang-pt-br" lang="pt-BR">Português</label><label for="lang-it" lang="it">Italiano</label><label for="lang-zh-cn" lang="zh-CN">简体中文</label>
           </div>
 
-          <h1 id="doc-title">{translations.en.title}</h1>
-          <p id="doc-intro">{translations.en.intro}</p>
+          <h1 id="doc-title"><span class="lang-copy lang-copy--en">GLightOne Documentation</span><span class="lang-copy lang-copy--es">Documentación GLightOne</span><span class="lang-copy lang-copy--ja">GLightOne ドキュメント</span><span class="lang-copy lang-copy--ko">GLightOne 문서</span><span class="lang-copy lang-copy--de">GLightOne-Dokumentation</span><span class="lang-copy lang-copy--fr">Documentation GLightOne</span><span class="lang-copy lang-copy--pt-br">Documentação GLightOne</span><span class="lang-copy lang-copy--it">Documentazione GLightOne</span><span class="lang-copy lang-copy--zh-cn">GLightOne 文档</span></h1>
+          <p id="doc-intro"><span class="lang-copy lang-copy--en">Official technical access node for GLightOne Base. Manuals, wiring reference and connection pad information are available below.</span><span class="lang-copy lang-copy--es">Nodo oficial de acceso técnico para GLightOne Base. A continuación están disponibles los manuales, la referencia de cableado y el mapa de pads de conexión.</span><span class="lang-copy lang-copy--ja">GLightOne Base の公式技術ドキュメントページです。マニュアル、配線リファレンス、接続パッド情報を以下から確認できます。</span><span class="lang-copy lang-copy--ko">GLightOne Base의 공식 기술 문서 페이지입니다. 아래에서 매뉴얼, 배선 참조 및 연결 패드 정보를 확인할 수 있습니다.</span><span class="lang-copy lang-copy--de">Offizieller technischer Zugangspunkt für GLightOne Base. Handbücher, Verdrahtungsreferenz und Informationen zu den Anschlussflächen stehen unten zur Verfügung.</span><span class="lang-copy lang-copy--fr">Portail d’accès technique officiel pour GLightOne Base. Les manuels, la référence de câblage et les informations sur les pastilles de connexion sont disponibles ci-dessous.</span><span class="lang-copy lang-copy--pt-br">Portal oficial de acesso técnico do GLightOne Base. Os manuais, a referência de fiação e as informações dos pads de conexão estão disponíveis abaixo.</span><span class="lang-copy lang-copy--it">Portale tecnico ufficiale per GLightOne Base. I manuali, il riferimento di cablaggio e le informazioni sulle piazzole di connessione sono disponibili qui sotto.</span><span class="lang-copy lang-copy--zh-cn">GLightOne Base 官方技术文档页面。下方提供手册、接线参考以及连接焊盘信息。</span></p>
 
-          <h2 id="manual-heading">{translations.en.manualHeading}</h2>
+          <h2 id="manual-heading"><span class="lang-copy lang-copy--en">GLightOne Base Manual</span><span class="lang-copy lang-copy--es">Manual GLightOne Base</span><span class="lang-copy lang-copy--ja">GLightOne Base マニュアル</span><span class="lang-copy lang-copy--ko">GLightOne Base 매뉴얼</span><span class="lang-copy lang-copy--de">GLightOne Base Handbuch</span><span class="lang-copy lang-copy--fr">Manuel GLightOne Base</span><span class="lang-copy lang-copy--pt-br">Manual GLightOne Base</span><span class="lang-copy lang-copy--it">Manuale GLightOne Base</span><span class="lang-copy lang-copy--zh-cn">GLightOne Base 手册</span></h2>
           <div class="grid" id="manual-grid">
-            {manuals.map((manual) => (
-              <a
-                class={manual.code === "en" ? "card recommended" : "card"}
-                data-manual-code={manual.code}
-                href={manual.href}
-                lang={manual.htmlLang}
-              >
-                <strong>{manual.name}</strong>
-                <span>{manual.title}</span>
+            <a class="card" data-manual-code="en" href="/docs/glightone/manual-en.pdf" lang="en">
+                <strong>English</strong>
+                <span>GLightOne Base Technical Manual v1.3</span>
+              </a><a class="card" data-manual-code="es" href="/docs/glightone/manual-es.pdf" lang="es">
+                <strong>Español</strong>
+                <span>Manual técnico GLightOne Base v1.3</span>
+              </a><a class="card" data-manual-code="ja" href="/docs/glightone/manual-ja.pdf" lang="ja">
+                <strong>日本語</strong>
+                <span>GLightOne Base 技術マニュアル v1.3</span>
+              </a><a class="card" data-manual-code="ko" href="/docs/glightone/manual-ko.pdf" lang="ko">
+                <strong>한국어</strong>
+                <span>GLightOne Base 기술 매뉴얼 v1.3</span>
+              </a><a class="card" data-manual-code="de" href="/docs/glightone/manual-de.pdf" lang="de">
+                <strong>Deutsch</strong>
+                <span>Technisches Handbuch GLightOne Base v1.3</span>
+              </a><a class="card" data-manual-code="fr" href="/docs/glightone/manual-fr.pdf" lang="fr">
+                <strong>Français</strong>
+                <span>Manuel technique GLightOne Base v1.3</span>
+              </a><a class="card" data-manual-code="pt-br" href="/docs/glightone/manual-pt-br.pdf" lang="pt-BR">
+                <strong>Português</strong>
+                <span>Manual técnico GLightOne Base v1.3</span>
+              </a><a class="card" data-manual-code="it" href="/docs/glightone/manual-it.pdf" lang="it">
+                <strong>Italiano</strong>
+                <span>Manuale tecnico GLightOne Base v1.3</span>
+              </a><a class="card" data-manual-code="zh-cn" href="/docs/glightone/manual-zh-cn.pdf" lang="zh-CN">
+                <strong>简体中文</strong>
+                <span>GLightOne Base 技术手册 v1.3</span>
               </a>
-            ))}
           </div>
 
-          <h2 id="pinout-heading">{translations.en.pinoutHeading}</h2>
-          <div class="grid">
-            <a class="card" href="/docs/glightone/pinout.png">
-              <strong id="pinout-title">{translations.en.pinoutTitle}</strong>
-              <span id="pinout-description">{translations.en.pinoutDescription}</span>
+          <h2 id="pinout-heading"><span class="lang-copy lang-copy--en">Pinout / Wiring Reference</span><span class="lang-copy lang-copy--es">Pinout / Referencia de cableado</span><span class="lang-copy lang-copy--ja">ピンアウト / 配線リファレンス</span><span class="lang-copy lang-copy--ko">핀아웃 / 배선 참조</span><span class="lang-copy lang-copy--de">Pinbelegung / Verdrahtungsreferenz</span><span class="lang-copy lang-copy--fr">Brochage / Référence de câblage</span><span class="lang-copy lang-copy--pt-br">Pinout / Referência de fiação</span><span class="lang-copy lang-copy--it">Pinout / Riferimento di cablaggio</span><span class="lang-copy lang-copy--zh-cn">引脚图 / 接线参考</span></h2>
+          <div class="image-resource-grid">
+            <a class="image-resource-card" href="#viewer-pinout" aria-label="Open GLightOne Base pinout PNG">
+              <strong><span class="lang-copy lang-copy--en">GLightOne Base Pinout Map</span><span class="lang-copy lang-copy--es">Mapa de pinout GLightOne Base</span><span class="lang-copy lang-copy--ja">GLightOne Base ピンアウトマップ</span><span class="lang-copy lang-copy--ko">GLightOne Base 핀아웃 맵</span><span class="lang-copy lang-copy--de">GLightOne Base Pinout-Übersicht</span><span class="lang-copy lang-copy--fr">Plan de brochage GLightOne Base</span><span class="lang-copy lang-copy--pt-br">Mapa de pinout do GLightOne Base</span><span class="lang-copy lang-copy--it">Mappa pinout GLightOne Base</span><span class="lang-copy lang-copy--zh-cn">GLightOne Base 引脚图</span></strong>
+              <span class="resource-description"><span class="lang-copy lang-copy--en">Connection pads and wiring reference image</span><span class="lang-copy lang-copy--es">Imagen de referencia de pads de conexión y cableado</span><span class="lang-copy lang-copy--ja">接続パッドおよび配線の参照画像</span><span class="lang-copy lang-copy--ko">연결 패드 및 배선 참조 이미지</span><span class="lang-copy lang-copy--de">Referenzbild für Anschlussflächen und Verdrahtung</span><span class="lang-copy lang-copy--fr">Image de référence des pastilles de connexion et du câblage</span><span class="lang-copy lang-copy--pt-br">Imagem de referência dos pads de conexão e da fiação</span><span class="lang-copy lang-copy--it">Immagine di riferimento per piazzole di connessione e cablaggio</span><span class="lang-copy lang-copy--zh-cn">连接焊盘与接线参考图</span></span>
+              <span class="resource-action"><span class="lang-copy lang-copy--en">Open PNG</span><span class="lang-copy lang-copy--es">Abrir PNG</span><span class="lang-copy lang-copy--ja">PNGを開く</span><span class="lang-copy lang-copy--ko">PNG 열기</span><span class="lang-copy lang-copy--de">PNG öffnen</span><span class="lang-copy lang-copy--fr">Ouvrir le PNG</span><span class="lang-copy lang-copy--pt-br">Abrir PNG</span><span class="lang-copy lang-copy--it">Apri PNG</span><span class="lang-copy lang-copy--zh-cn">打开PNG</span></span>
+            </a>
+          </div>
+
+          <h2 id="mode-heading"><span class="lang-copy lang-copy--en">MODE Button / User Interaction</span><span class="lang-copy lang-copy--es">Botón MODE / Interacción del usuario</span><span class="lang-copy lang-copy--ja">MODEボタン / ユーザー操作</span><span class="lang-copy lang-copy--ko">MODE 버튼 / 사용자 조작</span><span class="lang-copy lang-copy--de">MODE-Taste / Benutzerinteraktion</span><span class="lang-copy lang-copy--fr">Bouton MODE / Interaction utilisateur</span><span class="lang-copy lang-copy--pt-br">Botão MODE / Interação do usuário</span><span class="lang-copy lang-copy--it">Pulsante MODE / Interazione utente</span><span class="lang-copy lang-copy--zh-cn">MODE按钮 / 用户交互</span></h2>
+          <div class="image-resource-grid">
+            <a class="image-resource-card mode-card--es" href="#viewer-mode-es" aria-label="Abrir guía de interacción del botón MODE en PNG">
+              <strong><span class="lang-copy lang-copy--en">MODE Button Interaction Guide</span><span class="lang-copy lang-copy--es">Guía de interacción del botón MODE</span><span class="lang-copy lang-copy--ja">MODEボタン操作ガイド</span><span class="lang-copy lang-copy--ko">MODE 버튼 조작 가이드</span><span class="lang-copy lang-copy--de">Interaktionsanleitung für die MODE-Taste</span><span class="lang-copy lang-copy--fr">Guide d’interaction du bouton MODE</span><span class="lang-copy lang-copy--pt-br">Guia de interação do botão MODE</span><span class="lang-copy lang-copy--it">Guida all’interazione del pulsante MODE</span><span class="lang-copy lang-copy--zh-cn">MODE按钮交互指南</span></strong>
+              <span class="resource-description"><span class="lang-copy lang-copy--en">Visual guide to contextual priority, clicks and long-press behavior.</span><span class="lang-copy lang-copy--es">Guía visual de prioridad contextual, clics y pulsación prolongada.</span><span class="lang-copy lang-copy--ja">コンテキスト優先順位、クリック、長押し動作のビジュアルガイドです。</span><span class="lang-copy lang-copy--ko">컨텍스트 우선순위, 클릭 및 길게 누르기 동작을 설명하는 시각 가이드입니다.</span><span class="lang-copy lang-copy--de">Visuelle Anleitung zu Kontextpriorität, Klicks und langem Tastendruck.</span><span class="lang-copy lang-copy--fr">Guide visuel de la priorité contextuelle, des clics et de l’appui long.</span><span class="lang-copy lang-copy--pt-br">Guia visual de prioridade contextual, cliques e pressionamento longo.</span><span class="lang-copy lang-copy--it">Guida visiva alla priorità contestuale, ai clic e alla pressione prolungata.</span><span class="lang-copy lang-copy--zh-cn">关于上下文优先级、点击和长按行为的可视化指南。</span></span>
+              <span class="resource-action"><span class="lang-copy lang-copy--en">Open PNG</span><span class="lang-copy lang-copy--es">Abrir PNG</span><span class="lang-copy lang-copy--ja">PNGを開く</span><span class="lang-copy lang-copy--ko">PNG 열기</span><span class="lang-copy lang-copy--de">PNG öffnen</span><span class="lang-copy lang-copy--fr">Ouvrir le PNG</span><span class="lang-copy lang-copy--pt-br">Abrir PNG</span><span class="lang-copy lang-copy--it">Apri PNG</span><span class="lang-copy lang-copy--zh-cn">打开PNG</span></span>
+            </a>
+
+            <a class="image-resource-card mode-card--universal" href="#viewer-mode-universal" aria-label="Open MODE button interaction guide PNG">
+              <strong><span class="lang-copy lang-copy--en">MODE Button Interaction Guide</span><span class="lang-copy lang-copy--es">Guía de interacción del botón MODE</span><span class="lang-copy lang-copy--ja">MODEボタン操作ガイド</span><span class="lang-copy lang-copy--ko">MODE 버튼 조작 가이드</span><span class="lang-copy lang-copy--de">Interaktionsanleitung für die MODE-Taste</span><span class="lang-copy lang-copy--fr">Guide d’interaction du bouton MODE</span><span class="lang-copy lang-copy--pt-br">Guia de interação do botão MODE</span><span class="lang-copy lang-copy--it">Guida all’interazione del pulsante MODE</span><span class="lang-copy lang-copy--zh-cn">MODE按钮交互指南</span></strong>
+              <span class="resource-description"><span class="lang-copy lang-copy--en">Visual guide to contextual priority, clicks and long-press behavior.</span><span class="lang-copy lang-copy--es">Guía visual de prioridad contextual, clics y pulsación prolongada.</span><span class="lang-copy lang-copy--ja">コンテキスト優先順位、クリック、長押し動作のビジュアルガイドです。</span><span class="lang-copy lang-copy--ko">컨텍스트 우선순위, 클릭 및 길게 누르기 동작을 설명하는 시각 가이드입니다.</span><span class="lang-copy lang-copy--de">Visuelle Anleitung zu Kontextpriorität, Klicks und langem Tastendruck.</span><span class="lang-copy lang-copy--fr">Guide visuel de la priorité contextuelle, des clics et de l’appui long.</span><span class="lang-copy lang-copy--pt-br">Guia visual de prioridade contextual, cliques e pressionamento longo.</span><span class="lang-copy lang-copy--it">Guida visiva alla priorità contestuale, ai clic e alla pressione prolungata.</span><span class="lang-copy lang-copy--zh-cn">关于上下文优先级、点击和长按行为的可视化指南。</span></span>
+              <span class="resource-action"><span class="lang-copy lang-copy--en">Open PNG</span><span class="lang-copy lang-copy--es">Abrir PNG</span><span class="lang-copy lang-copy--ja">PNGを開く</span><span class="lang-copy lang-copy--ko">PNG 열기</span><span class="lang-copy lang-copy--de">PNG öffnen</span><span class="lang-copy lang-copy--fr">Ouvrir le PNG</span><span class="lang-copy lang-copy--pt-br">Abrir PNG</span><span class="lang-copy lang-copy--it">Apri PNG</span><span class="lang-copy lang-copy--zh-cn">打开PNG</span></span>
             </a>
           </div>
 
           <div class="note">
-            <p id="note-text">{translations.en.note}</p>
+            <p id="note-text"><span class="lang-copy lang-copy--en">LED outputs are low-side / GND control. They do not provide +12V. MODE requires a momentary push button to GND. DRL_SW uses an ON/OFF switch to +12V.</span><span class="lang-copy lang-copy--es">Las salidas LED trabajan por control negativo / GND. No entregan +12V. MODE requiere un pulsador momentáneo a GND. DRL_SW utiliza un interruptor ON/OFF hacia +12V.</span><span class="lang-copy lang-copy--ja">LED出力はローサイド / GND制御です。+12Vを出力しません。MODEにはGNDへ接続するモーメンタリープッシュボタンを使用します。DRL_SWには+12Vへ接続するON/OFFスイッチを使用します。</span><span class="lang-copy lang-copy--ko">LED 출력은 로우사이드 / GND 제어 방식이며 +12V를 출력하지 않습니다. MODE에는 GND에 연결하는 순간식 푸시 버튼을 사용합니다. DRL_SW에는 +12V에 연결하는 ON/OFF 스위치를 사용합니다.</span><span class="lang-copy lang-copy--de">Die LED-Ausgänge arbeiten als Low-Side- / GND-Steuerung und liefern keine +12 V. MODE benötigt einen momentanen Taster gegen GND. DRL_SW verwendet einen ON/OFF-Schalter zu +12 V.</span><span class="lang-copy lang-copy--fr">Les sorties LED fonctionnent en commande côté masse / GND. Elles ne fournissent pas de +12 V. MODE nécessite un bouton-poussoir momentané vers GND. DRL_SW utilise un interrupteur ON/OFF vers +12 V.</span><span class="lang-copy lang-copy--pt-br">As saídas LED trabalham com controle low-side / GND e não fornecem +12 V. MODE requer um botão momentâneo ligado ao GND. DRL_SW utiliza um interruptor ON/OFF ligado ao +12 V.</span><span class="lang-copy lang-copy--it">Le uscite LED funzionano con controllo low-side / GND e non forniscono +12 V. MODE richiede un pulsante momentaneo verso GND. DRL_SW utilizza un interruttore ON/OFF verso +12 V.</span><span class="lang-copy lang-copy--zh-cn">LED输出采用低边 / GND控制，不提供+12V。MODE需要连接到GND的瞬时按钮。DRL_SW使用连接到+12V的ON/OFF开关。</span></p>
           </div>
         </section>
 
         <footer>
-          GLight / GLightCoreAura Technology Platform · Tokyo — Japan<br />
-          <span id="support-label">{translations.en.supportLabel}</span>:
+          <span><span class="lang-copy lang-copy--en">GLight / GLightCoreAura Technology Platform · Tokyo — Japan</span><span class="lang-copy lang-copy--es">Plataforma tecnológica GLight / GLightCoreAura · Tokio — Japón</span><span class="lang-copy lang-copy--ja">GLight / GLightCoreAura テクノロジープラットフォーム · 東京 — 日本</span><span class="lang-copy lang-copy--ko">GLight / GLightCoreAura 기술 플랫폼 · 도쿄 — 일본</span><span class="lang-copy lang-copy--de">GLight / GLightCoreAura Technologieplattform · Tokio — Japan</span><span class="lang-copy lang-copy--fr">Plateforme technologique GLight / GLightCoreAura · Tokyo — Japon</span><span class="lang-copy lang-copy--pt-br">Plataforma tecnológica GLight / GLightCoreAura · Tóquio — Japão</span><span class="lang-copy lang-copy--it">Piattaforma tecnologica GLight / GLightCoreAura · Tokyo — Giappone</span><span class="lang-copy lang-copy--zh-cn">GLight / GLightCoreAura 技术平台 · 日本东京</span></span><br />
+          <span id="support-label"><span class="lang-copy lang-copy--en">Support</span><span class="lang-copy lang-copy--es">Soporte</span><span class="lang-copy lang-copy--ja">サポート</span><span class="lang-copy lang-copy--ko">지원</span><span class="lang-copy lang-copy--de">Support</span><span class="lang-copy lang-copy--fr">Assistance</span><span class="lang-copy lang-copy--pt-br">Suporte</span><span class="lang-copy lang-copy--it">Supporto</span><span class="lang-copy lang-copy--zh-cn">支持</span></span>:
           <a href="mailto:glight@glightcore.com">glight@glightcore.com</a>
           &nbsp;|&nbsp;
-          <a
-            id="footer-explore-link"
-            href="https://glightcore.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {translations.en.explore}
+          <a id="footer-explore-link" href="https://glightcore.com" target="_blank" rel="noopener noreferrer">
+            <span class="lang-copy lang-copy--en">Explore GLightCore.com</span><span class="lang-copy lang-copy--es">Explorar GLightCore.com</span><span class="lang-copy lang-copy--ja">GLightCore.comを見る</span><span class="lang-copy lang-copy--ko">GLightCore.com 보기</span><span class="lang-copy lang-copy--de">GLightCore.com erkunden</span><span class="lang-copy lang-copy--fr">Explorer GLightCore.com</span><span class="lang-copy lang-copy--pt-br">Explorar GLightCore.com</span><span class="lang-copy lang-copy--it">Esplora GLightCore.com</span><span class="lang-copy lang-copy--zh-cn">访问 GLightCore.com</span>
           </a>
         </footer>
       </main>
     </div>
 
-    <script
-      id="glightone-translations"
-      type="application/json"
-      set:html={JSON.stringify(translations)}
-    ></script>
+
+
+    <section id="viewer-pinout" class="css-image-viewer" aria-label="GLightOne Base pinout image">
+      <a class="css-image-viewer__backdrop" href="#pinout-heading" aria-label="Close pinout image"></a>
+      <div class="css-image-viewer__stage">
+        <a class="css-image-viewer__close" href="#pinout-heading" aria-label="Close pinout image">×</a>
+        <img class="css-image-viewer__image" src="/docs/glightone/PIN_OUT_GLIGHTONE.PNG" alt="GLightOne Base pinout" />
+      </div>
+    </section>
+
+    <section id="viewer-mode-es" class="css-image-viewer" aria-label="Guía de interacción del botón MODE">
+      <a class="css-image-viewer__backdrop" href="#mode-heading" aria-label="Cerrar guía MODE"></a>
+      <div class="css-image-viewer__stage">
+        <a class="css-image-viewer__close" href="#mode-heading" aria-label="Cerrar guía MODE">×</a>
+        <img class="css-image-viewer__image" src="/docs/glightone/INTERACCION_DEL_BOTON.PNG" alt="Guía de interacción del botón MODE" />
+      </div>
+    </section>
+
+    <section id="viewer-mode-universal" class="css-image-viewer" aria-label="MODE button interaction guide">
+      <a class="css-image-viewer__backdrop" href="#mode-heading" aria-label="Close MODE guide"></a>
+      <div class="css-image-viewer__stage">
+        <a class="css-image-viewer__close" href="#mode-heading" aria-label="Close MODE guide">×</a>
+        <img class="css-image-viewer__image" src="/docs/glightone/MODE_BUTTON.PNG" alt="MODE button interaction guide" />
+      </div>
+    </section>
+
 
     <script is:inline>
-      const translationNode = document.getElementById("glightone-translations");
-      const translations = JSON.parse(translationNode?.textContent || "{}");
-      const buttons = Array.from(document.querySelectorAll("[data-lang-btn]"));
-      const manualCards = Array.from(document.querySelectorAll("[data-manual-code]"));
-      const supported = buttons.map((button) => button.dataset.langBtn).filter(Boolean);
-
-      const title = document.getElementById("doc-title");
-      const intro = document.getElementById("doc-intro");
-      const manualHeading = document.getElementById("manual-heading");
-      const pinoutHeading = document.getElementById("pinout-heading");
-      const pinoutTitle = document.getElementById("pinout-title");
-      const pinoutDescription = document.getElementById("pinout-description");
-      const noteText = document.getElementById("note-text");
-      const exploreLink = document.getElementById("explore-link");
-      const supportLabel = document.getElementById("support-label");
-      const footerExploreLink = document.getElementById("footer-explore-link");
+      const radios = Array.from(document.querySelectorAll('input[name="docs-language"]'));
+      const supported = radios.map((radio) => radio.value);
+      const manualCards = Array.from(document.querySelectorAll(".card[data-manual-code]"));
+      // No language receives a preferred state in the manual download grid.
+      manualCards.forEach((card) => {
+        card.classList.remove("recommended", "active", "featured");
+        card.removeAttribute("aria-current");
+      });
 
       function normalizeLanguage(value) {
         const language = String(value || "").toLowerCase();
-
         if (supported.includes(language)) return language;
         if (language.startsWith("pt")) return "pt-br";
         if (language.startsWith("zh")) return "zh-cn";
-
         const base = language.split("-")[0];
         return supported.includes(base) ? base : "en";
       }
 
       function readSavedLanguage() {
-        try {
-          return localStorage.getItem("glightone-doc-lang");
-        } catch {
-          return null;
-        }
+        try { return localStorage.getItem("glightone-doc-lang"); }
+        catch { return null; }
       }
 
       function saveLanguage(language) {
-        try {
-          localStorage.setItem("glightone-doc-lang", language);
-        } catch {
-          // Storage can be unavailable in private or restricted browser modes.
-        }
+        try { localStorage.setItem("glightone-doc-lang", language); }
+        catch { /* Restricted storage: CSS selection still works. */ }
       }
 
-      function setText(element, value) {
-        if (element) element.textContent = value;
+      function applyLanguageMetadata(radio, persist = true) {
+        if (!radio) return;
+        document.documentElement.lang = radio.dataset.htmlLang || radio.value || "en";
+        document.documentElement.dataset.activeLang = radio.value || "en";
+        document.title = `${radio.dataset.docTitle || "GLightOne Documentation"} | GLightCore`;
+        if (persist) saveLanguage(radio.value || "en");
       }
 
-      function setLang(language, persist = true) {
-        const lang = supported.includes(language) ? language : "en";
-        const copy = translations[lang] || translations.en;
-
-        buttons.forEach((button) => {
-          const active = button.dataset.langBtn === lang;
-          button.classList.toggle("active", active);
-          button.setAttribute("aria-pressed", active ? "true" : "false");
-        });
-
-        manualCards.forEach((card) => {
-          card.classList.toggle("recommended", card.dataset.manualCode === lang);
-        });
-
-        setText(title, copy.title);
-        setText(intro, copy.intro);
-        setText(manualHeading, copy.manualHeading);
-        setText(pinoutHeading, copy.pinoutHeading);
-        setText(pinoutTitle, copy.pinoutTitle);
-        setText(pinoutDescription, copy.pinoutDescription);
-        setText(noteText, copy.note);
-        setText(exploreLink, copy.explore);
-        setText(supportLabel, copy.supportLabel);
-        setText(footerExploreLink, copy.explore);
-
-        document.documentElement.lang = copy.htmlLang || lang;
-        document.title = `${copy.title} | GLightCore`;
-
-        if (persist) saveLanguage(lang);
-      }
-
-      buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-          setLang(button.dataset.langBtn || "en");
+      radios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+          if (radio.checked) applyLanguageMetadata(radio, true);
         });
       });
 
       const requested = new URLSearchParams(window.location.search).get("lang");
       const saved = readSavedLanguage();
-      const initial = requested || saved || navigator.language || "en";
-      setLang(normalizeLanguage(initial), Boolean(requested || saved));
+      const initialLanguage = normalizeLanguage(requested || saved || navigator.language || "en");
+      const initialRadio = radios.find((radio) => radio.value === initialLanguage) || radios[0];
+      if (initialRadio) {
+        initialRadio.checked = true;
+        applyLanguageMetadata(initialRadio, Boolean(requested || saved));
+      }
     </script>
   </body>
 </html>
