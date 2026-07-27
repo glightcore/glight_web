@@ -1,0 +1,450 @@
+---
+import CoreLayer from "../components/CoreLayer.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <CoreLayer />
+
+    <title>Official Profile | GLight</title>
+    <meta
+      name="description"
+      content="Official public profile and business affiliation information for GLight."
+    />
+  </head>
+
+  <body>
+    <main class="profile-shell">
+      <div class="grid" aria-hidden="true"></div>
+      <div class="halo halo-one" aria-hidden="true"></div>
+      <div class="halo halo-two" aria-hidden="true"></div>
+
+      <section class="profile-panel">
+        <header class="profile-header">
+          <a class="brand" href="/" aria-label="Return to GLight">
+            <img
+              src="/GLIGHTCOREAURA_ORBITRON1.svg"
+              alt="GLightCoreAura"
+            />
+          </a>
+
+          <div class="status">
+            <span class="status-dot"></span>
+            OFFICIAL PROFILE
+          </div>
+        </header>
+
+        <div class="identity">
+          <div class="identity-mark" aria-hidden="true">
+            <span class="ring ring-one"></span>
+            <span class="ring ring-two"></span>
+            <span class="core"></span>
+          </div>
+
+          <div>
+            <p class="eyebrow">GLIGHT / PUBLIC AFFILIATION RECORD</p>
+            <h1>Lucas Garcia</h1>
+            <p class="role">Founder & Business Owner of GLight</p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <dl class="information">
+          <div class="information-row">
+            <dt>Business identity</dt>
+            <dd>GLight</dd>
+          </div>
+
+          <div class="information-row">
+            <dt>Full name</dt>
+            <dd>Lucas Garcia</dd>
+          </div>
+
+          <div class="information-row">
+            <dt>Email address</dt>
+            <dd>
+              <a href="mailto:glightcore.jp@gmail.com">
+                glightcore.jp@gmail.com
+              </a>
+            </dd>
+          </div>
+
+          <div class="information-row">
+            <dt>Phone number</dt>
+            <dd>
+              <a href="tel:+818035911873">
+                +81 80-3591-1873
+              </a>
+            </dd>
+          </div>
+
+          <div class="information-row">
+            <dt>Official domain</dt>
+            <dd>
+              <a href="https://glightcore.com">
+                glightcore.com
+              </a>
+            </dd>
+          </div>
+
+          <div class="information-row">
+            <dt>Business activity</dt>
+            <dd>
+              Development of electronic hardware, embedded systems,
+              intelligent control technologies, technical documentation,
+              and related product platforms.
+            </dd>
+          </div>
+        </dl>
+
+        <aside class="verification-note">
+          <span class="verification-code">GL-PROFILE / ACTIVE</span>
+          <p>
+            This page is provided for official business identification
+            and third-party verification purposes.
+          </p>
+        </aside>
+
+        <footer>
+          <span>GLIGHT TECHNOLOGY PLATFORM</span>
+          <span>Tokyo — Japan</span>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>
+
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(html) {
+    background: #03070a;
+    color-scheme: dark;
+  }
+
+  :global(body) {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    font-family:
+      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+    color: #eafcff;
+    background:
+      radial-gradient(circle at 50% 16%, rgba(0, 193, 255, 0.13), transparent 32rem),
+      linear-gradient(180deg, #050b10 0%, #020507 100%);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .profile-shell {
+    position: relative;
+    display: grid;
+    min-height: 100vh;
+    place-items: center;
+    overflow: hidden;
+    padding: 42px 20px;
+  }
+
+  .grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    background-image:
+      linear-gradient(rgba(80, 211, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(80, 211, 255, 0.12) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  }
+
+  .halo {
+    position: absolute;
+    border: 1px solid rgba(66, 216, 255, 0.13);
+    border-radius: 999px;
+    pointer-events: none;
+  }
+
+  .halo-one {
+    width: 760px;
+    height: 760px;
+  }
+
+  .halo-two {
+    width: 1040px;
+    height: 1040px;
+  }
+
+  .profile-panel {
+    position: relative;
+    z-index: 1;
+    width: min(840px, 100%);
+    padding: clamp(24px, 5vw, 56px);
+    border: 1px solid rgba(104, 223, 255, 0.24);
+    border-radius: 24px;
+    background:
+      linear-gradient(145deg, rgba(9, 22, 29, 0.94), rgba(3, 9, 13, 0.97));
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.025) inset,
+      0 24px 90px rgba(0, 0, 0, 0.52),
+      0 0 68px rgba(0, 180, 255, 0.08);
+    backdrop-filter: blur(20px);
+  }
+
+  .profile-panel::before,
+  .profile-panel::after {
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    content: "";
+    pointer-events: none;
+  }
+
+  .profile-panel::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid #7ee9ff;
+    border-left: 2px solid #7ee9ff;
+    border-radius: 24px 0 0;
+  }
+
+  .profile-panel::after {
+    right: -1px;
+    bottom: -1px;
+    border-right: 2px solid rgba(126, 233, 255, 0.58);
+    border-bottom: 2px solid rgba(126, 233, 255, 0.58);
+    border-radius: 0 0 24px;
+  }
+
+  .profile-header,
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .brand img {
+    display: block;
+    width: min(290px, 54vw);
+    height: auto;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #9eb9c3;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    white-space: nowrap;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #70e8ff;
+    box-shadow: 0 0 16px #70e8ff;
+  }
+
+  .identity {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: clamp(22px, 5vw, 44px);
+    margin-top: clamp(44px, 8vw, 78px);
+  }
+
+  .identity-mark {
+    position: relative;
+    width: 116px;
+    height: 116px;
+    border: 1px solid rgba(116, 230, 255, 0.2);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(72, 219, 255, 0.08), transparent 68%);
+  }
+
+  .ring,
+  .core {
+    position: absolute;
+    inset: 50%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .ring-one {
+    width: 82px;
+    height: 82px;
+    border: 1px solid rgba(106, 231, 255, 0.48);
+    box-shadow: 0 0 24px rgba(54, 211, 255, 0.1);
+  }
+
+  .ring-two {
+    width: 54px;
+    height: 54px;
+    border: 1px dashed rgba(139, 237, 255, 0.52);
+  }
+
+  .core {
+    width: 17px;
+    height: 17px;
+    background: #b6f5ff;
+    box-shadow:
+      0 0 12px #9deeff,
+      0 0 38px #3dcfff;
+  }
+
+  .eyebrow {
+    margin: 0 0 12px;
+    color: #62dfff;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2.35rem, 7vw, 4.9rem);
+    font-weight: 520;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+
+  .role {
+    max-width: 520px;
+    margin: 18px 0 0;
+    color: #9eb4bc;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    line-height: 1.65;
+  }
+
+  .divider {
+    height: 1px;
+    margin: clamp(38px, 7vw, 64px) 0 22px;
+    background: linear-gradient(
+      90deg,
+      rgba(100, 226, 255, 0.55),
+      rgba(100, 226, 255, 0.06)
+    );
+  }
+
+  .information {
+    margin: 0;
+  }
+
+  .information-row {
+    display: grid;
+    grid-template-columns: minmax(130px, 0.7fr) minmax(0, 1.6fr);
+    gap: 26px;
+    padding: 19px 0;
+    border-bottom: 1px solid rgba(159, 226, 243, 0.09);
+  }
+
+  dt {
+    color: #667f89;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    color: #ddecf0;
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  dd a {
+    border-bottom: 1px solid rgba(110, 226, 255, 0.26);
+  }
+
+  dd a:hover {
+    color: #aaf2ff;
+    border-color: #aaf2ff;
+  }
+
+  .verification-note {
+    margin-top: 34px;
+    padding: 22px;
+    border: 1px solid rgba(90, 218, 255, 0.16);
+    border-radius: 14px;
+    background: rgba(19, 45, 56, 0.28);
+  }
+
+  .verification-code {
+    color: #64e0ff;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.13em;
+  }
+
+  .verification-note p {
+    margin: 12px 0 0;
+    color: #91aab3;
+    font-size: 0.83rem;
+    line-height: 1.7;
+  }
+
+  footer {
+    margin-top: 40px;
+    color: #57717b;
+    font-size: 0.62rem;
+    letter-spacing: 0.13em;
+  }
+
+  @media (max-width: 640px) {
+    .profile-header,
+    footer {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .identity {
+      grid-template-columns: 1fr;
+    }
+
+    .identity-mark {
+      width: 88px;
+      height: 88px;
+    }
+
+    .information-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .core {
+      animation: corePulse 2.8s ease-in-out infinite;
+    }
+
+    .ring-two {
+      animation: ringSpin 16s linear infinite;
+    }
+  }
+
+  @keyframes corePulse {
+    50% {
+      transform: translate(-50%, -50%) scale(1.22);
+      box-shadow:
+        0 0 18px #b9f7ff,
+        0 0 56px #3dcfff;
+    }
+  }
+
+  @keyframes ringSpin {
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+</style>
