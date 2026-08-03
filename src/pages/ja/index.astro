@@ -61,6 +61,10 @@ const modulesRight = [
       <!-- PORTAL -->
       <div class="portal">
 
+        <div class="portal-aperture" aria-hidden="true"></div>
+        <div class="portal-energy" aria-hidden="true"></div>
+        <div class="portal-rim" aria-hidden="true"></div>
+
         <div class="tech-spec">
 
          <h3>GLIGHT / GLIGHTCOREAURA テクノロジープラットフォーム</h3>
@@ -111,8 +115,8 @@ const modulesRight = [
   <div class="hud">
 
     <!-- TÍTULO -->
-    <div class="brand-title">
-        <img src="/GLIGHTCOREAURA_ORBITRON1.svg" alt="GLightCoreAura" class="brand-logo"/>
+    <div class="brand-title" aria-label="GLIGHT" data-title="GLIGHT">
+      <span class="brand-word brand-glight">GLIGHT</span>
     </div>
 
     <!-- NODOS -->
@@ -133,6 +137,17 @@ const modulesRight = [
 
 
   </div>
+
+
+  <!-- MICROARQUITECTURAS DIGITALES NODO → REACTOR -->
+  <svg
+    id="energyTransfer"
+    class="energy-transfer"
+    aria-hidden="true"
+    preserveAspectRatio="none"
+  >
+    <g id="energyRoutes" class="energy-routes"></g>
+  </svg>
 
 
 <!-- ===== SCRIPT DE ACTIVACIÓN ===== -->
@@ -161,6 +176,18 @@ const moduleImage = document.getElementById('moduleImage');
 
 const techSpec = document.querySelector('.tech-spec');
 const originalTechSpec = techSpec.innerHTML;
+
+const energyTransfer = document.getElementById('energyTransfer');
+const energyRoutes = document.getElementById('energyRoutes');
+const energyRouteMap = new Map();
+const leftOrbitNodes = Array.from(document.querySelectorAll('.nodes.left .node'));
+const rightOrbitNodes = Array.from(document.querySelectorAll('.nodes.right .node'));
+const systemTag = document.querySelector('.system-tag');
+
+let sourceResetTimer = null;
+let impactStartTimer = null;
+let impactResetTimer = null;
+let orbitLayoutFrame = null;
 
 /* ================================================
    ESTADO GLOBAL
@@ -202,6 +229,588 @@ flash.offsetHeight;
 
 flash.style.animation = "reactorFlash 0.7s cubic-bezier(.22,.61,.36,1) forwards";
 
+}
+
+/* ================================================
+   HARDWARE DIGITAL NODO → REACTOR
+   Cada nodo conserva una arquitectura física propia.
+================================================ */
+
+function createEnergyPart(tag, classNames){
+  const part = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    tag
+  );
+
+  classNames.split(/\s+/).filter(Boolean).forEach(className => {
+    part.classList.add(className);
+  });
+
+  return part;
+}
+
+function setEnergyStage(part, stage){
+  part.style.setProperty('--energy-delay', `${stage * 42}ms`);
+}
+
+function createDigitalChip(){
+  const chip = createEnergyPart(
+    'g',
+    'energy-hw-component energy-hw-chip'
+  );
+  const body = createEnergyPart('rect', 'energy-hw-chip-body');
+  const notch = createEnergyPart('path', 'energy-hw-chip-notch');
+  const dot = createEnergyPart('circle', 'energy-hw-chip-dot');
+
+  body.setAttribute('x', '-10');
+  body.setAttribute('y', '-6.5');
+  body.setAttribute('width', '20');
+  body.setAttribute('height', '13');
+  body.setAttribute('rx', '1.8');
+  notch.setAttribute('d', 'M -3 -6.5 A 3 3 0 0 0 3 -6.5');
+  dot.setAttribute('cx', '-6.3');
+  dot.setAttribute('cy', '2.7');
+  dot.setAttribute('r', '1.15');
+
+  const pins = [];
+  [-4, 0, 4].forEach(y => {
+    [-1, 1].forEach(side => {
+      const pin = createEnergyPart('line', 'energy-hw-chip-pin');
+      pin.setAttribute('x1', `${side * 10}`);
+      pin.setAttribute('y1', `${y}`);
+      pin.setAttribute('x2', `${side * 14}`);
+      pin.setAttribute('y2', `${y}`);
+      pins.push(pin);
+    });
+  });
+
+  chip.append(body, notch, dot, ...pins);
+  setEnergyStage(chip, 5);
+  return chip;
+}
+
+function createSmd(type, stage){
+  const smd = createEnergyPart(
+    'g',
+    `energy-hw-component energy-hw-smd energy-hw-${type}`
+  );
+  const left = createEnergyPart('rect', 'energy-hw-smd-terminal');
+  const body = createEnergyPart('rect', 'energy-hw-smd-body');
+  const right = createEnergyPart('rect', 'energy-hw-smd-terminal');
+
+  left.setAttribute('x', '-8');
+  left.setAttribute('y', '-3');
+  left.setAttribute('width', '3');
+  left.setAttribute('height', '6');
+  left.setAttribute('rx', '.6');
+  body.setAttribute('x', '-5');
+  body.setAttribute('y', '-3.2');
+  body.setAttribute('width', '10');
+  body.setAttribute('height', '6.4');
+  body.setAttribute('rx', '1');
+  right.setAttribute('x', '5');
+  right.setAttribute('y', '-3');
+  right.setAttribute('width', '3');
+  right.setAttribute('height', '6');
+  right.setAttribute('rx', '.6');
+
+  smd.append(left, body, right);
+  setEnergyStage(smd, stage);
+  return smd;
+}
+
+function ensureEnergyRoutes(){
+  if(!energyRoutes) return;
+
+  nodes.forEach((node, routeIndex) => {
+    if(energyRouteMap.has(node)) return;
+
+    const group = createEnergyPart(
+      'g',
+      'energy-route energy-hardware-route'
+    );
+    const halos = [];
+    const buses = [];
+    const currents = [];
+    const branches = [];
+    const branchCurrents = [];
+    const vias = [];
+    const pads = [];
+
+    for(let index = 0; index < 2; index += 1){
+      const halo = createEnergyPart('path', 'energy-hw-halo');
+      const bus = createEnergyPart('path', 'energy-hw-bus');
+      const current = createEnergyPart(
+        'path',
+        `energy-hw-current energy-hw-current-${index}`
+      );
+      current.setAttribute('pathLength', '1');
+      setEnergyStage(current, index);
+      halos.push(halo);
+      buses.push(bus);
+      currents.push(current);
+    }
+
+    for(let index = 0; index < 2; index += 1){
+      const branch = createEnergyPart('path', 'energy-hw-branch');
+      const branchCurrent = createEnergyPart(
+        'path',
+        'energy-hw-branch-current'
+      );
+      branchCurrent.setAttribute('pathLength', '1');
+      setEnergyStage(branchCurrent, 3 + index);
+      branches.push(branch);
+      branchCurrents.push(branchCurrent);
+    }
+
+    for(let index = 0; index < 4; index += 1){
+      const via = createEnergyPart('circle', 'energy-hw-via');
+      via.setAttribute('r', '1.9');
+      setEnergyStage(via, index + 1);
+      vias.push(via);
+    }
+
+    for(let index = 0; index < 4; index += 1){
+      const pad = createEnergyPart('rect', 'energy-hw-pad');
+      pad.setAttribute('width', index < 2 ? '6.4' : '5');
+      pad.setAttribute('height', index < 2 ? '4.2' : '3.6');
+      pad.setAttribute('rx', '.8');
+      setEnergyStage(pad, index === 0 ? 0 : index === 1 ? 6 : index + 2);
+      pads.push(pad);
+    }
+
+    const components = [
+      createSmd('resistor', 3),
+      createDigitalChip(),
+      createSmd('capacitor', 7)
+    ];
+
+    group.append(
+      ...halos,
+      ...buses,
+      ...branches,
+      ...components,
+      ...currents,
+      ...branchCurrents,
+      ...vias,
+      ...pads
+    );
+    energyRoutes.appendChild(group);
+
+    energyRouteMap.set(node, {
+      group,
+      halos,
+      buses,
+      currents,
+      branches,
+      branchCurrents,
+      vias,
+      pads,
+      components,
+      routeIndex
+    });
+  });
+}
+
+function energyPolyline(points){
+  return points.map((point, index) => (
+    `${index === 0 ? 'M' : 'L'} ` +
+    `${point.x.toFixed(1)} ${point.y.toFixed(1)}`
+  )).join(' ');
+}
+
+function offsetEnergyPath(points, offset){
+  const lastIndex = points.length - 1;
+
+  return points.map((point, index) => {
+    const previous = points[Math.max(0, index - 1)];
+    const next = points[Math.min(lastIndex, index + 1)];
+    const dx = next.x - previous.x;
+    const dy = next.y - previous.y;
+    const length = Math.max(1, Math.hypot(dx, dy));
+    const taper = index === 0 || index === lastIndex ? .28 : 1;
+
+    return {
+      x:point.x - dy / length * offset * taper,
+      y:point.y + dx / length * offset * taper
+    };
+  });
+}
+
+function energyPointBetween(a, b, ratio){
+  return {
+    x:a.x + (b.x - a.x) * ratio,
+    y:a.y + (b.y - a.y) * ratio
+  };
+}
+
+function energyAngle(a, b){
+  return Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+}
+
+function buildHardwareBranch(anchor, side, vertical, length, reach){
+  const elbow = {
+    x:anchor.x + side * 5,
+    y:anchor.y + vertical * 5
+  };
+  const upright = {
+    x:elbow.x,
+    y:anchor.y + vertical * length
+  };
+  const end = {
+    x:upright.x + side * reach,
+    y:upright.y
+  };
+
+  return {
+    path:energyPolyline([anchor, elbow, upright, end]),
+    end
+  };
+}
+
+function buildDigitalArchitecture(start, end, routeIndex){
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const span = Math.max(1, Math.abs(dx));
+  const side = dx >= 0 ? 1 : -1;
+  const variant = routeIndex % 5;
+  const outward = Math.abs(dy) > 5
+    ? (start.y < end.y ? -1 : 1)
+    : (variant % 2 ? -1 : 1);
+  const amplitude = Math.max(10, Math.min(22, span * .085));
+  const boardY1 = start.y + dy * .30 + outward * amplitude;
+  const boardY2 = start.y + dy * .66 - outward * amplitude * .42;
+
+  const points = [
+    start,
+    {x:start.x + dx * .12, y:start.y},
+    {x:start.x + dx * .20, y:boardY1},
+    {x:start.x + dx * .39, y:boardY1},
+    {x:start.x + dx * .49, y:boardY2},
+    {x:start.x + dx * .69, y:boardY2},
+    {x:start.x + dx * .78, y:end.y},
+    {x:start.x + dx * .91, y:end.y},
+    end
+  ];
+
+  const localRail = [
+    energyPointBetween(points[2], points[3], .14),
+    {
+      x:energyPointBetween(points[2], points[3], .14).x,
+      y:energyPointBetween(points[2], points[3], .14).y + outward * 7
+    },
+    {
+      x:energyPointBetween(points[4], points[5], .78).x,
+      y:energyPointBetween(points[4], points[5], .78).y + outward * 7
+    },
+    energyPointBetween(points[4], points[5], .78)
+  ];
+  const branchData = [
+    buildHardwareBranch(points[3], side, outward, 12 + variant, 9),
+    buildHardwareBranch(points[5], side, -outward, 11 + (4 - variant), 8)
+  ];
+  const scale = Math.max(.62, Math.min(1, span / 175));
+
+  return {
+    buses:[energyPolyline(points), energyPolyline(localRail)],
+    branches:branchData.map(branch => branch.path),
+    vias:[points[2], points[4], points[5], points[6]],
+    pads:[start, end, ...branchData.map(branch => branch.end)],
+    components:[
+      {
+        point:energyPointBetween(points[2], points[3], .62),
+        angle:energyAngle(points[2], points[3]),
+        scale
+      },
+      {
+        point:energyPointBetween(points[4], points[5], .48),
+        angle:energyAngle(points[4], points[5]),
+        scale
+      },
+      {
+        point:energyPointBetween(points[6], points[7], .52),
+        angle:energyAngle(points[6], points[7]),
+        scale
+      }
+    ]
+  };
+}
+
+function positionEnergyComponent(component, geometry){
+  component.setAttribute(
+    'transform',
+    `translate(${geometry.point.x.toFixed(1)} ${geometry.point.y.toFixed(1)}) ` +
+    `rotate(${geometry.angle.toFixed(1)}) ` +
+    `scale(${geometry.scale.toFixed(3)})`
+  );
+}
+
+function layoutEnergyRoutes(){
+  if(!energyTransfer || !energyRoutes || !reactor) return;
+
+  ensureEnergyRoutes();
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const reactorRect = reactor.getBoundingClientRect();
+  const reactorCenter = {
+    x:reactorRect.left + reactorRect.width / 2,
+    y:reactorRect.top + reactorRect.height / 2
+  };
+  const reactorRadius = Math.min(
+    reactorRect.width,
+    reactorRect.height
+  ) * .46;
+
+  energyTransfer.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  energyTransfer.style.setProperty(
+    '--reactor-mask-x',
+    `${reactorCenter.x.toFixed(1)}px`
+  );
+  energyTransfer.style.setProperty(
+    '--reactor-mask-y',
+    `${reactorCenter.y.toFixed(1)}px`
+  );
+  energyTransfer.style.setProperty(
+    '--reactor-mask-radius',
+    `${reactorRadius.toFixed(1)}px`
+  );
+
+  nodes.forEach(node => {
+    const route = energyRouteMap.get(node);
+    if(!route) return;
+
+    const nodeRect = node.getBoundingClientRect();
+    const nodeCenter = {
+      x:nodeRect.left + nodeRect.width / 2,
+      y:nodeRect.top + nodeRect.height / 2
+    };
+    const dx = reactorCenter.x - nodeCenter.x;
+    const dy = reactorCenter.y - nodeCenter.y;
+    const distance = Math.max(1, Math.hypot(dx, dy));
+    const unitX = dx / distance;
+    const unitY = dy / distance;
+    const nodeRadius = Math.min(nodeRect.width, nodeRect.height) * .40;
+    const start = {
+      x:nodeCenter.x + unitX * nodeRadius,
+      y:nodeCenter.y + unitY * nodeRadius
+    };
+    const end = {
+      x:reactorCenter.x - unitX * reactorRadius,
+      y:reactorCenter.y - unitY * reactorRadius
+    };
+    const geometry = buildDigitalArchitecture(
+      start,
+      end,
+      route.routeIndex
+    );
+
+    route.halos.forEach((halo, index) => {
+      halo.setAttribute('d', geometry.buses[index]);
+    });
+    route.buses.forEach((bus, index) => {
+      bus.setAttribute('d', geometry.buses[index]);
+      route.currents[index].setAttribute('d', geometry.buses[index]);
+    });
+    route.branches.forEach((branch, index) => {
+      branch.setAttribute('d', geometry.branches[index]);
+      route.branchCurrents[index].setAttribute(
+        'd',
+        geometry.branches[index]
+      );
+    });
+    route.vias.forEach((via, index) => {
+      via.setAttribute('cx', geometry.vias[index].x.toFixed(1));
+      via.setAttribute('cy', geometry.vias[index].y.toFixed(1));
+    });
+    route.pads.forEach((pad, index) => {
+      const width = Number(pad.getAttribute('width'));
+      const height = Number(pad.getAttribute('height'));
+      pad.setAttribute('x', (geometry.pads[index].x - width / 2).toFixed(1));
+      pad.setAttribute('y', (geometry.pads[index].y - height / 2).toFixed(1));
+    });
+    route.components.forEach((component, index) => {
+      positionEnergyComponent(component, geometry.components[index]);
+    });
+  });
+}
+
+function clearActiveEnergyRoutes(){
+  energyRouteMap.forEach(route => {
+    route.group.classList.remove('active');
+  });
+}
+
+/* ================================================
+   PARÉNTESIS RESPONSIVE DE NODOS
+   Conserva los grupos lógicos a cada lado del portal,
+   sin colocar nodos sobre el título ni debajo del reactor.
+================================================ */
+
+function layoutNodesOrbit(){
+  if(!reactor || !portal) return;
+
+  const reactorRect = reactor.getBoundingClientRect();
+  const centerX = reactorRect.left + reactorRect.width / 2;
+  const centerY = reactorRect.top + reactorRect.height / 2;
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  const nodeMargin = viewportWidth <= 520 ? 30 : 34;
+  const portalRadius = Math.max(145, portal.offsetWidth / 2);
+  const portraitPhone = viewportWidth <= 520 && viewportHeight > viewportWidth;
+
+  /* El centro del paréntesis se mantiene por fuera del borde luminoso. */
+  const baseX = Math.min(
+    portalRadius * (portraitPhone ? .75 : 1.12),
+    Math.max(110, viewportWidth / 2 - nodeMargin)
+  );
+  const spreadY = Math.min(
+    portalRadius * (portraitPhone ? .88 : .7),
+    viewportHeight * (portraitPhone ? .31 : .34)
+  );
+
+  const yShape = [-1, -.52, 0, .52, 1];
+  const xShape = [.89, 1.045, 1.10, 1.045, .89];
+
+  const placeParenthesis = (group, side) => {
+    group.forEach((node, index) => {
+      const rawX = centerX + side * baseX * xShape[index];
+      const rawY = centerY + spreadY * yShape[index];
+      const x = Math.max(nodeMargin, Math.min(viewportWidth - nodeMargin, rawX));
+      const y = Math.max(nodeMargin, Math.min(viewportHeight - nodeMargin, rawY));
+      node.style.left = `${x}px`;
+      node.style.top = `${y}px`;
+    });
+  };
+
+  placeParenthesis(leftOrbitNodes, -1);
+  placeParenthesis(rightOrbitNodes, 1);
+
+  /*
+    En iPhone vertical, el título y la firma pertenecen a la misma
+    composición que la órbita: se colocan desde sus límites reales.
+    Desktop conserva intactos sus anclajes V8.
+  */
+  if(portraitPhone && brandTitle && systemTag){
+    const titleHeight = brandTitle.getBoundingClientRect().height;
+    const tagHeight = systemTag.getBoundingClientRect().height;
+    const orbitTop = centerY - spreadY;
+    const orbitBottom = centerY + spreadY;
+    const safeTop = Math.max(26, viewportHeight * .035);
+    const safeBottom = Math.max(54, viewportHeight * .065);
+    const titleGap = Math.min(38, Math.max(22, viewportHeight * .04));
+    const tagGap = Math.min(44, Math.max(26, viewportHeight * .045));
+
+    const titleTop = Math.max(
+      safeTop,
+      orbitTop - titleHeight - titleGap
+    );
+
+    const tagTop = Math.min(
+      viewportHeight - safeBottom - tagHeight,
+      orbitBottom + tagGap
+    );
+
+    brandTitle.style.top = `${titleTop}px`;
+    systemTag.style.top = `${tagTop}px`;
+    systemTag.style.bottom = 'auto';
+    systemTag.style.left = '50%';
+    systemTag.style.right = 'auto';
+  }else{
+    brandTitle?.style.removeProperty('top');
+    systemTag?.style.removeProperty('top');
+    systemTag?.style.removeProperty('bottom');
+    systemTag?.style.removeProperty('left');
+    systemTag?.style.removeProperty('right');
+  }
+}
+
+function scheduleOrbitLayout(){
+  cancelAnimationFrame(orbitLayoutFrame);
+  orbitLayoutFrame = requestAnimationFrame(() => {
+    layoutNodesOrbit();
+    layoutEnergyRoutes();
+  });
+}
+
+scheduleOrbitLayout();
+window.addEventListener('resize', scheduleOrbitLayout, { passive:true });
+window.addEventListener('orientationchange', scheduleOrbitLayout, { passive:true });
+
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(scheduleOrbitLayout);
+}
+
+function fireEnergyTransfer(node){
+  if(!energyTransfer || !energyRoutes || !reactor || !node) return;
+
+  layoutEnergyRoutes();
+
+  const activeRoute = energyRouteMap.get(node);
+  if(!activeRoute) return;
+
+  const nodeRect = node.getBoundingClientRect();
+  const reactorRect = reactor.getBoundingClientRect();
+
+  const startX = nodeRect.left + nodeRect.width / 2;
+  const endX = reactorRect.left + reactorRect.width / 2;
+
+  clearTimeout(sourceResetTimer);
+  clearTimeout(impactStartTimer);
+  clearTimeout(impactResetTimer);
+
+  /*
+    Activa el lado del circuito que corresponde al nodo emisor.
+    El reflow permite reiniciar la descarga incluso con clics rápidos.
+  */
+  page.classList.remove(
+    'circuit-powered',
+    'circuit-left',
+    'circuit-right'
+  );
+
+  void page.offsetWidth;
+
+  page.classList.add(
+    'circuit-powered',
+    startX < endX ? 'circuit-left' : 'circuit-right'
+  );
+
+  node.classList.remove('energy-source');
+  void node.offsetWidth;
+  node.classList.add('energy-source');
+
+  clearActiveEnergyRoutes();
+  void activeRoute.group.getBoundingClientRect();
+  activeRoute.group.classList.add('active');
+
+  energyTransfer.classList.remove('fire');
+  void energyTransfer.getBoundingClientRect();
+  energyTransfer.classList.add('fire');
+  reactor.classList.remove('energy-impact');
+  moduleName.classList.remove('energy-name');
+
+  impactStartTimer = window.setTimeout(() => {
+    reactor.classList.add('energy-impact');
+    moduleName.classList.add('energy-name');
+  }, 540);
+
+  sourceResetTimer = window.setTimeout(() => {
+    node.classList.remove('energy-source');
+  }, 680);
+
+  impactResetTimer = window.setTimeout(() => {
+    clearActiveEnergyRoutes();
+    energyTransfer.classList.remove('fire');
+    reactor.classList.remove('energy-impact');
+    moduleName.classList.remove('energy-name');
+
+    page.classList.remove(
+      'circuit-powered',
+      'circuit-left',
+      'circuit-right'
+    );
+  }, 1080);
 }
 
 /* ======================================
@@ -298,10 +907,29 @@ function returnToIdle(){
   portalActivated = false;
   selectedModule = null;
 
+  clearTimeout(sourceResetTimer);
+  clearTimeout(impactStartTimer);
+  clearTimeout(impactResetTimer);
+
   portal.classList.remove('open');
   reactor.classList.remove('portal-open');
+  reactor.classList.remove('energy-impact');
 
-  nodes.forEach(node => node.classList.remove('active'));
+  clearActiveEnergyRoutes();
+  energyTransfer?.classList.remove('fire');
+  brandTitle?.classList.remove('energy-linked');
+  moduleName.classList.remove('energy-name');
+
+  page.classList.remove(
+    'circuit-powered',
+    'circuit-left',
+    'circuit-right'
+  );
+
+  nodes.forEach(node => {
+    node.classList.remove('active');
+    node.classList.remove('energy-source');
+  });
 
   closeModuleVideo();
   closeModuleImage();
@@ -312,6 +940,7 @@ function returnToIdle(){
   techSpec.style.opacity = "";
 
   page.classList.remove('module-active');
+  page.classList.add('idle-mode');
 }
 
 function resetIdleTimer(){
@@ -396,6 +1025,8 @@ reactor.addEventListener('click', (e) => {
 
 if (reactor.classList.contains('portal-open')) {
 
+  portalActivated = false;
+
   closeModuleImage();
 
   moduleVideo.pause();
@@ -414,6 +1045,7 @@ if (reactor.classList.contains('portal-open')) {
 
  } else {
 
+    portalActivated = true;
     reactor.classList.add('portal-open');
     portal.classList.add('open');
 
@@ -497,7 +1129,8 @@ else if(currentModule === "Pulse") {
     techSpec.innerHTML = `
       <h3>PULSE / CONTACT NODE</h3>
       <p>GLightプラットフォームの公式技術窓口。</p>
-      <p class="tech-note">glight@glightcore.com</p>
+      <p class="tech-note">管理窓口 · glightcore.jp@gmail.com</p>
+      <p class="tech-note">技術窓口 · glight@glightcore.com</p>
       <p class="tech-origin">東京 — 日本</p>
     `;
 
@@ -813,8 +1446,8 @@ function leaveField() {
 }
 
 
-brandTitle.addEventListener('mouseenter', enterField);
-brandTitle.addEventListener('mouseleave', leaveField);
+//brandTitle.addEventListener('mouseenter', enterField);
+//brandTitle.addEventListener('mouseleave', leaveField);
 
 
 /* =================================================
@@ -831,12 +1464,19 @@ nodes.forEach(node => {
 
  node.addEventListener('click', () => {
 
-soundClick();
+resetIdleTimer();
 
+/* Respuesta visible inmediata: la energía y el audio entran después. */
+nodes.forEach(n => n.classList.remove('active'));
+node.classList.add('active');
+moduleName.textContent = node.dataset.name;
+page.classList.add('module-active');
 techSpec.style.opacity = "0";
 
 /* cerrar portal si estaba abierto */
 if (reactor.classList.contains('portal-open')) {
+
+  portalActivated = false;
 
   closeModuleImage();
   closeModuleVideo();
@@ -850,20 +1490,21 @@ if (reactor.classList.contains('portal-open')) {
 
 }
 
-nodes.forEach(n => n.classList.remove('active'));
-node.classList.add('active');
-
-moduleName.textContent = node.dataset.name;
-
-page.classList.add('module-active');
-
 flash.style.animation = 'none';
 flash.offsetHeight;
 flash.style.animation = '';;
 
+requestAnimationFrame(() => {
+  soundClick();
+  fireEnergyTransfer(node);
 });
 
 });
+
+});
+
+/* El reposo también queda armado si la primera interacción ocurre en un nodo. */
+resetIdleTimer();
 
 </script></body>
 </html>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 1000 1600" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="trace" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#102e78"/>
+      <stop offset=".5" stop-color="#1268df"/>
+      <stop offset="1" stop-color="#071b52"/>
+    </linearGradient>
+
+    <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <g id="circuit">
+      <g fill="none" stroke="url(#trace)" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+        <path d="M0 118H118L158 158V296L205 343H276"/>
+        <path d="M0 238H72L111 277V428L158 475H232"/>
+        <path d="M0 492H94L139 447V378"/>
+        <path d="M0 682H76L119 639V548L172 495"/>
+        <path d="M0 918H88L135 871V760L189 706H253"/>
+        <path d="M0 1124H103L151 1076V986"/>
+        <path d="M0 1372H80L127 1325V1218L182 1163H249"/>
+        <path d="M0 1512H150L193 1469V1399L236 1356"/>
+        <path d="M156 0V82L204 130H299"/>
+        <path d="M302 0V64L343 105V201"/>
+        <path d="M148 1600V1518L194 1472H294"/>
+        <path d="M314 1600V1536L354 1496V1408"/>
+      </g>
+
+      <g fill="#72c8ff" filter="url(#glow)">
+        <circle cx="205" cy="343" r="3.8"/>
+        <circle cx="158" cy="475" r="3.2"/>
+        <circle cx="189" cy="706" r="3.6"/>
+        <circle cx="182" cy="1163" r="3.4"/>
+        <circle cx="343" cy="105" r="3"/>
+        <circle cx="354" cy="1496" r="3"/>
+      </g>
+    </g>
+  </defs>
+
+  <g opacity=".54">
+    <use href="#circuit"/>
+    <use href="#circuit" transform="translate(1000 0) scale(-1 1)"/>
+  </g>
+
+  <g fill="none" stroke="#1b63d8" stroke-width="1" opacity=".25">
+    <circle cx="96" cy="796" r="18"/>
+    <circle cx="904" cy="796" r="18"/>
+    <circle cx="500" cy="94" r="16"/>
+    <circle cx="500" cy="1506" r="16"/>
+    <path d="M78 796H114M96 778V814"/>
+    <path d="M886 796H922M904 778V814"/>
+    <path d="M484 94H516M500 78V110"/>
+    <path d="M484 1506H516M500 1490V1522"/>
+  </g>
+</svg>
