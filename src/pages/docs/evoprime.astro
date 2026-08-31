@@ -1,0 +1,608 @@
+---
+// EvoPrime 700 Docs v1.0
+// Derived from the approved GLightOne documentation identity.
+// The interface language may be active; the manual grid remains neutral.
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Official EvoPrime 700 user manuals and installation documentation in nine languages."
+    />
+    <title>EvoPrime 700 Documentation | GLightCore</title>
+
+    <style is:inline>
+      @font-face {
+        font-family: "Orbitron";
+        src: url("/fonts/Orbitron.ttf") format("truetype");
+        font-weight: 100 900;
+        font-display: swap;
+      }
+
+      * { box-sizing: border-box; }
+
+      html {
+        min-height: 100%;
+        background: #000;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+        font-family: "Orbitron", system-ui, sans-serif;
+        color: #fff;
+        background:
+          radial-gradient(circle at 50% 18%, rgba(120, 200, 255, 0.16) 0%, rgba(40, 120, 255, 0.08) 23%, transparent 44%),
+          radial-gradient(ellipse at center, #070b14 0%, #02040a 48%, #000 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          repeating-linear-gradient(90deg, rgba(220, 240, 255, 0.025) 0 1px, transparent 1px 96px),
+          repeating-linear-gradient(0deg, rgba(220, 240, 255, 0.018) 0 1px, transparent 1px 96px);
+        opacity: 0.38;
+      }
+
+      .lang-radio {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .docs-page {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        padding: 58px 22px 70px;
+      }
+
+      .docs-shell {
+        position: relative;
+        z-index: 2;
+        max-width: 980px;
+        margin: 0 auto;
+      }
+
+      .reactor-glow {
+        position: fixed;
+        z-index: 0;
+        top: 24%;
+        left: 50%;
+        width: min(620px, 82vw);
+        height: min(620px, 82vw);
+        transform: translateX(-50%);
+        border-radius: 50%;
+        pointer-events: none;
+        background: radial-gradient(circle, rgba(255,255,255,0.38) 0%, rgba(160,225,255,0.24) 12%, rgba(120,200,255,0.20) 24%, rgba(40,120,255,0.16) 40%, rgba(0,70,180,0.09) 56%, transparent 74%);
+        box-shadow: 0 0 140px rgba(80,160,255,0.34), 0 0 320px rgba(90,220,230,0.18), 0 0 620px rgba(80,255,150,0.08);
+        opacity: 0.92;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-bottom: 42px;
+      }
+
+      .brand {
+        font-size: clamp(15px, 2.4vw, 22px);
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(235, 248, 255, 0.92);
+        text-shadow: 0 0 6px rgba(180,220,255,0.55), 0 0 28px rgba(120,180,255,0.38);
+      }
+
+      .explore {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 17px;
+        border: 1px solid rgba(142, 230, 255, 0.28);
+        border-radius: 999px;
+        color: rgba(235, 248, 255, 0.9);
+        background: rgba(255,255,255,0.035);
+        text-decoration: none;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        transition: 0.18s ease;
+      }
+
+      .explore:hover,
+      .explore:focus-visible {
+        color: #061014;
+        background: rgba(142, 230, 255, 0.95);
+        box-shadow: 0 0 18px rgba(142,230,255,0.32), 0 0 48px rgba(120,180,255,0.18);
+        outline: none;
+      }
+
+      .panel {
+        position: relative;
+        min-height: clamp(640px, 72vh, 820px);
+        padding: clamp(24px, 4vw, 36px) clamp(22px, 4vw, 34px) clamp(42px, 7vh, 82px);
+        border: 1px solid rgba(142, 230, 255, 0.23);
+        border-radius: 24px;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.016)),
+          radial-gradient(circle at top right, rgba(120, 220, 255, 0.13), transparent 42%),
+          rgba(2, 4, 10, 0.72);
+        box-shadow: 0 22px 70px rgba(0,0,0,0.42), 0 0 80px rgba(80,160,255,0.08), 0 0 140px rgba(90,220,230,0.05), inset 0 0 0 1px rgba(255,255,255,0.035);
+        backdrop-filter: blur(8px);
+      }
+
+      .system-layer {
+        margin-bottom: 16px;
+        font-size: 12px;
+        letter-spacing: 0.24em;
+        color: rgba(220,240,255,0.82);
+        text-transform: uppercase;
+        text-shadow: 0 0 6px rgba(180,220,255,0.45), 0 0 20px rgba(120,180,255,0.28);
+      }
+
+      .flash-line {
+        position: relative;
+        width: min(460px, 86vw);
+        height: 1px;
+        margin: 2px 0 28px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.38) 24%, #fff 50%, rgba(150,220,255,0.30) 72%, transparent);
+        box-shadow: 0 0 5px rgba(255,255,255,0.85), 0 0 14px rgba(220,245,255,0.48), 0 0 34px rgba(120,210,255,0.20);
+      }
+
+      .flash-line::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 5px;
+        height: 5px;
+        transform: translate(-50%, -50%);
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 0 8px #fff, 0 0 18px rgba(220,245,255,0.55), 0 0 40px rgba(120,210,255,0.22);
+      }
+
+      .lang {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 0 0 28px;
+      }
+
+      .lang label {
+        flex: 1 1 128px;
+        max-width: 190px;
+        padding: 10px 15px;
+        border: 1px solid rgba(142, 230, 255, 0.25);
+        border-radius: 999px;
+        background: rgba(255,255,255,0.035);
+        color: rgba(245, 250, 255, 0.88);
+        cursor: pointer;
+        font-size: 12px;
+        line-height: 1.2;
+        letter-spacing: 0.1em;
+        text-align: center;
+        white-space: nowrap;
+        user-select: none;
+        transition: 0.18s ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .lang label:hover {
+        border-color: rgba(142, 230, 255, 0.85);
+        box-shadow: 0 0 20px rgba(142,230,255,0.15);
+      }
+
+      #lang-en:checked ~ .docs-page .lang label[for="lang-en"],
+      #lang-es:checked ~ .docs-page .lang label[for="lang-es"],
+      #lang-ja:checked ~ .docs-page .lang label[for="lang-ja"],
+      #lang-ko:checked ~ .docs-page .lang label[for="lang-ko"],
+      #lang-de:checked ~ .docs-page .lang label[for="lang-de"],
+      #lang-fr:checked ~ .docs-page .lang label[for="lang-fr"],
+      #lang-pt-br:checked ~ .docs-page .lang label[for="lang-pt-br"],
+      #lang-it:checked ~ .docs-page .lang label[for="lang-it"],
+      #lang-zh-cn:checked ~ .docs-page .lang label[for="lang-zh-cn"] {
+        color: #061014;
+        background: rgba(142, 230, 255, 0.95);
+        border-color: rgba(142, 230, 255, 1);
+        box-shadow: 0 0 18px rgba(142,230,255,0.32), 0 0 44px rgba(120,180,255,0.14);
+      }
+
+      #lang-en:focus-visible ~ .docs-page .lang label[for="lang-en"],
+      #lang-es:focus-visible ~ .docs-page .lang label[for="lang-es"],
+      #lang-ja:focus-visible ~ .docs-page .lang label[for="lang-ja"],
+      #lang-ko:focus-visible ~ .docs-page .lang label[for="lang-ko"],
+      #lang-de:focus-visible ~ .docs-page .lang label[for="lang-de"],
+      #lang-fr:focus-visible ~ .docs-page .lang label[for="lang-fr"],
+      #lang-pt-br:focus-visible ~ .docs-page .lang label[for="lang-pt-br"],
+      #lang-it:focus-visible ~ .docs-page .lang label[for="lang-it"],
+      #lang-zh-cn:focus-visible ~ .docs-page .lang label[for="lang-zh-cn"] {
+        outline: 2px solid rgba(215, 250, 255, 0.95);
+        outline-offset: 3px;
+      }
+
+      .lang-copy { display: none; }
+      #lang-en:checked ~ .docs-page .lang-copy--en,
+      #lang-es:checked ~ .docs-page .lang-copy--es,
+      #lang-ja:checked ~ .docs-page .lang-copy--ja,
+      #lang-ko:checked ~ .docs-page .lang-copy--ko,
+      #lang-de:checked ~ .docs-page .lang-copy--de,
+      #lang-fr:checked ~ .docs-page .lang-copy--fr,
+      #lang-pt-br:checked ~ .docs-page .lang-copy--pt-br,
+      #lang-it:checked ~ .docs-page .lang-copy--it,
+      #lang-zh-cn:checked ~ .docs-page .lang-copy--zh-cn { display: inline; }
+
+      h1 {
+        margin: 0 0 14px;
+        font-size: clamp(30px, 6vw, 58px);
+        line-height: 1.05;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #d8dde3;
+        text-shadow: 0 -1px 0 rgba(210,235,255,0.55), 0 1px 0 #000, 0 8px 24px rgba(0,0,0,0.78), 0 0 28px rgba(120,180,255,0.22);
+      }
+
+      h2 {
+        margin: 34px 0 14px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        font-size: 15px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(235, 248, 255, 0.92);
+      }
+
+      p {
+        margin: 0 0 12px;
+        color: rgba(220, 228, 238, 0.76);
+        line-height: 1.65;
+        font-size: 15px;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+      }
+
+      /* Ethical language parity: every manual card has the same weight.
+         The active interface language never marks one download as preferred. */
+      .card {
+        display: block;
+        min-height: 118px;
+        padding: 18px;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.014)), rgba(7, 11, 20, 0.84);
+        color: #fff;
+        text-decoration: none;
+        box-shadow: none;
+        transition: 0.18s ease;
+      }
+
+      .card:hover,
+      .card:focus-visible {
+        border-color: rgba(142, 230, 255, 0.82);
+        transform: translateY(-2px);
+        box-shadow: 0 14px 36px rgba(0,0,0,0.32), 0 0 26px rgba(142,230,255,0.10);
+      }
+
+      .card:focus-visible {
+        outline: 2px solid rgba(215, 250, 255, 0.95);
+        outline-offset: 3px;
+      }
+
+      .card strong {
+        display: block;
+        margin-bottom: 9px;
+        font-size: 14px;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+      }
+
+      .card span {
+        color: rgba(220, 228, 238, 0.72);
+        font-size: 14px;
+        line-height: 1.5;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .note {
+        margin-top: 26px;
+        padding: 17px 18px;
+        border-left: 4px solid rgba(142, 230, 255, 0.92);
+        border-radius: 12px;
+        background: rgba(255,255,255,0.04);
+      }
+
+      .note p { margin: 0; }
+
+      footer {
+        margin-top: 34px;
+        padding: 18px 2px 0;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        color: rgba(220, 228, 238, 0.66);
+        font-size: 13px;
+        line-height: 1.8;
+      }
+
+      footer a { color: rgba(142, 230, 255, 0.95); }
+
+      label[lang="ja"], .card[lang="ja"] { font-family: "Hiragino Sans", "Yu Gothic", system-ui, sans-serif; }
+      label[lang="ko"], .card[lang="ko"] { font-family: "Apple SD Gothic Neo", system-ui, sans-serif; }
+      label[lang="zh-CN"], .card[lang="zh-CN"] { font-family: "PingFang SC", "Hiragino Sans GB", system-ui, sans-serif; }
+
+      @media (hover: none), (pointer: coarse) {
+        .card:hover {
+          border-color: rgba(255,255,255,0.08);
+          transform: none;
+          box-shadow: none;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .docs-page { padding: 38px 16px 54px; }
+        .topbar { margin-bottom: 30px; }
+        .brand { font-size: 14px; letter-spacing: 0.12em; }
+        .explore { width: 100%; }
+        .panel { min-height: auto; border-radius: 20px; padding-bottom: 30px; }
+        .grid { grid-template-columns: 1fr; }
+        .card { min-height: auto; }
+      }
+
+      @media (max-width: 430px) {
+        html, body { max-width: 100%; overflow-x: hidden; }
+        .docs-page { width: 100%; padding-left: 14px; padding-right: 14px; }
+        .docs-shell { width: 100%; max-width: 100%; overflow-x: hidden; }
+        .brand { width: 100%; font-size: 13px; line-height: 1.35; letter-spacing: 0.11em; }
+        .panel { width: 100%; max-width: 100%; overflow: hidden; padding-left: 18px; padding-right: 18px; }
+        .system-layer { font-size: 11px; line-height: 1.45; letter-spacing: 0.18em; }
+        .flash-line { width: 100%; max-width: 100%; margin-left: auto; margin-right: auto; }
+        .lang { justify-content: center; }
+        .lang label { min-width: 96px; padding: 10px 12px; font-size: 12px; }
+        h1 { max-width: 100%; font-size: clamp(28px, 7.5vw, 36px); line-height: 1.08; letter-spacing: 0.035em; overflow-wrap: anywhere; }
+        h2 { font-size: 13px; line-height: 1.45; letter-spacing: 0.14em; }
+        p { font-size: 14px; line-height: 1.62; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <input class="lang-radio" type="radio" name="docs-language" id="lang-en" value="en" data-html-lang="en" data-doc-title="EvoPrime 700 Documentation" checked />
+    <input class="lang-radio" type="radio" name="docs-language" id="lang-es" value="es" data-html-lang="es" data-doc-title="Documentación EvoPrime 700" />
+    <input class="lang-radio" type="radio" name="docs-language" id="lang-ja" value="ja" data-html-lang="ja" data-doc-title="EvoPrime 700 ドキュメント" />
+    <input class="lang-radio" type="radio" name="docs-language" id="lang-ko" value="ko" data-html-lang="ko" data-doc-title="EvoPrime 700 문서" />
+    <input class="lang-radio" type="radio" name="docs-language" id="lang-de" value="de" data-html-lang="de" data-doc-title="EvoPrime 700 Dokumentation" />
+    <input class="lang-radio" type="radio" name="docs-language" id="lang-fr" value="fr" data-html-lang="fr" data-doc-title="Documentation EvoPrime 700" />
+    <input class="lang-radio" type="radio" name="docs-language" id="lang-pt-br" value="pt-br" data-html-lang="pt-BR" data-doc-title="Documentação EvoPrime 700" />
+    <input class="lang-radio" type="radio" name="docs-language" id="lang-it" value="it" data-html-lang="it" data-doc-title="Documentazione EvoPrime 700" />
+    <input class="lang-radio" type="radio" name="docs-language" id="lang-zh-cn" value="zh-cn" data-html-lang="zh-CN" data-doc-title="EvoPrime 700 文档" />
+
+    <div class="docs-page">
+      <div class="reactor-glow"></div>
+
+      <main class="docs-shell">
+        <div class="topbar">
+          <div class="brand">GLight / GLightCoreAura</div>
+          <a class="explore" href="https://glightcore.com" target="_blank" rel="noopener noreferrer">
+            <span class="lang-copy lang-copy--en">Explore GLightCore.com</span>
+            <span class="lang-copy lang-copy--es">Explorar GLightCore.com</span>
+            <span class="lang-copy lang-copy--ja">GLightCore.comを見る</span>
+            <span class="lang-copy lang-copy--ko">GLightCore.com 보기</span>
+            <span class="lang-copy lang-copy--de">GLightCore.com erkunden</span>
+            <span class="lang-copy lang-copy--fr">Explorer GLightCore.com</span>
+            <span class="lang-copy lang-copy--pt-br">Explorar GLightCore.com</span>
+            <span class="lang-copy lang-copy--it">Esplora GLightCore.com</span>
+            <span class="lang-copy lang-copy--zh-cn">访问 GLightCore.com</span>
+          </a>
+        </div>
+
+        <section class="panel">
+          <div class="system-layer">
+            <span class="lang-copy lang-copy--en">POWER ARCHITECTURE DOCUMENTATION</span>
+            <span class="lang-copy lang-copy--es">DOCUMENTACIÓN DE ARQUITECTURA DE POTENCIA</span>
+            <span class="lang-copy lang-copy--ja">電源アーキテクチャドキュメント</span>
+            <span class="lang-copy lang-copy--ko">전원 아키텍처 문서</span>
+            <span class="lang-copy lang-copy--de">LEISTUNGSARCHITEKTUR-DOKUMENTATION</span>
+            <span class="lang-copy lang-copy--fr">DOCUMENTATION DE L’ARCHITECTURE DE PUISSANCE</span>
+            <span class="lang-copy lang-copy--pt-br">DOCUMENTAÇÃO DA ARQUITETURA DE POTÊNCIA</span>
+            <span class="lang-copy lang-copy--it">DOCUMENTAZIONE DELL’ARCHITETTURA DI POTENZA</span>
+            <span class="lang-copy lang-copy--zh-cn">电源架构文档</span>
+          </div>
+          <div class="flash-line"></div>
+
+          <div class="lang" aria-label="Documentation language">
+            <label for="lang-en" lang="en">English</label>
+            <label for="lang-es" lang="es">Español</label>
+            <label for="lang-ja" lang="ja">日本語</label>
+            <label for="lang-ko" lang="ko">한국어</label>
+            <label for="lang-de" lang="de">Deutsch</label>
+            <label for="lang-fr" lang="fr">Français</label>
+            <label for="lang-pt-br" lang="pt-BR">Português</label>
+            <label for="lang-it" lang="it">Italiano</label>
+            <label for="lang-zh-cn" lang="zh-CN">简体中文</label>
+          </div>
+
+          <h1>
+            <span class="lang-copy lang-copy--en">EvoPrime 700 Documentation</span>
+            <span class="lang-copy lang-copy--es">Documentación EvoPrime 700</span>
+            <span class="lang-copy lang-copy--ja">EvoPrime 700 ドキュメント</span>
+            <span class="lang-copy lang-copy--ko">EvoPrime 700 문서</span>
+            <span class="lang-copy lang-copy--de">EvoPrime 700 Dokumentation</span>
+            <span class="lang-copy lang-copy--fr">Documentation EvoPrime 700</span>
+            <span class="lang-copy lang-copy--pt-br">Documentação EvoPrime 700</span>
+            <span class="lang-copy lang-copy--it">Documentazione EvoPrime 700</span>
+            <span class="lang-copy lang-copy--zh-cn">EvoPrime 700 文档</span>
+          </h1>
+
+          <p>
+            <span class="lang-copy lang-copy--en">Official technical access node for EvoPrime 700. Select the complete user manual in your language below.</span>
+            <span class="lang-copy lang-copy--es">Nodo oficial de acceso técnico para EvoPrime 700. Seleccione a continuación el manual de usuario completo en su idioma.</span>
+            <span class="lang-copy lang-copy--ja">EvoPrime 700 の公式技術ドキュメントページです。以下から言語を選択して、完全版ユーザーマニュアルをご覧ください。</span>
+            <span class="lang-copy lang-copy--ko">EvoPrime 700의 공식 기술 문서 페이지입니다. 아래에서 언어를 선택하여 전체 사용자 매뉴얼을 확인하십시오.</span>
+            <span class="lang-copy lang-copy--de">Offizieller technischer Zugangspunkt für EvoPrime 700. Wählen Sie unten das vollständige Benutzerhandbuch in Ihrer Sprache.</span>
+            <span class="lang-copy lang-copy--fr">Portail d’accès technique officiel pour EvoPrime 700. Sélectionnez ci-dessous le manuel utilisateur complet dans votre langue.</span>
+            <span class="lang-copy lang-copy--pt-br">Portal oficial de acesso técnico do EvoPrime 700. Selecione abaixo o manual completo em seu idioma.</span>
+            <span class="lang-copy lang-copy--it">Portale tecnico ufficiale per EvoPrime 700. Selezionare qui sotto il manuale utente completo nella propria lingua.</span>
+            <span class="lang-copy lang-copy--zh-cn">EvoPrime 700 官方技术文档页面。请在下方选择您的语言并查看完整用户手册。</span>
+          </p>
+
+          <h2>
+            <span class="lang-copy lang-copy--en">EvoPrime 700 User Manual · Version 1.0</span>
+            <span class="lang-copy lang-copy--es">Manual de usuario EvoPrime 700 · Versión 1.0</span>
+            <span class="lang-copy lang-copy--ja">EvoPrime 700 ユーザーマニュアル · バージョン 1.0</span>
+            <span class="lang-copy lang-copy--ko">EvoPrime 700 사용자 매뉴얼 · 버전 1.0</span>
+            <span class="lang-copy lang-copy--de">EvoPrime 700 Benutzerhandbuch · Version 1.0</span>
+            <span class="lang-copy lang-copy--fr">Manuel utilisateur EvoPrime 700 · Version 1.0</span>
+            <span class="lang-copy lang-copy--pt-br">Manual de utilização EvoPrime 700 · Versão 1.0</span>
+            <span class="lang-copy lang-copy--it">Manuale utente EvoPrime 700 · Versione 1.0</span>
+            <span class="lang-copy lang-copy--zh-cn">EvoPrime 700 用户手册 · 版本 1.0</span>
+          </h2>
+
+          <div class="grid" id="manual-grid">
+            <a class="card" data-manual-code="en" href="/docs/evoprime/manual-en.pdf" lang="en" target="_blank" rel="noopener">
+              <strong>English</strong><span>EvoPrime 700 User Manual v1.0</span>
+            </a>
+            <a class="card" data-manual-code="es" href="/docs/evoprime/manual-es.pdf" lang="es" target="_blank" rel="noopener">
+              <strong>Español</strong><span>Manual de usuario EvoPrime 700 v1.0</span>
+            </a>
+            <a class="card" data-manual-code="ja" href="/docs/evoprime/manual-ja.pdf" lang="ja" target="_blank" rel="noopener">
+              <strong>日本語</strong><span>EvoPrime 700 ユーザーマニュアル v1.0</span>
+            </a>
+            <a class="card" data-manual-code="ko" href="/docs/evoprime/manual-ko.pdf" lang="ko" target="_blank" rel="noopener">
+              <strong>한국어</strong><span>EvoPrime 700 사용자 매뉴얼 v1.0</span>
+            </a>
+            <a class="card" data-manual-code="de" href="/docs/evoprime/manual-de.pdf" lang="de" target="_blank" rel="noopener">
+              <strong>Deutsch</strong><span>EvoPrime 700 Benutzerhandbuch v1.0</span>
+            </a>
+            <a class="card" data-manual-code="fr" href="/docs/evoprime/manual-fr.pdf" lang="fr" target="_blank" rel="noopener">
+              <strong>Français</strong><span>Manuel utilisateur EvoPrime 700 v1.0</span>
+            </a>
+            <a class="card" data-manual-code="pt-br" href="/docs/evoprime/manual-pt-br.pdf" lang="pt-BR" target="_blank" rel="noopener">
+              <strong>Português</strong><span>Manual de utilização EvoPrime 700 v1.0</span>
+            </a>
+            <a class="card" data-manual-code="it" href="/docs/evoprime/manual-it.pdf" lang="it" target="_blank" rel="noopener">
+              <strong>Italiano</strong><span>Manuale utente EvoPrime 700 v1.0</span>
+            </a>
+            <a class="card" data-manual-code="zh-cn" href="/docs/evoprime/manual-zh-cn.pdf" lang="zh-CN" target="_blank" rel="noopener">
+              <strong>简体中文</strong><span>EvoPrime 700 用户手册 v1.0</span>
+            </a>
+          </div>
+
+          <div class="note">
+            <p>
+              <span class="lang-copy lang-copy--en">Read the complete manual before installation. EvoPrime 700 is for 12–15 V DC systems and one series-connected power LED string only. Never hot-connect the LED load.</span>
+              <span class="lang-copy lang-copy--es">Lea el manual completo antes de la instalación. EvoPrime 700 es únicamente para sistemas de 12–15 V CC y una sola cadena de LED de potencia conectada en serie. Nunca conecte la carga LED con alimentación aplicada.</span>
+              <span class="lang-copy lang-copy--ja">取り付け前にマニュアル全体をお読みください。EvoPrime 700 は 12～15 V DC システムおよび直列接続された1系統のパワーLEDストリング専用です。通電中にLED負荷を接続・切断しないでください。</span>
+              <span class="lang-copy lang-copy--ko">설치 전에 전체 매뉴얼을 읽으십시오. EvoPrime 700은 12–15 V DC 시스템과 하나의 직렬 전력 LED 스트링 전용입니다. 전원이 인가된 상태에서 LED 부하를 연결하거나 분리하지 마십시오.</span>
+              <span class="lang-copy lang-copy--de">Lesen Sie vor der Installation das vollständige Handbuch. EvoPrime 700 ist ausschließlich für 12–15-V-Gleichstromsysteme und einen einzigen in Reihe geschalteten Leistungs-LED-Strang vorgesehen. Die LED-Last niemals unter Spannung anschließen oder trennen.</span>
+              <span class="lang-copy lang-copy--fr">Lisez le manuel complet avant l’installation. EvoPrime 700 est exclusivement destiné aux systèmes 12–15 V CC et à une seule chaîne de LED de puissance connectées en série. Ne connectez ou ne déconnectez jamais la charge LED sous tension.</span>
+              <span class="lang-copy lang-copy--pt-br">Leia o manual completo antes da instalação. O EvoPrime 700 destina-se somente a sistemas de 12–15 V CC e a uma única cadeia de LEDs de potência conectados em série. Nunca conecte ou desconecte a carga LED com o sistema energizado.</span>
+              <span class="lang-copy lang-copy--it">Leggere il manuale completo prima dell’installazione. EvoPrime 700 è destinato esclusivamente a sistemi da 12–15 V CC e a una sola stringa di LED di potenza collegati in serie. Non collegare o scollegare mai il carico LED sotto tensione.</span>
+              <span class="lang-copy lang-copy--zh-cn">安装前请阅读完整手册。EvoPrime 700 仅适用于 12–15 V 直流系统和一串串联功率 LED。通电时不得连接或断开 LED 负载。</span>
+            </p>
+          </div>
+        </section>
+
+        <footer>
+          <span>
+            <span class="lang-copy lang-copy--en">GLight / GLightCoreAura Technology Platform · Tokyo — Japan</span>
+            <span class="lang-copy lang-copy--es">Plataforma tecnológica GLight / GLightCoreAura · Tokio — Japón</span>
+            <span class="lang-copy lang-copy--ja">GLight / GLightCoreAura テクノロジープラットフォーム · 東京 — 日本</span>
+            <span class="lang-copy lang-copy--ko">GLight / GLightCoreAura 기술 플랫폼 · 도쿄 — 일본</span>
+            <span class="lang-copy lang-copy--de">GLight / GLightCoreAura Technologieplattform · Tokio — Japan</span>
+            <span class="lang-copy lang-copy--fr">Plateforme technologique GLight / GLightCoreAura · Tokyo — Japon</span>
+            <span class="lang-copy lang-copy--pt-br">Plataforma tecnológica GLight / GLightCoreAura · Tóquio — Japão</span>
+            <span class="lang-copy lang-copy--it">Piattaforma tecnologica GLight / GLightCoreAura · Tokyo — Giappone</span>
+            <span class="lang-copy lang-copy--zh-cn">GLight / GLightCoreAura 技术平台 · 日本东京</span>
+          </span><br />
+          <span>
+            <span class="lang-copy lang-copy--en">Support</span>
+            <span class="lang-copy lang-copy--es">Soporte</span>
+            <span class="lang-copy lang-copy--ja">サポート</span>
+            <span class="lang-copy lang-copy--ko">지원</span>
+            <span class="lang-copy lang-copy--de">Support</span>
+            <span class="lang-copy lang-copy--fr">Assistance</span>
+            <span class="lang-copy lang-copy--pt-br">Suporte</span>
+            <span class="lang-copy lang-copy--it">Supporto</span>
+            <span class="lang-copy lang-copy--zh-cn">支持</span>
+          </span>:
+          <a href="mailto:glight@glightcore.com">glight@glightcore.com</a>
+          &nbsp;|&nbsp;
+          <a href="https://glightcore.com" target="_blank" rel="noopener noreferrer">GLightCore.com</a>
+        </footer>
+      </main>
+    </div>
+
+    <script is:inline>
+      const radios = Array.from(document.querySelectorAll('input[name="docs-language"]'));
+      const supported = radios.map((radio) => radio.value);
+
+      // Download parity is intentional: no language receives a permanent
+      // recommended, featured, active or aria-current state.
+      document.querySelectorAll(".card[data-manual-code]").forEach((card) => {
+        card.classList.remove("recommended", "active", "featured");
+        card.removeAttribute("aria-current");
+      });
+
+      function normalizeLanguage(value) {
+        const language = String(value || "").toLowerCase();
+        if (supported.includes(language)) return language;
+        if (language.startsWith("pt")) return "pt-br";
+        if (language.startsWith("zh")) return "zh-cn";
+        const base = language.split("-")[0];
+        return supported.includes(base) ? base : "en";
+      }
+
+      function readSavedLanguage() {
+        try { return localStorage.getItem("evoprime-doc-lang"); }
+        catch { return null; }
+      }
+
+      function saveLanguage(language) {
+        try { localStorage.setItem("evoprime-doc-lang", language); }
+        catch { /* CSS selection remains functional without storage. */ }
+      }
+
+      function applyLanguageMetadata(radio, persist = true) {
+        if (!radio) return;
+        document.documentElement.lang = radio.dataset.htmlLang || radio.value || "en";
+        document.documentElement.dataset.activeLang = radio.value || "en";
+        document.title = `${radio.dataset.docTitle || "EvoPrime 700 Documentation"} | GLightCore`;
+        if (persist) saveLanguage(radio.value || "en");
+      }
+
+      radios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+          if (radio.checked) applyLanguageMetadata(radio, true);
+        });
+      });
+
+      const requested = new URLSearchParams(window.location.search).get("lang");
+      const saved = readSavedLanguage();
+      const browserLanguage = navigator.languages?.[0] || navigator.language || "en";
+      const initialLanguage = normalizeLanguage(requested || saved || browserLanguage);
+      const initialRadio = radios.find((radio) => radio.value === initialLanguage) || radios[0];
+
+      if (initialRadio) {
+        initialRadio.checked = true;
+        applyLanguageMetadata(initialRadio, Boolean(requested || saved));
+      }
+    </script>
+  </body>
+</html>
