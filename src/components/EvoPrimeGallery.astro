@@ -1,0 +1,74 @@
+---
+const { lang = 'en' } = Astro.props;
+const ja = lang === 'ja';
+const labels = ja ? ['前面', '背面', 'パッケージ・前面', 'パッケージ・背面', '製品外観'] : ['Front', 'Back', 'Front with packaging', 'Back with packaging', 'Presentation'];
+const photos = ['front', 'back', 'package-front', 'package-back', 'presentation'];
+---
+<section class="evo-gallery" hidden aria-label={ja ? 'EvoPrime 製品写真' : 'EvoPrime product gallery'}>
+  <div class="gallery-stage">
+    <button class="gallery-arrow previous" aria-label={ja ? '前の写真' : 'Previous photo'}>‹</button>
+    <button class="gallery-enlarge" aria-label={ja ? '写真を拡大' : 'Enlarge photo'}><img class="gallery-photo" src="/evoprime-gallery/front.jpg" alt={`EvoPrime — ${labels[0]}`} width="1448" height="1086" /></button>
+    <button class="gallery-arrow next" aria-label={ja ? '次の写真' : 'Next photo'}>›</button>
+  </div>
+  <p class="gallery-caption" aria-live="polite">1 / 5 · {labels[0]}</p>
+  <div class="gallery-thumbs" aria-label={ja ? '写真を選択' : 'Choose photo'}>
+    {photos.map((name,i) => <button data-index={i} data-label={labels[i]} aria-label={labels[i]} aria-pressed={i === 0 ? 'true' : 'false'}><img src={`/evoprime-gallery/${name}.jpg`} alt="" width="64" height="48" loading="lazy" /></button>)}
+  </div>
+  <a class="gallery-docs" href="/docs/evoprime/">{ja ? '資料・マニュアル ↗' : 'Documentation / Manuals ↗'}</a>
+</section>
+<dialog class="evo-lightbox" aria-label={ja ? '拡大写真' : 'Enlarged photo'}>
+  <button class="lightbox-close" aria-label={ja ? '閉じる' : 'Close'}>×</button>
+  <img alt="" />
+</dialog>
+<style>
+:global(.module-view:has(.evo-gallery:not([hidden])) > video),:global(.module-view:has(.evo-gallery:not([hidden])) > .module-image){display:none!important}
+.evo-gallery[hidden]{display:none!important}
+.evo-gallery{width:min(470px,66vw);pointer-events:auto;display:flex;flex-direction:column;align-items:center;gap:8px;color:#eefaff;font-family:Arial,sans-serif;position:relative;z-index:2}
+.gallery-stage{display:flex;align-items:center;gap:6px;width:100%;touch-action:pan-y}
+button{font:inherit;color:inherit;cursor:pointer}
+.gallery-enlarge{padding:0;border:0;background:#05080b;flex:1;min-width:0;border-radius:8px;overflow:hidden}
+.gallery-photo{display:block;width:100%;height:clamp(120px,28vh,280px);object-fit:contain}
+.gallery-arrow{border:1px solid #38778b;border-radius:50%;background:#04111b;width:32px;height:40px;font-size:28px;flex-shrink:0}
+.gallery-caption{font-size:12px;margin:0;letter-spacing:.06em}
+.gallery-thumbs{display:flex;gap:7px}
+.gallery-thumbs button{padding:2px;border:1px solid #34505a;background:#05080b;border-radius:4px}
+.gallery-thumbs button[aria-pressed=true]{border-color:#9ce9ff;box-shadow:0 0 7px #1cbbee80}
+.gallery-thumbs img{display:block;object-fit:contain;width:52px;height:38px}
+.gallery-docs{color:#c6f3ff;text-decoration:none;font-size:12px;padding:9px 14px;border:1px solid #38778b;border-radius:5px;background:#04111b}
+button:focus-visible,a:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.evo-lightbox{padding:38px 12px 12px;border:1px solid #38778b;border-radius:8px;background:#020609;color:white;max-width:94vw;max-height:94dvh;pointer-events:auto}
+.evo-lightbox::backdrop{background:#000d}
+.evo-lightbox img{display:block;max-width:88vw;max-height:80dvh;object-fit:contain}
+.lightbox-close{position:absolute;right:5px;top:0;font-size:30px;background:transparent;border:0;width:40px;height:38px}
+@media(max-width:520px){.evo-gallery{width:70vw;gap:6px}.gallery-arrow{width:26px;height:36px}.gallery-stage{gap:3px}.gallery-photo{height:24vh}.gallery-thumbs img{width:42px;height:32px}.gallery-docs{font-size:11px}}
+@media(max-height:500px){.gallery-photo{height:27vh}.evo-gallery{gap:3px}.gallery-thumbs img{height:23px;width:34px}.gallery-docs{padding:5px 10px}}
+</style>
+<script>
+const gallery = document.querySelector<HTMLElement>('.evo-gallery')!;
+const photo = gallery.querySelector<HTMLImageElement>('.gallery-photo')!;
+const thumbs = [...gallery.querySelectorAll<HTMLButtonElement>('[data-index]')];
+const caption = gallery.querySelector<HTMLElement>('.gallery-caption')!;
+const dialog = document.querySelector<HTMLDialogElement>('.evo-lightbox')!;
+let index = 0;
+function select(next:number){
+ index = (next + thumbs.length) % thumbs.length;
+ photo.src = thumbs[index].querySelector('img')!.src;
+ photo.alt = `EvoPrime — ${thumbs[index].dataset.label}`;
+ caption.textContent = `${index+1} / 4 · ${thumbs[index].dataset.label}`;
+ thumbs.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+}
+for(const event of ['click','pointerdown','pointerup']) gallery.addEventListener(event,e=>e.stopPropagation());
+thumbs.forEach((button,i)=>button.addEventListener('click',()=>select(i)));
+gallery.querySelector('.previous')!.addEventListener('click',()=>select(index-1));
+gallery.querySelector('.next')!.addEventListener('click',()=>select(index+1));
+gallery.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();select(index+(e.key==='ArrowLeft'?-1:1));}});
+let startX=0,startY=0,swiped=false;
+const stage=gallery.querySelector('.gallery-stage')!;
+stage.addEventListener('touchstart',(e:TouchEvent)=>{startX=e.changedTouches[0].clientX;startY=e.changedTouches[0].clientY;swiped=false;},{passive:true});
+stage.addEventListener('touchend',(e:TouchEvent)=>{const dx=e.changedTouches[0].clientX-startX,dy=e.changedTouches[0].clientY-startY;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){select(index+(dx<0?1:-1));swiped=true;setTimeout(()=>swiped=false,350);}},{passive:true});
+gallery.querySelector('.gallery-enlarge')!.addEventListener('click',()=>{if(swiped)return;const img=dialog.querySelector('img')!;img.src=photo.src;img.alt=photo.alt;dialog.showModal();});
+dialog.querySelector('button')!.addEventListener('click',()=>dialog.close());
+dialog.addEventListener('click',e=>{e.stopPropagation();if(e.target===dialog)dialog.close();});
+document.addEventListener('evo-gallery-open',()=>{select(0);gallery.hidden=false;});
+document.addEventListener('evo-gallery-close',()=>{gallery.hidden=true;if(dialog.open)dialog.close();});
+</script>

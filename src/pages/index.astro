@@ -1,5 +1,7 @@
 
 ---
+import EvoPrimeGallery from "../components/EvoPrimeGallery.astro";
+import GLightGallery from "../components/GLightGallery.astro";
 import CoreLayer from "../components/CoreLayer.astro";
 
 const modulesLeft = [
@@ -32,7 +34,7 @@ const modulesRight = [
 
 <!-- PRELOAD DE MÓDULOS -->
 <!-- PRELOAD DE MÓDULOS -->
-<link rel="preload" as="video" href="/glightone.mp4" type="video/mp4">
+
 
 <link rel="preload" as="image" href="/ORBIT_ONE_FRONT.webp">
 <link rel="preload" as="image" href="/ORBIT_ONE_BACK.webp">
@@ -92,6 +94,8 @@ Tokyo — Japan
 
   <!-- MODULE VIEW -->
 <div class="module-view">
+  <GLightGallery lang="en" />
+  <EvoPrimeGallery lang="en" />
 
   <video
     id="moduleVideo"
@@ -864,6 +868,8 @@ function showImagePair(frontSrc, backSrc){
 }
 
 function closeModuleImage(){
+  document.dispatchEvent(new Event("evo-gallery-close"));
+  document.dispatchEvent(new Event("glight-gallery-close"));
   clearImageSwapTimers();
 
   moduleImage.classList.add("closing");
@@ -946,6 +952,7 @@ function returnToIdle(){
 function resetIdleTimer(){
 
   clearTimeout(idleTimer);
+  if (document.querySelector(".glight-gallery:not([hidden]), .evo-gallery:not([hidden])")) return;
 
   idleTimer = setTimeout(() => {
     returnToIdle();
@@ -1067,20 +1074,8 @@ if (reactor.classList.contains('portal-open')) {
 else if(currentModule === "GLightOne") {
   page.classList.add('module-active');
 
-  setTimeout(() => {
-    moduleVideo.src = "/glightone.mp4";
-    moduleVideo.currentTime = 0;
-
-    moduleVideo.muted = false;
-    moduleVideo.volume = 0.20;
-
-    moduleVideo.style.opacity = "1";
-    moduleVideo.style.transform = "scale(1)";
-
-    moduleVideo.play().catch(() => {
-      console.log("Video audio blocked by browser.");
-    });
-  }, 650);
+  document.dispatchEvent(new Event("glight-gallery-open"));
+  clearTimeout(idleTimer);
 }
 
 else if(currentModule === "OrbitOne") {
@@ -1108,12 +1103,8 @@ else if(currentModule === "Reactor") {
 else if(currentModule === "Evo prime") {
   page.classList.add('module-active');
 
-  setTimeout(() => {
-    showImagePair(
-      "/EVO_PRIME_FRONT.webp",
-      "/EVO_PRIME_BACK.webp"
-    );
-  }, 800);
+  document.dispatchEvent(new Event("evo-gallery-open"));
+  clearTimeout(idleTimer);
 }
 
 else if(currentModule === "Pulse") {
