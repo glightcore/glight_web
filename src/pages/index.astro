@@ -952,7 +952,6 @@ function returnToIdle(){
 function resetIdleTimer(){
 
   clearTimeout(idleTimer);
-  if (document.querySelector(".glight-gallery:not([hidden]), .evo-gallery:not([hidden])")) return;
 
   idleTimer = setTimeout(() => {
     returnToIdle();
@@ -961,6 +960,12 @@ function resetIdleTimer(){
 }
 
 
+
+/* La actividad reinicia el reposo incluso dentro de las galerías,
+   cuyos controles detienen la propagación de algunos eventos. */
+for (const eventName of ['pointermove', 'pointerdown', 'pointerup', 'keydown', 'wheel']) {
+  document.addEventListener(eventName, resetIdleTimer, { capture: true, passive: true });
+}
 
 /* =================================================
    INTERACCIÓN CORE REACTOR
@@ -1075,7 +1080,7 @@ else if(currentModule === "GLightOne") {
   page.classList.add('module-active');
 
   document.dispatchEvent(new Event("glight-gallery-open"));
-  clearTimeout(idleTimer);
+  resetIdleTimer();
 }
 
 else if(currentModule === "OrbitOne") {
@@ -1104,7 +1109,7 @@ else if(currentModule === "Evo prime") {
   page.classList.add('module-active');
 
   document.dispatchEvent(new Event("evo-gallery-open"));
-  clearTimeout(idleTimer);
+  resetIdleTimer();
 }
 
 else if(currentModule === "Pulse") {
