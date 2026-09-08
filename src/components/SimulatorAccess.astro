@@ -1,0 +1,57 @@
+---
+interface Props { lang?: 'en' | 'ja' }
+const { lang = 'en' } = Astro.props;
+const href = lang === 'ja' ? '/simulator/?portal=ja' : '/simulator/';
+---
+<nav class="simulator-dock" aria-label={lang === 'ja' ? 'シミュレーター' : 'Simulator'}>
+  <a href={href} class="simulator-access" aria-label={lang === 'ja' ? 'GLightOne シミュレーターを開く' : 'Open the GLightOne simulator'}>SIMULATOR</a>
+</nav>
+<style>
+  .simulator-dock {
+    position: fixed;
+    inset-inline: 0;
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 500;
+  }
+  .simulator-access {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+    min-width: 240px;
+    padding: 12px 30px;
+    border: 1px solid #398bc4;
+    border-radius: 5px;
+    background: linear-gradient(180deg, #0b2435f5, #040c16f5);
+    color: #91d8ff;
+    font: 600 17px/1.4 'Orbitron', system-ui, sans-serif;
+    letter-spacing: .15em;
+    text-decoration: none;
+    box-shadow: 0 0 16px #168dff24, inset 0 0 12px #168dff12;
+    transition: border-color .2s, box-shadow .2s, color .2s;
+  }
+  .simulator-access:hover, .simulator-access:focus-visible {
+    color: #e2f5ff;
+    border-color: #8cd6ff;
+    box-shadow: 0 0 22px #168dff55;
+  }
+  .simulator-access:focus-visible { outline: 2px solid #c6edff; outline-offset: 4px; }
+  /* Reserve the lower center for this independent link, below the signature. */
+  @media (max-width: 1200px) {
+    :global(body.page .system-tag) { bottom: calc(152px + env(safe-area-inset-bottom, 0px)); }
+  }
+  @media (max-height: 500px) {
+    .simulator-dock { bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
+    :global(body.page .system-tag) { bottom: calc(136px + env(safe-area-inset-bottom, 0px)); }
+  }
+  @media (max-width: 600px) and (min-height: 501px) {
+    .simulator-dock { bottom: calc(40px + env(safe-area-inset-bottom, 0px)); }
+    .simulator-access { min-width: 208px; min-height: 52px; font-size: 15px; }
+    :global(body.page .system-tag) { bottom: calc(110px + env(safe-area-inset-bottom, 0px)); }
+  }
+  @media (prefers-reduced-motion: reduce) { .simulator-access { transition: none; } }
+</style>
