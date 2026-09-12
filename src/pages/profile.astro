@@ -1,5 +1,5 @@
 ---
-import CoreLayer from "../components/CoreLayer.astro";
+// Metadata is specific to this profile page.
 ---
 
 <!doctype html>
@@ -7,444 +7,425 @@ import CoreLayer from "../components/CoreLayer.astro";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <CoreLayer />
-
-    <title>Official Profile | GLight</title>
-    <meta
-      name="description"
-      content="Official public profile and business affiliation information for GLight."
-    />
+    <link rel="canonical" href="https://glightcore.com/profile" />
+    <link rel="preload" href="/fonts/Orbitron.ttf" as="font" type="font/ttf" crossorigin />
+    <title>GLight | Business Profile</title>
+    <meta name="description" content="GLIGHT and GLIGHTCOREAURA. Original hardware, embedded firmware, intelligent systems and digital platforms. Business contact: Lucas García, Kanagawa, Japan." />
   </head>
-
   <body>
-    <main class="profile-shell">
-      <div class="grid" aria-hidden="true"></div>
-      <div class="halo halo-one" aria-hidden="true"></div>
-      <div class="halo halo-two" aria-hidden="true"></div>
-
-      <section class="profile-panel">
-        <header class="profile-header">
-          <a class="brand" href="/" aria-label="Return to GLight">
-            <img
-              src="/GLIGHTCOREAURA_ORBITRON1.svg"
-              alt="GLightCoreAura"
-            />
-          </a>
-
-          <div class="status">
-            <span class="status-dot"></span>
-            OFFICIAL PROFILE
-          </div>
+    <main class="gl-profile">
+      <article class="card" aria-labelledby="profile-title">
+        <header class="masthead">
+          <a href="/" class="home-link" aria-label="GLight home">GLIGHT · GLIGHTCOREAURA</a>
+          <span class="official"><i aria-hidden="true"></i> BUSINESS PROFILE</span>
         </header>
 
-        <div class="identity">
-          <div class="identity-mark" aria-hidden="true">
-            <span class="ring ring-one"></span>
-            <span class="ring ring-two"></span>
-            <span class="core"></span>
+        <section class="hero">
+          <div class="introduction">
+            <p class="edition">INDEPENDENT ENGINEERING · JAPAN</p>
+            <h1 id="profile-title">GLIGHT</h1>
+            <p class="tagline">HARDWARE · FIRMWARE<br />INTELLIGENT SYSTEMS</p>
+            <div class="founder">
+              <h2>Lucas García</h2>
+              <p>Founder &amp; Developer</p>
+            </div>
           </div>
 
-          <div>
-            <p class="eyebrow">GLIGHT / PUBLIC AFFILIATION RECORD</p>
-            <h1>Lucas Garcia</h1>
-            <p class="role">Founder & Business Owner of GLight</p>
+          <div class="reactor-area">
+            <button class="reactor" type="button" aria-label="GLight reactor: drag rings horizontally to rotate; tap the centre or press Enter to activate. Arrow keys rotate rings; hold Shift for the inner ring." aria-describedby="reactor-hint">
+              <svg viewBox="0 0 400 400" fill="none" aria-hidden="true">
+                <circle class="orbit faint" cx="200" cy="200" r="181" />
+                <circle class="ticks" cx="200" cy="200" r="169" />
+                <g class="rotor rotor-outer">
+                  <circle class="arc bright" cx="200" cy="200" r="151" stroke-dasharray="230 90 75 130 55 369" />
+                  <circle class="arc thin" cx="200" cy="200" r="158" stroke-dasharray="90 300 180 423" />
+                </g>
+                <circle class="orbit" cx="200" cy="200" r="137" />
+                <g class="rotor rotor-inner">
+                  <circle class="arc secondary" cx="200" cy="200" r="121" stroke-dasharray="110 85 160 85 80 240" />
+                  <circle class="arc thin" cx="200" cy="200" r="109" stroke-dasharray="230 110 180 165" />
+                </g>
+                <circle class="orbit inner-orbit" cx="200" cy="200" r="88" />
+                <circle class="pulse-wave" cx="200" cy="200" r="72" />
+              </svg>
+              <span class="core"><img class="core-emblem" src="/GlightOne_emblema.svg" alt="GLight emblem" width="100" height="100" draggable="false" /></span>
+            </button>
+            <p id="reactor-hint" class="reactor-hint">DRAG RINGS · TAP CORE <span aria-hidden="true">↗</span></p>
+            <button class="motion-toggle" type="button" aria-pressed="false" hidden>Pause motion</button>
           </div>
-        </div>
+        </section>
 
-        <div class="divider"></div>
+        <div class="energy-path" aria-hidden="true"><span></span></div>
 
-        <dl class="information">
-          <div class="information-row">
-            <dt>Business identity</dt>
-            <dd>GLight</dd>
+        <section class="business" aria-label="Business information">
+          <div class="statement">
+            <p class="section-label">ENGINEERED AS A PLATFORM</p>
+            <p class="description">Original hardware. Purpose-built firmware.<br /><span>Connected by one vision.</span></p>
+            <p class="summary">Original electronic hardware, embedded firmware and intelligent interfaces — from physical products to digital platforms. Discover the technology behind GLIGHT and GLIGHTCOREAURA, supported by technical documentation and digital tools.</p>
           </div>
-
-          <div class="information-row">
-            <dt>Full name</dt>
-            <dd>Lucas Garcia</dd>
-          </div>
-
-          <div class="information-row">
-            <dt>Email address</dt>
-            <dd>
-              <a href="mailto:glightcore.jp@gmail.com">
-                glightcore.jp@gmail.com
-              </a>
-            </dd>
-          </div>
-
-          <div class="information-row">
-            <dt>Phone number</dt>
-            <dd>
-              <a href="tel:+818035911873">
-                +81 80-3591-1873
-              </a>
-            </dd>
-          </div>
-
-          <div class="information-row">
-            <dt>Official domain</dt>
-            <dd>
-              <a href="https://glightcore.com">
-                glightcore.com
-              </a>
-            </dd>
-          </div>
-
-          <div class="information-row">
-            <dt>Business activity</dt>
-            <dd>
-              Development of electronic hardware, embedded systems,
-              intelligent control technologies, technical documentation,
-              and related product platforms.
-            </dd>
-          </div>
-        </dl>
-
-        <aside class="verification-note">
-          <span class="verification-code">GL-PROFILE / ACTIVE</span>
-          <p>
-            This page is provided for official business identification
-            and third-party verification purposes.
-          </p>
-        </aside>
+          <dl class="contact">
+            <div><dt>BUSINESS CONTACT</dt><dd><a href="mailto:glight@glightcore.com">glight@glightcore.com <span aria-hidden="true">↗</span></a></dd></div>
+            <div><dt>OFFICIAL WEBSITE</dt><dd><a href="https://glightcore.com">glightcore.com <span aria-hidden="true">↗</span></a></dd></div>
+            <div><dt>BASED IN</dt><dd>Kanagawa, Japan</dd></div>
+          </dl>
+        </section>
 
         <footer>
+          <p>For business and technical enquiries, please contact us by email.</p>
           <span>GLIGHT TECHNOLOGY PLATFORM</span>
-          <span>Tokyo — Japan</span>
         </footer>
-      </section>
+      </article>
     </main>
+    <script>
+      function initGLightProfile() {
+        const card = document.querySelector<HTMLElement>(".gl-profile .card");
+        if (!card || card.dataset.ready) return;
+        card.dataset.ready = "true";
+        const reactor = card.querySelector<HTMLButtonElement>(".reactor");
+        const toggle = card.querySelector<HTMLButtonElement>(".motion-toggle");
+        if (!reactor || !toggle) return;
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+        let timer: ReturnType<typeof setTimeout>;
+        let paused = reduced.matches;
+        function setPaused(value: boolean) {
+          paused = value;
+          card!.classList.toggle("motion-paused", value);
+          toggle!.setAttribute("aria-pressed", String(value));
+          toggle!.textContent = value ? "Resume motion" : "Pause motion";
+        }
+        function activate() {
+          clearTimeout(timer);
+          card!.classList.remove("energized");
+          if (reduced.matches || paused) return;
+          void card!.offsetWidth;
+          card!.classList.add("energized");
+          timer = setTimeout(() => card!.classList.remove("energized"), 2400);
+        }
+        toggle.hidden = false;
+        setPaused(paused);
+        toggle.addEventListener("click", () => {
+          setPaused(!paused);
+          if (paused) card.classList.remove("energized");
+        });
+        const rings = Array.from(reactor.querySelectorAll<SVGGElement>(".rotor"));
+        const angles = [0, 0];
+        const velocity = [0, 0];
+        let frame = 0;
+        let lastFrame = 0;
+        let activePointer: number | null = null;
+        let selected = 0;
+        let startX = 0;
+        let startY = 0;
+        let lastX = 0;
+        let lastTime = 0;
+        let dragged = false;
+
+        rings.forEach(ring => { ring.style.animation = "none"; });
+        function renderRings() {
+          rings.forEach((ring, index) => {
+            ring.style.transform = `rotate(${angles[index]}deg)`;
+          });
+        }
+        function tick(now: number) {
+          frame = 0;
+          const dt = Math.min(40, Math.max(0, now - lastFrame));
+          lastFrame = now;
+          if (paused || reduced.matches || document.hidden) return;
+          rings.forEach((_, index) => {
+            if (activePointer !== null && index === selected) return;
+            const drift = index === 0 ? 0.01125 : -0.01565;
+            angles[index] = (angles[index] + (drift + velocity[index]) * dt) % 360;
+            velocity[index] *= Math.exp(-dt / 320);
+          });
+          renderRings();
+          frame = requestAnimationFrame(tick);
+        }
+        function wakeRings() {
+          cancelAnimationFrame(frame);
+          frame = 0;
+          if (paused || reduced.matches || document.hidden) {
+            velocity.fill(0);
+            return;
+          }
+          lastFrame = performance.now();
+          frame = requestAnimationFrame(tick);
+        }
+        function finishDrag(cancelled = false) {
+          const pointer = activePointer;
+          activePointer = null;
+          reactor!.classList.remove("dragging");
+          if (cancelled || paused || reduced.matches) velocity.fill(0);
+          if (pointer !== null && reactor!.hasPointerCapture(pointer)) {
+            reactor!.releasePointerCapture(pointer);
+          }
+        }
+        reactor.addEventListener("pointerdown", (event) => {
+          if (!event.isPrimary || event.button !== 0 || activePointer !== null) return;
+          dragged = false;
+          const box = reactor.getBoundingClientRect();
+          const radius = Math.hypot(
+            event.clientX - box.left - box.width / 2,
+            event.clientY - box.top - box.height / 2
+          ) / box.width;
+          if (radius < 0.215 || radius > 0.49) return;
+          selected = radius > 0.34 ? 0 : 1;
+          activePointer = event.pointerId;
+          startX = lastX = event.clientX;
+          startY = event.clientY;
+          lastTime = performance.now();
+          velocity[selected] = 0;
+          reactor.setPointerCapture(event.pointerId);
+        });
+        reactor.addEventListener("pointermove", (event) => {
+          if (event.pointerId !== activePointer) return;
+          const dx = event.clientX - startX;
+          const dy = event.clientY - startY;
+          if (!dragged && event.pointerType === "touch" &&
+              Math.abs(dy) > Math.abs(dx) + 6) {
+            dragged = true;
+            finishDrag(true);
+            return;
+          }
+          if (!dragged && Math.abs(dx) < 5) return;
+          dragged = true;
+          reactor.classList.add("dragging");
+          const now = performance.now();
+          const rotation = (event.clientX - lastX) * 0.75;
+          angles[selected] = (angles[selected] + rotation) % 360;
+          velocity[selected] = Math.max(-0.6, Math.min(0.6,
+            rotation / Math.max(8, now - lastTime)));
+          lastX = event.clientX;
+          lastTime = now;
+          renderRings();
+        });
+        reactor.addEventListener("pointerup", (event) => {
+          if (event.pointerId !== activePointer) return;
+          if (performance.now() - lastTime > 100) velocity[selected] = 0;
+          finishDrag();
+        });
+        reactor.addEventListener("pointercancel", () => {
+          dragged = true;
+          finishDrag(true);
+        });
+        reactor.addEventListener("lostpointercapture", () => {
+          if (activePointer !== null) finishDrag(true);
+        });
+        reactor.addEventListener("click", (event) => {
+          if (event.detail === 0 || !dragged) activate();
+          dragged = false;
+        });
+        reactor.addEventListener("keydown", (event) => {
+          if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+          event.preventDefault();
+          const index = event.shiftKey ? 1 : 0;
+          angles[index] += event.key === "ArrowRight" ? 12 : -12;
+          velocity[index] = 0;
+          renderRings();
+        });
+        toggle.addEventListener("click", wakeRings);
+        reduced.addEventListener("change", wakeRings);
+        document.addEventListener("visibilitychange", wakeRings);
+        renderRings();
+        wakeRings();
+        const onPreferenceChange = () => setPaused(reduced.matches);
+        reduced.addEventListener("change", onPreferenceChange);
+        activate();
+        document.addEventListener("astro:before-swap", () => {
+          clearTimeout(timer);
+          cancelAnimationFrame(frame);
+          finishDrag(true);
+          document.removeEventListener("visibilitychange", wakeRings);
+          reduced.removeEventListener("change", wakeRings);
+          reduced.removeEventListener("change", onPreferenceChange);
+        }, { once: true });
+      }
+      initGLightProfile();
+      document.addEventListener("astro:page-load", initGLightProfile);
+    </script>
   </body>
 </html>
 
 <style>
-  :global(*) {
-    box-sizing: border-box;
+  @font-face { font-family: "GLight Profile Orbitron"; src: url("/fonts/Orbitron.ttf") format("truetype"); font-style: normal; font-weight: 100 900; font-display: swap; }
+  .core-emblem { display: block; width: 62%; height: 62%; object-fit: contain; }
+  :global(body:has(.gl-profile)) { margin: 0; background: #020407; color-scheme: dark; }
+  .gl-profile, .gl-profile * { box-sizing: border-box; }
+  .gl-profile { --blue: #168aff; --ice: #69d9ff; color: #f4f7fc; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; min-height: 100svh; display: grid; place-items: center; padding: clamp(16px, 4vw, 64px); background: radial-gradient(ellipse at 85% 25%, #072348 0, transparent 48%), #020407; }
+  .card { width: min(1160px, 100%); position: relative; isolation: isolate; overflow: hidden; border: 1px solid #1a304a; border-radius: 24px; padding: clamp(24px, 4.7vw, 64px); background: radial-gradient(ellipse at 100% 25%, #061a32 0, transparent 56%), #030609; box-shadow: 0 32px 100px #0009; }
+  .card::after { content: ""; position: absolute; inset: 0; border: 1px solid transparent; border-radius: inherit; pointer-events: none; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--ice); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--ice); outline-offset: 6px; border-radius: 4px; }
+  .masthead { display: flex; justify-content: space-between; align-items: center; gap: 20px; font-size: 10px; letter-spacing: .18em; }
+  .home-link { color: #b6c4d7; }
+  .official { display: flex; align-items: center; gap: 9px; color: #a1b4cc; white-space: nowrap; }
+  .official i { width: 5px; height: 5px; border-radius: 50%; background: var(--ice); box-shadow: 0 0 10px var(--blue); }
+  .hero { position: relative; display: grid; grid-template-columns: 1.25fr 1fr; align-items: center; padding-top: 62px; gap: 10px; }
+  .introduction { position: relative; z-index: 2; }
+  .edition, .section-label { color: #83b3df; font-size: 10px; letter-spacing: .19em; line-height: 1.8; margin: 0 0 22px; }
+  h1 { font-family: "GLight Profile Orbitron", sans-serif; color: #f8fbff; font-size: clamp(52px, 8.8vw, 112px); line-height: 1.05; letter-spacing: -.045em; margin: 0; font-weight: 800; text-shadow: 0 0 35px #239cff24; }
+  .tagline { color: #cad7e7; font-size: clamp(11px, 1.3vw, 15px); line-height: 1.9; letter-spacing: .24em; margin: 20px 0 0; }
+  .founder { margin-top: 48px; }
+  h2 { color: #c3e8ff; font-size: clamp(28px, 3.4vw, 43px); font-weight: 500; letter-spacing: -.025em; line-height: 1.2; margin: 0; }
+  .founder p { color: #a6b8ce; margin: 12px 0 0; font-size: 17px; }
+  .reactor-area { position: relative; text-align: center; min-width: 0; }
+  .reactor { appearance: none; display: grid; place-items: center; position: relative; width: 100%; aspect-ratio: 1; border: 0; padding: 0; border-radius: 50%; background: radial-gradient(circle, #127ac418 0%, #057dff09 48%, transparent 70%); cursor: pointer; color: #e9f7ff; -webkit-tap-highlight-color: transparent; }
+  .reactor svg { width: 100%; height: 100%; overflow: visible; }
+  .orbit { stroke: #2076bd; stroke-width: 1; }
+  .faint { stroke: #164772; }
+  .ticks { stroke: #246eaf; stroke-width: 3; stroke-dasharray: 1 12; }
+  .arc { stroke: #23b6ff; stroke-width: 3; }
+  .bright { stroke: #72e0ff; filter: drop-shadow(0 0 5px #00aaff) drop-shadow(0 0 13px #007bff); }
+  .thin { stroke-width: 1; stroke: #167cff; }
+  .secondary { stroke: #178bff; stroke-width: 5; filter: drop-shadow(0 0 6px #0084ff); }
+  .rotor { transform-origin: 200px 200px; }
+  .rotor-outer { animation: orbit 32s linear infinite; }
+  .rotor-inner { animation: orbit 23s linear infinite reverse; }
+  .inner-orbit { stroke: #168aff80; }
+  .core { position: absolute; width: 33%; aspect-ratio: 1; border: 1px solid #168aff80; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at 45% 35%, #154476, #061221 70%); box-shadow: inset 0 0 22px #168aff25, 0 0 38px #168aff16; transition: box-shadow .4s, border-color .4s; }
+  .core-mark { font-family: Orbitron, sans-serif; font-size: clamp(30px, 4vw, 56px); font-weight: 600; line-height: 1; }
+  .core-caption { font-size: 7px; letter-spacing: .16em; color: #7bc9ff; margin-top: 10px; }
+  .reactor:hover .core, .reactor:focus-visible .core { border-color: #85ddff; box-shadow: inset 0 0 22px #168aff45, 0 0 45px #168aff50; }
+  .pulse-wave { opacity: 0; stroke: #65d6ff; transform-origin: 200px 200px; }
+  .reactor-hint { color: #9cbbd7; font-size: 9px; letter-spacing: .22em; margin: 0; }
+  .reactor-hint span { color: var(--ice); padding-left: 8px; }
+  .motion-toggle { display: inline-block; margin-top: 8px; padding: 8px 12px; border: 0; background: transparent; color: #9bacc0; font: inherit; font-size: 11px; cursor: pointer; min-height: 36px; }
+  .motion-toggle[hidden] { display: none; }
+  .motion-toggle:hover { color: white; }
+  .energy-path { position: relative; height: 1px; margin: 38px 0 36px; background: linear-gradient(90deg, #168aff, #168aff40 65%, transparent); overflow: hidden; box-shadow: 0 0 10px #008cff50; }
+  .energy-path span { display: block; height: 100%; width: 24%; background: linear-gradient(90deg, transparent, #d9f9ff, transparent); opacity: 0; }
+  .business { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(24px, 5vw, 64px); }
+  .section-label { margin-bottom: 15px; }
+  .description { font-size: clamp(18px, 2vw, 24px); line-height: 1.5; margin: 0 0 18px; letter-spacing: -.015em; }
+  .description span { color: #9bafc6; }
+  .summary { color: #a4b5c9; font-size: 13px; line-height: 1.85; max-width: 480px; margin: 0; }
+  .contact { margin: 0; min-width: 0; }
+  .contact > div { padding: 0 0 18px; margin-bottom: 18px; border-bottom: 1px solid #182737; }
+  .contact > div:last-child { margin-bottom: 0; }
+  dt { color: #8da9c5; font-size: 9px; letter-spacing: .18em; margin-bottom: 9px; }
+  dd { margin: 0; font-size: clamp(14px, 1.65vw, 19px); line-height: 1.5; overflow-wrap: anywhere; }
+  dd a { display: inline-block; padding: 3px 0; }
+  dd span { color: #58baff; font-size: 15px; padding-left: 8px; }
+  footer { border-top: 1px solid #182737; margin-top: 36px; padding-top: 22px; display: flex; gap: 18px; justify-content: space-between; align-items: center; }
+  footer p { color: #a4b5c9; font-size: 11px; line-height: 1.7; margin: 0; max-width: 370px; }
+  footer > span { font-size: 8px; letter-spacing: .17em; color: #8ea9c5; text-align: right; }
+  .energized .pulse-wave { animation: wave 1.6s ease-out; }
+  .energized .energy-path span { animation: conduct 1.7s .2s ease-in-out both; }
+  .energized .core { animation: charge 2s ease-in-out; }
+  .energized.card::after { animation: frame-charge 2.3s .2s ease-out both; }
+  .motion-paused .rotor { animation-play-state: paused; }
+  @keyframes orbit { to { transform: rotate(360deg); } }
+  @keyframes wave { 0% { opacity: .65; transform: scale(1); } 100% { opacity: 0; transform: scale(2.55); } }
+  @keyframes conduct { 0% { opacity: 0; transform: translateX(410%); } 20% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; transform: translateX(-110%); } }
+  @keyframes charge { 40% { border-color: #b7edff; box-shadow: inset 0 0 30px #168aff60, 0 0 60px #168aff70; } }
+  @keyframes frame-charge { 35% { border-color: #168affaa; box-shadow: inset 0 0 30px #168aff16; } }
+  @media (max-width: 700px) {
+    .masthead { flex-wrap: wrap; font-size: 8px; gap: 14px; }
+    .hero { grid-template-columns: 1fr; padding-top: 40px; gap: 18px; }
+    h1 { font-size: clamp(42px, 13vw, 82px); }
+    .tagline { font-size: 10px; letter-spacing: .2em; }
+    .founder { margin-top: 30px; }
+    .reactor-area { width: min(290px, 85%); justify-self: center; }
+    .core-mark { font-size: 35px; }
+    .energy-path { margin-top: 26px; }
+    .business { grid-template-columns: 1fr; }
+    footer { flex-direction: column; align-items: flex-start; }
+    footer > span { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rotor, .energized .pulse-wave, .energized .energy-path span, .energized .core, .energized.card::after { animation: none; }
+    .core { transition: none; }
+    .reactor-hint, .motion-toggle { display: none; }
   }
 
-  :global(html) {
-    background: #03070a;
-    color-scheme: dark;
+  .masthead { flex-wrap: wrap; }
+  .home-link {
+    font-family: "GLight Profile Orbitron", sans-serif;
+    font-size: clamp(12px, 1.5vw, 18px);
+    font-weight: 600;
+    line-height: 1.8;
+    letter-spacing: .04em;
+    color: #d9f3ff;
+    text-shadow: 0 0 12px #168aff88, 0 0 28px #168aff55;
   }
-
-  :global(body) {
-    margin: 0;
-    min-width: 320px;
-    min-height: 100vh;
-    font-family:
-      Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-      "Segoe UI", sans-serif;
-    color: #eafcff;
-    background:
-      radial-gradient(circle at 50% 16%, rgba(0, 193, 255, 0.13), transparent 32rem),
-      linear-gradient(180deg, #050b10 0%, #020507 100%);
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .profile-shell {
-    position: relative;
-    display: grid;
-    min-height: 100vh;
-    place-items: center;
-    overflow: hidden;
-    padding: 42px 20px;
-  }
-
-  .grid {
-    position: absolute;
-    inset: 0;
-    opacity: 0.16;
-    background-image:
-      linear-gradient(rgba(80, 211, 255, 0.12) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(80, 211, 255, 0.12) 1px, transparent 1px);
-    background-size: 42px 42px;
-    mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
-  }
-
-  .halo {
-    position: absolute;
-    border: 1px solid rgba(66, 216, 255, 0.13);
-    border-radius: 999px;
-    pointer-events: none;
-  }
-
-  .halo-one {
-    width: 760px;
-    height: 760px;
-  }
-
-  .halo-two {
-    width: 1040px;
-    height: 1040px;
-  }
-
-  .profile-panel {
-    position: relative;
-    z-index: 1;
-    width: min(840px, 100%);
-    padding: clamp(24px, 5vw, 56px);
-    border: 1px solid rgba(104, 223, 255, 0.24);
-    border-radius: 24px;
-    background:
-      linear-gradient(145deg, rgba(9, 22, 29, 0.94), rgba(3, 9, 13, 0.97));
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.025) inset,
-      0 24px 90px rgba(0, 0, 0, 0.52),
-      0 0 68px rgba(0, 180, 255, 0.08);
-    backdrop-filter: blur(20px);
-  }
-
-  .profile-panel::before,
-  .profile-panel::after {
-    position: absolute;
-    width: 72px;
-    height: 72px;
-    content: "";
-    pointer-events: none;
-  }
-
-  .profile-panel::before {
-    top: -1px;
-    left: -1px;
-    border-top: 2px solid #7ee9ff;
-    border-left: 2px solid #7ee9ff;
-    border-radius: 24px 0 0;
-  }
-
-  .profile-panel::after {
-    right: -1px;
-    bottom: -1px;
-    border-right: 2px solid rgba(126, 233, 255, 0.58);
-    border-bottom: 2px solid rgba(126, 233, 255, 0.58);
-    border-radius: 0 0 24px;
-  }
-
-  .profile-header,
-  footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
-
-  .brand img {
-    display: block;
-    width: min(290px, 54vw);
-    height: auto;
-  }
-
-  .status {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    color: #9eb9c3;
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    white-space: nowrap;
-  }
-
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #70e8ff;
-    box-shadow: 0 0 16px #70e8ff;
-  }
-
-  .identity {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: clamp(22px, 5vw, 44px);
-    margin-top: clamp(44px, 8vw, 78px);
-  }
-
-  .identity-mark {
-    position: relative;
-    width: 116px;
-    height: 116px;
-    border: 1px solid rgba(116, 230, 255, 0.2);
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(72, 219, 255, 0.08), transparent 68%);
-  }
-
-  .ring,
-  .core {
-    position: absolute;
-    inset: 50%;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .ring-one {
-    width: 82px;
-    height: 82px;
-    border: 1px solid rgba(106, 231, 255, 0.48);
-    box-shadow: 0 0 24px rgba(54, 211, 255, 0.1);
-  }
-
-  .ring-two {
-    width: 54px;
-    height: 54px;
-    border: 1px dashed rgba(139, 237, 255, 0.52);
-  }
-
-  .core {
-    width: 17px;
-    height: 17px;
-    background: #b6f5ff;
-    box-shadow:
-      0 0 12px #9deeff,
-      0 0 38px #3dcfff;
-  }
-
-  .eyebrow {
-    margin: 0 0 12px;
-    color: #62dfff;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-  }
-
   h1 {
-    margin: 0;
-    font-size: clamp(2.35rem, 7vw, 4.9rem);
-    font-weight: 520;
-    letter-spacing: -0.055em;
-    line-height: 0.95;
+    color: #f4fbff;
+    text-shadow: 0 2px 0 #5899c6, 0 0 20px #168aff66, 0 0 55px #168aff44;
   }
-
-  .role {
-    max-width: 520px;
-    margin: 18px 0 0;
-    color: #9eb4bc;
-    font-size: clamp(0.9rem, 2vw, 1rem);
-    line-height: 1.65;
+  .core {
+    width: 39%;
+    border-color: #48baff;
+    box-shadow: inset 0 0 25px #168aff35, 0 0 42px #168aff35;
   }
-
-  .divider {
-    height: 1px;
-    margin: clamp(38px, 7vw, 64px) 0 22px;
-    background: linear-gradient(
-      90deg,
-      rgba(100, 226, 255, 0.55),
-      rgba(100, 226, 255, 0.06)
-    );
+  .core-emblem {
+    width: 72%;
+    height: 64%;
+    filter: brightness(0) invert(1) drop-shadow(0 0 5px #69d9ff) drop-shadow(0 0 12px #168aff);
   }
-
-  .information {
-    margin: 0;
+  .core-caption { margin-top: 4px; }
+  .energized h1 { animation: title-ignite 2.2s ease-out; }
+  .energized .home-link,
+  .energized .tagline,
+  .energized .founder,
+  .energized .statement,
+  .energized .contact {
+    animation: text-ignite 2.2s .12s ease-out both;
   }
-
-  .information-row {
-    display: grid;
-    grid-template-columns: minmax(130px, 0.7fr) minmax(0, 1.6fr);
-    gap: 26px;
-    padding: 19px 0;
-    border-bottom: 1px solid rgba(159, 226, 243, 0.09);
-  }
-
-  dt {
-    color: #667f89;
-    font-size: 0.68rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  dd {
-    margin: 0;
-    color: #ddecf0;
-    font-size: 0.95rem;
-    line-height: 1.65;
-  }
-
-  dd a {
-    border-bottom: 1px solid rgba(110, 226, 255, 0.26);
-  }
-
-  dd a:hover {
-    color: #aaf2ff;
-    border-color: #aaf2ff;
-  }
-
-  .verification-note {
-    margin-top: 34px;
-    padding: 22px;
-    border: 1px solid rgba(90, 218, 255, 0.16);
-    border-radius: 14px;
-    background: rgba(19, 45, 56, 0.28);
-  }
-
-  .verification-code {
-    color: #64e0ff;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.13em;
-  }
-
-  .verification-note p {
-    margin: 12px 0 0;
-    color: #91aab3;
-    font-size: 0.83rem;
-    line-height: 1.7;
-  }
-
-  footer {
-    margin-top: 40px;
-    color: #57717b;
-    font-size: 0.62rem;
-    letter-spacing: 0.13em;
-  }
-
-  @media (max-width: 640px) {
-    .profile-header,
-    footer {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-
-    .identity {
-      grid-template-columns: 1fr;
-    }
-
-    .identity-mark {
-      width: 88px;
-      height: 88px;
-    }
-
-    .information-row {
-      grid-template-columns: 1fr;
-      gap: 8px;
+  @keyframes title-ignite {
+    35% {
+      text-shadow: 0 2px 0 #79baff, 0 0 24px #69d9ffbb, 0 0 65px #168aff99;
     }
   }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .core {
-      animation: corePulse 2.8s ease-in-out infinite;
-    }
-
-    .ring-two {
-      animation: ringSpin 16s linear infinite;
+  @keyframes text-ignite {
+    35% {
+      text-shadow: 0 0 12px #69d9ff99, 0 0 28px #168aff66;
     }
   }
-
-  @keyframes corePulse {
-    50% {
-      transform: translate(-50%, -50%) scale(1.22);
-      box-shadow:
-        0 0 18px #b9f7ff,
-        0 0 56px #3dcfff;
-    }
+  @media (max-width: 700px) {
+    .home-link { font-size: clamp(11px, 3vw, 15px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .energized h1,
+    .energized .home-link,
+    .energized .tagline,
+    .energized .founder,
+    .energized .statement,
+    .energized .contact { animation: none; }
   }
 
-  @keyframes ringSpin {
-    to {
-      transform: translate(-50%, -50%) rotate(360deg);
-    }
+  .gl-profile { padding: clamp(12px, 2vw, 28px); }
+  .card { padding: clamp(24px, 3.4vw, 44px); }
+  .hero {
+    padding-top: 18px;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 16px;
+  }
+  .founder { margin-top: 30px; }
+  .home-link { font-size: clamp(13px, 1.7vw, 20px); }
+  .energy-path { margin-top: 22px; }
+  .reactor {
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+  }
+  .reactor.dragging { cursor: grabbing; }
+  .reactor .core { cursor: pointer; }
+  .core-emblem {
+    width: 78%;
+    height: 78%;
+    pointer-events: none;
+  }
+  .reactor.dragging .arc {
+    filter: drop-shadow(0 0 8px #34baff);
+  }
+  @media (max-width: 700px) {
+    .hero { grid-template-columns: 1fr; padding-top: 26px; gap: 14px; }
+    .home-link { font-size: clamp(11px, 3.2vw, 16px); }
+    .reactor-area { width: min(320px, 100%); }
+    .founder { margin-top: 24px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reactor-hint { display: block; }
   }
 </style>
