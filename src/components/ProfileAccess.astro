@@ -1,0 +1,44 @@
+---
+interface Props {
+  lang?: "en" | "ja";
+}
+const { lang = "en" } = Astro.props;
+---
+
+<nav class="profile-access" aria-label={lang === "ja" ? "GLightについて" : "About GLight"}>
+  <a href="/profile">
+    {lang === "ja" ? "GLIGHTについて · お問い合わせ（英語）" : "ABOUT GLIGHT · CONTACT"}
+  </a>
+</nav>
+
+<style>
+  .profile-access {
+    position: fixed;
+    inset-inline: 12px;
+    bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 500;
+  }
+  .profile-access a {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    padding: 4px 10px;
+    pointer-events: auto;
+    color: #91d8ff;
+    font: 500 11px/1.5 'Orbitron', system-ui, sans-serif;
+    letter-spacing: .06em;
+    text-align: center;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .profile-access a:hover { color: #fff; }
+  .profile-access a:focus-visible {
+    outline: 2px solid #c6edff;
+    outline-offset: 2px;
+  }
+</style>
